@@ -1,16 +1,16 @@
 import * as d3 from "d3";
-import { FileAttachment } from "@observablehq/stdlib"
 
-export async function renderMap() {
-    const container = d3.create("div")
+export function renderMap(svgContent) {
+    // Append the SVG content directly to the body (or another parent element)
+    const svg = d3.select("body")
+        .append("div")
         .attr("id", "map-container")
-        .node();
+        .html(svgContent)
+        .select("svg");
 
-    const svgContent = await FileAttachment("data/europe.svg").text();
-    container.innerHTML = svgContent;
+    // Style the paths in the SVG
+    svg.selectAll("path")
+        .style("fill", "blue");
 
-    const svg = d3.select("#map-container svg");
-
-    return container;
+    return svg.node();
 }
-
