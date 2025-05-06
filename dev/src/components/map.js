@@ -1,60 +1,147 @@
 import * as d3 from "d3";
 
-export function renderMapView(svgContent) {
-    // init map view container
-    const container = d3.select("body")
-        .append("div")
-        .attr("id", "map-view-container");
-
-    // init map container
-    const mapContainer = container
-        .append("div")
-        .attr("id", "map-container");
-    mapContainer.html(svgContent);
-    const svg = mapContainer.select("svg");
-
-    //init dashboard
-    const dashboard = container
-        .append("div")
-        .attr("id", "dashboard");
+function initMap(svg, showDashboard) {
+    let dashboardOpen = false;
 
     // Style paths
     const paths = svg.selectAll("path")
         .style("fill", "steelblue")
         .style("stroke", "#fff")
-        .style("stroke-width", 0.5);
+        .style("stroke-width", 0.5)
+        .style("cursor", "pointer")
+        .style("transition", "fill 0.2s");
 
-    // Calculate bounding box of all paths
-    const [[x0, y0], [x1, y1]] = d3.extent(
-        paths.nodes().flatMap(path => {
-            const bbox = path.getBBox();
-            return [[bbox.x, bbox.y], [bbox.x + bbox.width, bbox.y + bbox.height]];
-        })
-    );
+    // Add click interaction
+    paths.on("click", function(event, d) {
+        const countryId = d3.select(this).attr("id");
+        showDashboard(countryId);
+        dashboardOpen = true;
 
-    // Set up constrained zoom
-    const zoom = d3.zoom()
-        .scaleExtent([1, 8])
-        .translateExtent([[x0, y0], [x1, y1]]) // Constrain to path bounds
-        .filter(event => {
-            // Only allow zoom on paths or with wheel
-            return event.target.tagName === 'path' || 
-                   event.type === 'wheel';
-        })
-        .on("zoom", (event) => {
-            paths.attr("transform", event.transform);
-        });
-
-    svg.call(zoom)
-       .on("dblclick.zoom", null);
-
-    // Tooltips
-    paths.on("mouseover", function() {
-            d3.select(this).style("fill", "orange");
+        // Highlight selected country
+        paths.style("fill", "steelblue");
+        d3.select(this).style("fill", "#e74c3c");
+    })
+        .on("mouseover", function() {
+            if (!dashboardOpen && !d3.select(this).classed("active")) {
+                d3.select(this).style("fill", "orange");
+            }
         })
         .on("mouseout", function() {
-            d3.select(this).style("fill", "steelblue");
+            if (!dashboardOpen && !d3.select(this).classed("active")) {
+                d3.select(this).style("fill", "steelblue");
+            }
+        });
+}
+
+function createDashboard() {
+    const dashboard = d3.create("div")
+        .attr("id", "dashboard")
+        .style("position", "absolute")
+        .style("right", "0")
+        .style("top", "0")
+        .style("width", "350px")
+        .style("height", "100%")
+        .style("background", "rgba(245, 247, 250, 0.95)")
+        .style("backdrop-filter", "blur(5px)")
+        .style("box-shadow", "-5px 0 15px rgba(0,0,0,0.1)")
+        .style("transform", "translateX(100%)")
+        .style("transition", "transform 0.3s ease")
+        .style("z-index", "10")
+        .style("padding", "20px")
+        .style("overflow-y", "auto");
+
+    // Add close button
+    dashboard.append("button")
+        .style("position", "absolute")
+        .style("top", "10px")
+        .style("right", "10px")
+        .style("background", "#fff")
+        .style("border", "none")
+        .style("width", "30px")
+        .style("height", "30px")
+        .style("border-radius", "50%")
+        .style("cursor", "pointer")
+        .style("box-shadow", "0 2px 5px rgba(0,0,0,0.2)")
+        .html("×")
+        .on("click", () => {
+            dashboard.style("transform", "translateX(100%)");
         });
 
-    return svg.node();
+    // Add dashboard content
+    dashboard.append("h2")
+        .style("margin-top", "0")
+        .style("color", "#2c3e50")
+        .text("Country Information");
+
+    const infoPanel = dashboard.append("div")
+        .attr("class", "info-panel");
+
+    // Sample country data (replace with your data)
+    const countryData = {
+        "FR": {
+            name: "France",
+            capital: "Paris",
+            population: "67.4 million",
+            area: "643,801 km²",
+            gdp: "$2.9 trillion"
+        },
+        "DE": {
+            name: "Germany",
+            capital: "Berlin",
+            population: "83.2 million",
+            area: "357,022 km²",
+            gdp: "$4.2 trillion"
+        }
+    };
+
+    // Function to update dashboard content
+    function updateDashboard(countryId) {
+        const data = countryData[countryId] || {};
+
+        infoPanel.html(`
+            <div class="info-item">
+                <h3>${data.name || "Select a country"}</h3>
+                <p><strong>Capital:</strong> ${data.capital || "-"}</p>
+                <p><strong>Population:</strong> ${data.population || "-"}</p>
+                <p><strong>Area:</strong> ${data.area || "-"}</p>
+                <p><strong>GDP:</strong> ${data.gdp || "-"}</p>
+            </div>
+        `);
+
+        dashboard.style("transform", "translateX(0)");
+    }
+
+    return {
+        element: dashboard.node(),
+        update: updateDashboard
+    };
+}
+
+export function renderMapView(svgContent) {
+    // Create main container
+    const container = d3.select("body")
+        .append("div")
+        .style("position", "relative")
+        .style("width", "100%")
+        .style("height", "100vh")
+        .style("overflow", "hidden");
+
+    // Create map container
+    const mapContainer = container.append("div")
+        .style("width", "100%")
+        .style("height", "100%");
+
+    mapContainer.html(svgContent);
+    const svg = mapContainer.select("svg")
+        .style("width", "100%")
+        .style("height", "100%");
+
+    // Create dashboard
+    const dashboard = createDashboard();
+    container.node().appendChild(dashboard.element);
+
+    // Initialize map with dashboard control
+    initMap(svg, dashboard.update);
+
+    return container.node();
 }
