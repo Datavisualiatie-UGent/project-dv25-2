@@ -1,12 +1,22 @@
 import * as d3 from "d3";
 
-export function renderMap(svgContent) {
+export function renderMapView(svgContent) {
+    // init map view container
     const container = d3.select("body")
         .append("div")
+        .attr("id", "map-view-container");
+
+    // init map container
+    const mapContainer = container
+        .append("div")
         .attr("id", "map-container");
-    
-    container.html(svgContent);
-    const svg = container.select("svg");
+    mapContainer.html(svgContent);
+    const svg = mapContainer.select("svg");
+
+    //init dashboard
+    const dashboard = container
+        .append("div")
+        .attr("id", "dashboard");
 
     // Style paths
     const paths = svg.selectAll("path")
