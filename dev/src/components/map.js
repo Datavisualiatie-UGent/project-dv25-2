@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
-function initMap(svg, showDashboard) {
-    let dashboardOpen = false;
+function createMap(svg, dispatch) {
+    let clickedCountry = null;
 
     // Style paths
     const paths = svg.selectAll("path")
@@ -11,26 +11,32 @@ function initMap(svg, showDashboard) {
         .style("cursor", "pointer")
         .style("transition", "fill 0.2s");
 
-    // Add click interaction
-    paths.on("click", function(event, d) {
-        const countryId = d3.select(this).attr("id");
-        showDashboard(countryId);
-        dashboardOpen = true;
+    function click_country(path) {
+
+        const countryId = path.attr("id");
+        dispatch.call("openDashboard", countryId);
+
+        // Remove highlight from previous country
+        if (clickedCountry) {
+            clickedCountry.style("fill", "steelblue");
+        }
+
+        // Do nothing if clicked on the same country
+        if (clickedCountry && clickedCountry.attr("id") === countryId) {
+            console.log("kak");
+            clickedCountry = null;
+            return;
+        }
 
         // Highlight selected country
-        paths.style("fill", "steelblue");
-        d3.select(this).style("fill", "#e74c3c");
+        path.style("fill", "#e74c3c");
+        clickedCountry = path;
+    }
+
+    // Add click interaction
+    paths.on("click", function(event, d) {
+        click_country(d3.select(this));
     })
-        .on("mouseover", function() {
-            if (!dashboardOpen && !d3.select(this).classed("active")) {
-                d3.select(this).style("fill", "orange");
-            }
-        })
-        .on("mouseout", function() {
-            if (!dashboardOpen && !d3.select(this).classed("active")) {
-                d3.select(this).style("fill", "steelblue");
-            }
-        });
 }
 
 function createDashboard() {
@@ -118,6 +124,9 @@ function createDashboard() {
 }
 
 export function renderMapView(svgContent) {
+    // Dispatching
+    const dispatch = d3.dispatch("openDashboard", "closeDashboard");
+
     // Create main container
     const container = d3.select("body")
         .append("div")
@@ -141,7 +150,7 @@ export function renderMapView(svgContent) {
     container.node().appendChild(dashboard.element);
 
     // Initialize map with dashboard control
-    initMap(svg, dashboard.update);
+    createMap(svg, dispatch);
 
     return container.node();
 }
