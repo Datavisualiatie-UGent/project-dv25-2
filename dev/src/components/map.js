@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export function createMap(svg, dispatch) {
+export function initMap(svg, dispatch) {
     let clickedCountry = null;
 
     const paths = svg.selectAll("path")

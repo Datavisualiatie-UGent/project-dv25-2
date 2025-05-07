@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
-import { createMap } from "./map.js";
-import { createDashboard } from "./dashboard.js";
+import { initMap } from "./map.js";
+import { initDashboard } from "./dashboard.js";
 
 export function renderMapView(svgContent) {
     // Dispatching
@@ -26,11 +26,11 @@ export function renderMapView(svgContent) {
         .style("height", "100%");
 
     // Create dashboard
-    const dashboard = createDashboard(dispatch);
+    const dashboard = initDashboard(dispatch);
     container.append(() => dashboard.node());
 
     // Initialize map with dashboard control
-    createMap(svg, dispatch);
+    initMap(svg, dispatch);
 
     return container.node();
 }

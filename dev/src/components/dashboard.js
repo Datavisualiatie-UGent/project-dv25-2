@@ -1,9 +1,35 @@
 import * as d3 from "d3";
 
-export function createDashboard(dispatch) {
-    let isDashboardOpen = false;
+// Sample country data (replace with your data)
+const countryData = {
+    "FR": {
+        name: "France",
+        capital: "Paris",
+        population: "67.4 million",
+        area: "643,801 km²",
+        gdp: "$2.9 trillion"
+    },
+    "DE": {
+        name: "Germany",
+        capital: "Berlin",
+        population: "83.2 million",
+        area: "357,022 km²",
+        gdp: "$4.2 trillion"
+    }
+}
 
-    function openDashboard(countryId) {
+
+export function initDashboard(dispatch) {
+    const dashboard = createDashboard();
+
+    const closeButton = dashboard.select("button")
+        .on("click", function(event, d) {
+                closeDashboard()
+        });
+
+    const infoPanel = dashboard.select(".info-panel");
+
+    function updateInfoPanel(countryId) {
         const data = countryData[countryId] || {};
 
         infoPanel.html(`
@@ -15,7 +41,12 @@ export function createDashboard(dispatch) {
                 <p><strong>GDP:</strong> ${data.gdp || "-"}</p>
             </div>
         `);
+    }
 
+    let isDashboardOpen = false;
+
+    function openDashboard(countryId) {
+        updateInfoPanel(countryId);
         if (!isDashboardOpen) {
             dashboard.style("transform", "translateX(0)");
             isDashboardOpen = true;
@@ -29,6 +60,11 @@ export function createDashboard(dispatch) {
     }
 
     dispatch.on("openDashboard.dashboard", openDashboard);
+
+    return dashboard;
+}
+
+function createDashboard() {
 
     const dashboard = d3.create("div")
         .attr("id", "dashboard")
@@ -58,11 +94,7 @@ export function createDashboard(dispatch) {
         .style("border-radius", "50%")
         .style("cursor", "pointer")
         .style("box-shadow", "0 2px 5px rgba(0,0,0,0.2)")
-        .html("×")
-        .on("click", function(event, d) {
-            closeDashboard()
-        });
-
+        .html("×");
     // Add dashboard content
     dashboard.append("h2")
         .style("margin-top", "0")
@@ -72,22 +104,5 @@ export function createDashboard(dispatch) {
     const infoPanel = dashboard.append("div")
         .attr("class", "info-panel");
 
-    // Sample country data (replace with your data)
-    const countryData = {
-        "FR": {
-            name: "France",
-            capital: "Paris",
-            population: "67.4 million",
-            area: "643,801 km²",
-            gdp: "$2.9 trillion"
-        },
-        "DE": {
-            name: "Germany",
-            capital: "Berlin",
-            population: "83.2 million",
-            area: "357,022 km²",
-            gdp: "$4.2 trillion"
-        }
-    };
     return dashboard;
 }
