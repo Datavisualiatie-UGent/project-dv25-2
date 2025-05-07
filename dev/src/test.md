@@ -11,6 +11,6 @@ const svgContent = await FileAttachment("data/europe.svg").text();
 ```
 
 ```js
-import {renderMapView} from "./components/map.js"
+import {renderMapView} from "./components/mapView.js";
 display(renderMapView(svgContent))
 ```
