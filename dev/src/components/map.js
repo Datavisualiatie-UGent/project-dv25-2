@@ -15,7 +15,9 @@ export function initMapContainer(svgContent, dispatch) {
 
         // Reset previous country's color
         if (clickedCountry) {
-            clickedCountry.style("fill", "#212728");
+            clickedCountry
+                .style("fill", "#212728")
+                .style("filter", "none");
         }
 
         // Update clicked country
@@ -75,7 +77,7 @@ export function initMapContainer(svgContent, dispatch) {
                 .attr("transform", `translate(${translateX},${translateY}) scale(${scale})`);
         }
 
-        svg.style("margin-left", "-350px");
+        svg.style("margin-left", "-40%");
     }
 
     function resetZoom() {
@@ -113,7 +115,9 @@ export function initMapContainer(svgContent, dispatch) {
 
     function unselect_country() {
         if (clickedCountry) {
-            clickedCountry.style("fill", "#212728");
+            clickedCountry
+                .style("fill", "#212728")
+                .style("filter", "none");
         }
         resetZoom();
         clickedCountry = null;
@@ -136,6 +140,7 @@ export function initMapContainer(svgContent, dispatch) {
     .on("mouseout", function() {
         if (!clickedCountry || clickedCountry.attr("id") !== d3.select(this).attr("id")) {
             d3.select(this)
+                .style("filter", "none")
                 .style("stroke", "white")
                 .style("stroke-width", "0.5px");
         }
@@ -150,7 +155,7 @@ function createMapContainer(svgContent) {
         .style("height", "99%")
         .style("overflow", "hidden")
         .style("position", "relative")
-        .style("border", "1px solid rgba(74, 144, 226, 0.3)")
+        .style("border", "1px white solid")
         .style("border-radius", "8px")
         .style("transition", "all 0.5s ease");
 

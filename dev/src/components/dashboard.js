@@ -69,12 +69,11 @@ function createDashboard() {
         .style("position", "absolute")
         .style("right", "0")
         .style("top", "0")
-        .style("width", "27%")
+        .style("width", "45%")
         .style("height", "100%")
         .style("background", "rgba(15, 32, 39, 0.9)") // Dark blue from map bg
         .style("backdrop-filter", "blur(8px)")
         .style("border-left", "1px solid rgba(0, 255, 255, 0.3)")
-        .style("box-shadow", "-5px 0 25px rgba(0, 255, 255, 0.15)")
         .style("transform", "translateX(100%)")
         .style("transition", "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)")
         .style("z-index", "10")
