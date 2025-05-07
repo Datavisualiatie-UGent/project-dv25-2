@@ -15,11 +15,11 @@ export function initMapContainer(svgContent, dispatch) {
 
         // Reset previous country's color
         if (clickedCountry) {
-            clickedCountry.style("fill", "steelblue");
+            clickedCountry.style("fill", "#212728");
         }
 
         // Update clicked country
-        path.style("fill", "#e74c3c");
+        path.style("fill", "#00ffff");
         clickedCountry = path;
 
         // Zoom to country
@@ -34,58 +34,87 @@ export function initMapContainer(svgContent, dispatch) {
         const bbox = countryElement.getBBox();
         const [[x0, y0], [x1, y1]] = [[bbox.x, bbox.y], [bbox.x + bbox.width, bbox.y + bbox.height]];
 
-        // Remove margin and store container width
-        svg.style("margin-left", "0px");
-        const originalWidth = mapContainer.style("width");
-        mapContainer.style("width", "69%");
+        // Get container dimensions
+        const containerWidth = mapContainer.node().clientWidth;
+        const containerHeight = mapContainer.node().clientHeight;
 
+        // Calculate the scale to fit the country with padding
+        const padding = 1.5; // 20% padding
+        const width = x1 - x0;
+        const height = y1 - y0;
 
-        const svgWidth = svg.node().clientWidth;
-        const svgHeight = svg.node().clientHeight;
+        // Calculate scale to fit either width or height
+        const scaleX = (containerWidth * 0.9) / (width * (1 + padding));
+        const scaleY = (containerHeight * 0.9) / (height * (1 + padding));
+        const scale = Math.min(scaleX, scaleY);
 
-        // Add 10% padding around country
-        const padding = 0.2;
-        const scale = 0.9 / Math.max(
-            (x1 - x0) * (1 + padding) / svgWidth,
-            (y1 - y0) * (1 + padding) / svgHeight
-        );
+        // Calculate translation to center the country
+        const translateX = (containerWidth - width * scale) / 2 - x0 * scale;
+        const translateY = (containerHeight - height * scale) / 2 - y0 * scale;
 
-        const translate = [
-            svgWidth/2 - scale * (x0 + x1)/2,
-            svgHeight/2 - scale * (y0 + y1)/2
-        ];
+        // Apply the transform to a group containing all paths
+        if (!svg.select("g.zoom-group").empty()) {
+            svg.select("g.zoom-group")
+                .transition()
+                .duration(750)
+                .attr("transform", `translate(${translateX},${translateY}) scale(${scale})`);
+        } else {
+            // Wrap all paths in a group if not already done
+            svg.selectAll("path").each(function() {
+                svg.node().appendChild(this);
+            });
+            const paths = svg.selectAll("path");
+            const zoomGroup = svg.append("g").attr("class", "zoom-group");
+            paths.each(function() {
+                zoomGroup.node().appendChild(this);
+            });
 
-        svg.selectAll("path")
-            .transition()
-            .duration(750)
-            .attr("transform", `translate(${translate}) scale(${scale})`);
+            zoomGroup
+                .transition()
+                .duration(750)
+                .attr("transform", `translate(${translateX},${translateY}) scale(${scale})`);
+        }
+
+        svg.style("margin-left", "-350px");
     }
 
     function resetZoom() {
         const svg = d3.select("svg");
         const easing = d3.easeCubicOut;
-        svg.selectAll("path")
-            .transition()
-            .ease(easing)
-            .duration(750)
-            .attr("transform", "none");
 
-        svg
-            .transition()
+        if (svg.select("g.zoom-group").empty()) {
+            svg.selectAll("path")
+                .transition()
+                .ease(easing)
+                .duration(750)
+                .attr("transform", "none");
+        } else {
+            svg.select("g.zoom-group")
+                .transition()
+                .ease(easing)
+                .duration(750)
+                .attr("transform", "none");
+        }
+
+        svg.transition()
             .ease(easing)
             .duration(750)
             .style("margin-left", "-150px");
 
-        mapContainer
-            .transition()
+        mapContainer.transition()
             .ease(easing)
             .duration(750)
             .style("width", "99%");
+
+        svg.selectAll("path")
+            .style("stroke", "#4a90e2")
+            .style("stroke-width", "0.5px")
+            .style("filter", "url(#glow)")
     }
 
     function unselect_country() {
         if (clickedCountry) {
-            clickedCountry.style("fill", "steelblue");
+            clickedCountry.style("fill", "#212728");
         }
         resetZoom();
         clickedCountry = null;
@@ -96,7 +125,23 @@ export function initMapContainer(svgContent, dispatch) {
     // Add click interaction
     paths.on("click", function(event, d) {
         click_country(d3.select(this));
-    });
+    })
+    .on("mouseover", function() {
+        if (!clickedCountry || clickedCountry.attr("id") !== d3.select(this).attr("id")) {
+            d3.select(this)
+                .style("filter", "url(#hover-glow)")
+                .style("stroke", "#00ffff")
+                .style("stroke-width", "1px");
+        }
+    })
+    .on("mouseout", function() {
+        if (!clickedCountry || clickedCountry.attr("id") !== d3.select(this).attr("id")) {
+            d3.select(this)
+                .style("filter", "url(#glow)")
+                .style("stroke", "#4a90e2")
+                .style("stroke-width", "0.5px");
+        }
+        });
 
     return mapContainer;
 }
@@ -106,11 +151,12 @@ function createMapContainer(svgContent) {
         .style("width", "99%")
         .style("height", "99%")
         .style("overflow", "hidden")
-        .style("border", "2px solid #2c3e50")
-        .style("overflow", "hidden")
-        .style("position", "relative");
-
-
+        .style("position", "relative")
+        .style("border", "1px solid rgba(74, 144, 226, 0.3)")
+        .style("border-radius", "8px")
+        .style("box-shadow", "0 10px 30px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.1)")
+        .style("background", "linear-gradient(135deg, #0f2027, #203a43, #2c5364)")
+        .style("transition", "all 0.5s ease");
 
     mapContainer.html(svgContent);
     const svg = mapContainer.select("svg")
@@ -119,13 +165,67 @@ function createMapContainer(svgContent) {
         .style("height", "100%")
         .style("margin-left", "-150px");
 
+    // Add SVG filters for high-tech effects
+    const defs = svg.append("defs");
+
+    // Glow effect
+    const glowFilter = defs.append("filter")
+        .attr("id", "glow")
+        .attr("height", "130%")
+        .attr("width", "130%")
+        .attr("x", "-15%")
+        .attr("y", "-15%");
+
+    glowFilter.append("feGaussianBlur")
+        .attr("stdDeviation", "2")
+        .attr("result", "blur");
+    glowFilter.append("feComposite")
+        .attr("in", "SourceGraphic")
+        .attr("in2", "blur")
+        .attr("operator", "over");
+
+    // Hover glow effect
+    const hoverGlowFilter = defs.append("filter")
+        .attr("id", "hover-glow")
+        .attr("height", "150%")
+        .attr("width", "150%")
+        .attr("x", "-25%")
+        .attr("y", "-25%");
+
+    hoverGlowFilter.append("feGaussianBlur")
+        .attr("stdDeviation", "3")
+        .attr("result", "blur");
+    hoverGlowFilter.append("feComposite")
+        .attr("in", "SourceGraphic")
+        .attr("in2", "blur")
+        .attr("operator", "over");
+
+    // Pulsing glow for selected country
+    const pulseGlowFilter = defs.append("filter")
+        .attr("id", "pulse-glow")
+        .attr("height", "200%")
+        .attr("width", "200%")
+        .attr("x", "-50%")
+        .attr("y", "-50%");
+
+    pulseGlowFilter.append("feGaussianBlur")
+        .attr("stdDeviation", "5")
+        .attr("result", "blur");
+    pulseGlowFilter.append("feComposite")
+        .attr("in", "SourceGraphic")
+        .attr("in2", "blur")
+        .attr("operator", "over");
+
+
 
     const paths = svg.selectAll("path")
-        .style("fill", "steelblue")
-        .style("stroke", "#fff")
-        .style("stroke-width", 0.5)
+        .style("fill", "#212728")
+        .style("stroke", "#4a90e2")
+        .style("stroke-width", "0.5px")
+        .style("filter", "url(#glow)")
         .style("cursor", "pointer")
-        .style("transition", "fill 0.2s");
+        .style("transition", "all 0.3s ease")
+        .style("opacity", "0.9");
 
     return mapContainer;
 }

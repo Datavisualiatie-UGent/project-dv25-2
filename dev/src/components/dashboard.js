@@ -64,7 +64,6 @@ export function initDashboard(dispatch) {
 }
 
 function createDashboard() {
-
     const dashboard = d3.create("div")
         .attr("id", "dashboard")
         .style("position", "absolute")
@@ -72,36 +71,109 @@ function createDashboard() {
         .style("top", "0")
         .style("width", "27%")
         .style("height", "100%")
-        .style("background", "rgba(245, 247, 250, 0.95)")
-        .style("backdrop-filter", "blur(5px)")
-        .style("box-shadow", "-5px 0 15px rgba(0,0,0,0.1)")
+        .style("background", "rgba(15, 32, 39, 0.9)") // Dark blue from map bg
+        .style("backdrop-filter", "blur(8px)")
+        .style("border-left", "1px solid rgba(0, 255, 255, 0.3)")
+        .style("box-shadow", "-5px 0 25px rgba(0, 255, 255, 0.15)")
         .style("transform", "translateX(100%)")
-        .style("transition", "transform 0.3s ease")
+        .style("transition", "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)")
         .style("z-index", "10")
-        .style("padding", "20px")
-        .style("overflow-y", "auto");
+        .style("padding", "25px")
+        .style("overflow-y", "auto")
+        .style("color", "#ecf0f1")
+        .style("font-family", "'Segoe UI', Roboto, sans-serif");
 
-    // Add close button
+    // Add cyberpunk-style animated border
+    dashboard.append("div")
+        .style("position", "absolute")
+        .style("top", "0")
+        .style("left", "0")
+        .style("width", "3px")
+        .style("height", "100%")
+        .style("background", "linear-gradient(to bottom, rgba(0,255,255,0), rgba(0,255,255,0.8), rgba(0,255,255,0))")
+        .style("animation", "scanline 4s linear infinite");
+
+    // Add close button with tech style
     dashboard.append("button")
         .style("position", "absolute")
-        .style("top", "10px")
-        .style("right", "10px")
-        .style("background", "#fff")
-        .style("border", "none")
-        .style("width", "30px")
-        .style("height", "30px")
+        .style("top", "15px")
+        .style("right", "15px")
+        .style("background", "rgba(0, 255, 255, 0.1)")
+        .style("border", "1px solid rgba(0, 255, 255, 0.3)")
+        .style("width", "32px")
+        .style("height", "32px")
         .style("border-radius", "50%")
         .style("cursor", "pointer")
-        .style("box-shadow", "0 2px 5px rgba(0,0,0,0.2)")
-        .html("×");
-    // Add dashboard content
+        .style("color", "#00ffff")
+        .style("font-size", "20px")
+        .style("transition", "all 0.3s ease")
+        .style("box-shadow", "0 0 10px rgba(0, 255, 255, 0.2)")
+        .html("×")
+        .on("mouseover", function() {
+            d3.select(this)
+                .style("background", "rgba(0, 255, 255, 0.3)")
+                .style("box-shadow", "0 0 15px rgba(0, 255, 255, 0.4)");
+        })
+        .on("mouseout", function() {
+            d3.select(this)
+                .style("background", "rgba(0, 255, 255, 0.1)")
+                .style("box-shadow", "0 0 10px rgba(0, 255, 255, 0.2)");
+        });
+
+    // Add dashboard header with tech font
     dashboard.append("h2")
         .style("margin-top", "0")
-        .style("color", "#2c3e50")
-        .text("Country Information");
+        .style("margin-bottom", "25px")
+        .style("color", "#00ffff")
+        .style("font-weight", "300")
+        .style("letter-spacing", "1px")
+        .style("text-shadow", "0 0 10px rgba(0, 255, 255, 0.3)")
+        .style("border-bottom", "1px solid rgba(0, 255, 255, 0.2)")
+        .style("padding-bottom", "10px")
+        .text("COUNTRY DATA");
 
     const infoPanel = dashboard.append("div")
-        .attr("class", "info-panel");
+        .attr("class", "info-panel")
+        .style("display", "grid")
+        .style("gap", "15px");
+
+    // Add CSS animations
+    dashboard.append("style")
+        .text(`
+            @keyframes scanline {
+                0% { background-position: 0 0; }
+                100% { background-position: 0 100%; }
+            }
+            
+            .info-item {
+                background: rgba(32, 58, 67, 0.5);
+                border-radius: 6px;
+                padding: 15px;
+                border: 1px solid rgba(0, 255, 255, 0.1);
+                transition: all 0.3s ease;
+            }
+            
+            .info-item:hover {
+                background: rgba(32, 58, 67, 0.7);
+                border-color: rgba(0, 255, 255, 0.3);
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+            }
+            
+            .info-item h3 {
+                color: #00ffff;
+                margin-top: 0;
+                border-bottom: 1px dashed rgba(0, 255, 255, 0.3);
+                padding-bottom: 8px;
+            }
+            
+            .info-item p {
+                margin: 8px 0;
+            }
+            
+            .info-item strong {
+                color: #4a90e2;
+            }
+        `);
 
     return dashboard;
 }
