@@ -3,7 +3,6 @@ import * as d3 from "d3";
 function createMap(svg, dispatch) {
     let clickedCountry = null;
 
-    // Style paths
     const paths = svg.selectAll("path")
         .style("fill", "steelblue")
         .style("stroke", "#fff")
@@ -12,9 +11,7 @@ function createMap(svg, dispatch) {
         .style("transition", "fill 0.2s");
 
     function click_country(path) {
-
         const countryId = path.attr("id");
-        dispatch.call("openDashboard", countryId);
 
         // Remove highlight from previous country
         if (clickedCountry) {
@@ -23,7 +20,6 @@ function createMap(svg, dispatch) {
 
         // Do nothing if clicked on the same country
         if (clickedCountry && clickedCountry.attr("id") === countryId) {
-            console.log("kak");
             clickedCountry = null;
             return;
         }
@@ -31,7 +27,18 @@ function createMap(svg, dispatch) {
         // Highlight selected country
         path.style("fill", "#e74c3c");
         clickedCountry = path;
+
+        dispatch.call("openDashboard", countryId);
     }
+
+    function unselect_country() {
+        if (clickedCountry) {
+            clickedCountry.style("fill", "steelblue");
+        }
+        clickedCountry = null;
+    }
+
+    dispatch.on("closeDashboard.map", unselect_country);
 
     // Add click interaction
     paths.on("click", function(event, d) {
@@ -39,7 +46,33 @@ function createMap(svg, dispatch) {
     })
 }
 
-function createDashboard() {
+function createDashboard(dispatch) {
+
+    function openDashboard(countryId) {
+        const data = countryData[countryId] || {};
+
+        infoPanel.html(`
+            <div class="info-item">
+                <h3>${data.name || "Select a country"}</h3>
+                <p><strong>Capital:</strong> ${data.capital || "-"}</p>
+                <p><strong>Population:</strong> ${data.population || "-"}</p>
+                <p><strong>Area:</strong> ${data.area || "-"}</p>
+                <p><strong>GDP:</strong> ${data.gdp || "-"}</p>
+            </div>
+        `);
+
+        dashboard.style("transform", "translateX(0)");
+
+        dispatch.call("openDashboard");
+    }
+
+    function closeDashboard() {
+        dashboard.style("transform", "translateX(100%)");
+        dispatch.call("closeDashboard");
+    }
+
+    dispatch.on("openDashboard.dashboard", openDashboard);
+
     const dashboard = d3.create("div")
         .attr("id", "dashboard")
         .style("position", "absolute")
@@ -69,8 +102,8 @@ function createDashboard() {
         .style("cursor", "pointer")
         .style("box-shadow", "0 2px 5px rgba(0,0,0,0.2)")
         .html("×")
-        .on("click", () => {
-            dashboard.style("transform", "translateX(100%)");
+        .on("click", function(event, d) {
+            closeDashboard()
         });
 
     // Add dashboard content
@@ -99,28 +132,7 @@ function createDashboard() {
             gdp: "$4.2 trillion"
         }
     };
-
-    // Function to update dashboard content
-    function updateDashboard(countryId) {
-        const data = countryData[countryId] || {};
-
-        infoPanel.html(`
-            <div class="info-item">
-                <h3>${data.name || "Select a country"}</h3>
-                <p><strong>Capital:</strong> ${data.capital || "-"}</p>
-                <p><strong>Population:</strong> ${data.population || "-"}</p>
-                <p><strong>Area:</strong> ${data.area || "-"}</p>
-                <p><strong>GDP:</strong> ${data.gdp || "-"}</p>
-            </div>
-        `);
-
-        dashboard.style("transform", "translateX(0)");
-    }
-
-    return {
-        element: dashboard.node(),
-        update: updateDashboard
-    };
+    return dashboard;
 }
 
 export function renderMapView(svgContent) {
@@ -146,8 +158,8 @@ export function renderMapView(svgContent) {
         .style("height", "100%");
 
     // Create dashboard
-    const dashboard = createDashboard();
-    container.node().appendChild(dashboard.element);
+    const dashboard = createDashboard(dispatch);
+    container.append(() => dashboard.node());
 
     // Initialize map with dashboard control
     createMap(svg, dispatch);
