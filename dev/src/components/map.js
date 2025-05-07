@@ -107,9 +107,8 @@ export function initMapContainer(svgContent, dispatch) {
             .style("width", "99%");
 
         svg.selectAll("path")
-            .style("stroke", "#4a90e2")
+            .style("stroke", "white")
             .style("stroke-width", "0.5px")
-            .style("filter", "url(#glow)")
     }
 
     function unselect_country() {
@@ -130,15 +129,14 @@ export function initMapContainer(svgContent, dispatch) {
         if (!clickedCountry || clickedCountry.attr("id") !== d3.select(this).attr("id")) {
             d3.select(this)
                 .style("filter", "url(#hover-glow)")
-                .style("stroke", "#00ffff")
+                .style("stroke", "white")
                 .style("stroke-width", "1px");
         }
     })
     .on("mouseout", function() {
         if (!clickedCountry || clickedCountry.attr("id") !== d3.select(this).attr("id")) {
             d3.select(this)
-                .style("filter", "url(#glow)")
-                .style("stroke", "#4a90e2")
+                .style("stroke", "white")
                 .style("stroke-width", "0.5px");
         }
         });
@@ -154,8 +152,6 @@ function createMapContainer(svgContent) {
         .style("position", "relative")
         .style("border", "1px solid rgba(74, 144, 226, 0.3)")
         .style("border-radius", "8px")
-        .style("box-shadow", "0 10px 30px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.1)")
-        .style("background", "linear-gradient(135deg, #0f2027, #203a43, #2c5364)")
         .style("transition", "all 0.5s ease");
 
     mapContainer.html(svgContent);
@@ -220,9 +216,8 @@ function createMapContainer(svgContent) {
 
     const paths = svg.selectAll("path")
         .style("fill", "#212728")
-        .style("stroke", "#4a90e2")
+        .style("stroke", "white")
         .style("stroke-width", "0.5px")
-        .style("filter", "url(#glow)")
         .style("cursor", "pointer")
         .style("transition", "all 0.3s ease")
         .style("opacity", "0.9");
