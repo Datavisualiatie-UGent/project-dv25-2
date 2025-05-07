@@ -28,7 +28,7 @@ function createMap(svg, dispatch) {
         path.style("fill", "#e74c3c");
         clickedCountry = path;
 
-        dispatch.call("openDashboard", countryId);
+        dispatch.call("openDashboard", path, countryId);
     }
 
     function unselect_country() {
@@ -47,6 +47,7 @@ function createMap(svg, dispatch) {
 }
 
 function createDashboard(dispatch) {
+    let isDashboardOpen = false;
 
     function openDashboard(countryId) {
         const data = countryData[countryId] || {};
@@ -61,12 +62,14 @@ function createDashboard(dispatch) {
             </div>
         `);
 
-        dashboard.style("transform", "translateX(0)");
-
-        dispatch.call("openDashboard");
+        if (!isDashboardOpen) {
+            dashboard.style("transform", "translateX(0)");
+            isDashboardOpen = true;
+        }
     }
 
     function closeDashboard() {
+        isDashboardOpen = false;
         dashboard.style("transform", "translateX(100%)");
         dispatch.call("closeDashboard");
     }
