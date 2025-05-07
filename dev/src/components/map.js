@@ -11,9 +11,7 @@ export function initMapContainer(svgContent, dispatch) {
         const countryId = path.attr("id");
 
         // If clicking the same country, do nothing
-        if (clickedCountry?.attr("id") === countryId) {
-            return;
-        }
+        if (clickedCountry?.attr("id") === countryId) return;
 
         // Reset previous country's color
         if (clickedCountry) {

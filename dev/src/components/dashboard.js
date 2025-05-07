@@ -70,7 +70,7 @@ function createDashboard() {
         .style("position", "absolute")
         .style("right", "0")
         .style("top", "0")
-        .style("width", "350px")
+        .style("width", "27%")
         .style("height", "100%")
         .style("background", "rgba(245, 247, 250, 0.95)")
         .style("backdrop-filter", "blur(5px)")
