@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import { initMap } from "./map.js";
+import { initMapContainer } from "./map.js";
 import { initDashboard } from "./dashboard.js";
 
 export function renderMapView(svgContent) {
@@ -16,21 +16,13 @@ export function renderMapView(svgContent) {
         .style("overflow", "hidden");
 
     // Create map container
-    const mapContainer = container.append("div")
-        .style("width", "100%")
-        .style("height", "100%");
-
-    mapContainer.html(svgContent);
-    const svg = mapContainer.select("svg")
-        .style("width", "100%")
-        .style("height", "100%");
+    const mapContainer = initMapContainer(svgContent, dispatch);
+    container.append(() => mapContainer.node());
 
     // Create dashboard
     const dashboard = initDashboard(dispatch);
     container.append(() => dashboard.node());
 
-    // Initialize map with dashboard control
-    initMap(svg, dispatch);
 
     return container.node();
 }

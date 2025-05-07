@@ -18,7 +18,6 @@ const countryData = {
     }
 }
 
-
 export function initDashboard(dispatch) {
     const dashboard = createDashboard();
 
