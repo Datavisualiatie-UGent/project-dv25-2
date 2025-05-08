@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { initMapContainer } from "./map.js";
 import { initDashboard } from "./dashboard.js";
 import { initSelectBox } from "./selectBox.js";
-import { initLegend } from "./Legend.js";
+import { initLegend } from "./legend.js";
 
 export function renderMapView(svgContent, questions) {
 
@@ -31,7 +31,7 @@ export function renderMapView(svgContent, questions) {
         .style("overflow", "hidden");
 
     // Create map container
-    const mapContainer = initMapContainer(svgContent, dispatch);
+    const mapContainer = initMapContainer(svgContent, dispatch, questions, colorScale);
     mapViewContainer.append(() => mapContainer.node());
 
     // Create dashboard

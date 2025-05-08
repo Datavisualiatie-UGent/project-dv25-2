@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export function initMapContainer(svgContent, dispatch) {
+export function initMapContainer(svgContent, dispatch, questions, colorScale) {
     const mapContainer = createMapContainer(svgContent);
     const svg = mapContainer.select("svg");
     const paths = svg.selectAll("path");
@@ -124,6 +124,33 @@ export function initMapContainer(svgContent, dispatch) {
     }
 
     dispatch.on("closeDashboard.map", unselect_country);
+
+    function updateMap(question) {
+        const answers = question["answers"];
+        const data = question["volume_A"];
+
+        paths.each(function() {
+            const path = d3.select(this);
+            const countryId = path.attr("id"); // Get country ID from path attribute
+
+            if (countryId && data[countryId]) {
+                const countryData = data[countryId];
+                const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
+                    x > arr[iMax] ? i : iMax, 0);
+
+                path.style("fill", colorScale(answers[maxIndex]));
+            } else {
+                // Handle countries with no data
+                path.style("fill", "#ccc"); // Gray for no data
+            }
+        });
+    }
+
+
+    dispatch.on("selectQuestion.map", function(questionId) {
+        const selectedQuestion = questions.find(q => q.id === questionId);
+        updateMap(selectedQuestion);
+    });
 
     // Add click interaction
     paths.on("click", function(event, d) {

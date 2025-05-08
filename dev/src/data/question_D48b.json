@@ -2,6 +2,7 @@
     "id": "D48b",
     "title": "First other language spoken well enough to have a conversation",
     "question": "D48b. And which other language, if any, do you speak well enough in order to be able to have a conversation? - First other language ",
+    "category": "categorical",
     "subquestion": "nan",
     "old_values_A": true,
     "old_values_B": true,

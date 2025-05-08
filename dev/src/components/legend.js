@@ -5,10 +5,9 @@ export function initLegend(dispatch, questions, colorScale) {
     const legendContainer = createLegendContainer();
 
     // Listen for question selection
-    dispatch.on("selectQuestion", function(questionId) {
-        console.log("Selected question ID:", questionId);
-        const selectedQuestion = questions.find(q => q.id === questionId);
-        updateLegend(selectedQuestion);
+    dispatch.on("selectQuestion.legend", function(questionId) {
+        const question = questions.find(q => q.id === questionId);
+        updateLegend(question);
     });
 
     // Update legend function
