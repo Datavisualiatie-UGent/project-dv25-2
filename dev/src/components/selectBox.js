@@ -9,7 +9,7 @@ export function initSelectBox(dispatch, questions) {
         const selectedValue = d3.select(this).property("value");
         if (selectedValue) {
             // Dispatch the event with the selected question ID
-            dispatch.call("selectQuestion", this, selectedValue);
+            dispatch.call("selectQuestion", null, selectedValue);
             console.log(selectedValue);
         }
     });
