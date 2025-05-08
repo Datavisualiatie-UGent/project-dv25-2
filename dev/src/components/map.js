@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
-const DEFAULT_FILL = "#212728";
-const EU_FILL = "#ccc";
+const DEFAULT_FILL = "#3a3a3a";
+const EU_FILL = "#253b82";
 const CLICKED_FILL = "#00ffff";
 const HOVER_STROKE_WIDTH = "2px";
 const DEFAULT_STROKE_WIDTH = "0.5px";
@@ -257,16 +257,20 @@ function createMapContainer(svgContent, eu) {
         .style("height", "99%")
         .style("overflow", "hidden")
         .style("position", "relative")
-        .style("border", "1px white solid")
-        .style("border-radius", "8px")
-        .style("transition", "all 0.5s ease");
+        .style("border", "3px white solid")
+        .style("border-radius", "10px")
+        .style("background", "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)")
+        .style("transition", "all 0.5s ease")
+        .style("perspective", "1000px")
+        .style("transform-style", "preserve-3d");
 
     mapContainer.html(svgContent);
     const svg = mapContainer.select("svg")
         .attr("preserveAspectRatio", "xMidYMid meet")
         .style("width", "100%")
         .style("height", "100%")
-        .style("margin-left", "-150px");
+        .style("margin-left", "-150px")
+        .style("transform", "rotateX(15deg) rotateY(-5deg)");
 
     // Add SVG filters for high-tech effects
     const defs = svg.append("defs");

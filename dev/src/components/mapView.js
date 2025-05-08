@@ -31,7 +31,8 @@ export function renderMapView(svgContent, questions, eu_countries) {
     const mapViewContainer = d3.create("div")
         .style("position", "relative")
         .style("width", "100%")
-        .style("height", "100vh")
+        .style("height", "80vh")
+        .style("margin", "0 auto")
         .style("overflow", "hidden");
 
     // Create map container

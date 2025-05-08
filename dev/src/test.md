@@ -22,3 +22,8 @@ const eu_countries = await FileAttachment("data/eu_countries.json").json();
 import {renderMapView} from "./components/mapView.js";
 display(renderMapView(svgContent, questions, eu_countries));
 ```
+
+<style>
+
+
+</style>

@@ -70,7 +70,7 @@ function createDashboard() {
         .style("backdrop-filter", "blur(8px)")
         .style("border-left", "1px solid rgba(0, 255, 255, 0.3)")
         .style("transform", "translateX(100%)")
-        .style("transition", "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)")
+        .style("transition", "all 0.75s cubic-bezier(0.22, 1, 0.36, 1)")
         .style("z-index", "10")
         .style("padding", "25px")
         .style("overflow-x", "auto")
