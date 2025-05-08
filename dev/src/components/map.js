@@ -291,7 +291,7 @@ function createMapContainer(svgContent, eu) {
     const paths = svg.selectAll("path")
         .style("fill", function() {
             const countryId = d3.select(this).attr("id");
-            return eu.has(countryId) ? "#ccc" : "#212728";
+            return eu.has(countryId) ? EU_FILL : DEFAULT_FILL;
         })
         .style("stroke", "white")
         .style("stroke-width", DEFAULT_STROKE_WIDTH)
