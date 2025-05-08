@@ -5,10 +5,12 @@ import { initDashboard } from "./dashboard.js";
 import { initSelectBox } from "./selectBox.js";
 import { initLegend } from "./legend.js";
 
-export function renderMapView(svgContent, questions) {
+export function renderMapView(svgContent, questions, eu_countries) {
 
     // Dispatching
     const dispatch = d3.dispatch("openDashboard", "closeDashboard", "selectQuestion");
+
+    const eu = new Set(Object.keys(eu_countries));
 
     // Create a color scale for the legend and map
     const color = {
@@ -33,11 +35,11 @@ export function renderMapView(svgContent, questions) {
         .style("overflow", "hidden");
 
     // Create map container
-    const mapContainer = initMapContainer(svgContent, dispatch, questions, color);
+    const mapContainer = initMapContainer(svgContent, dispatch, questions, color, eu);
     mapViewContainer.append(() => mapContainer.node());
 
     // Create dashboard
-    const dashboard = initDashboard(dispatch);
+    const dashboard = initDashboard(dispatch, eu_countries);
     mapViewContainer.append(() => dashboard.node());
 
     container.append(() => mapViewContainer.node());

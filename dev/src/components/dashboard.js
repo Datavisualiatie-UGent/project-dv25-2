@@ -1,24 +1,6 @@
 import * as d3 from "d3";
 
-// Sample country data (replace with your data)
-const countryData = {
-    "FR": {
-        name: "France",
-        capital: "Paris",
-        population: "67.4 million",
-        area: "643,801 km²",
-        gdp: "$2.9 trillion"
-    },
-    "DE": {
-        name: "Germany",
-        capital: "Berlin",
-        population: "83.2 million",
-        area: "357,022 km²",
-        gdp: "$4.2 trillion"
-    }
-}
-
-export function initDashboard(dispatch) {
+export function initDashboard(dispatch, eu_countries) {
     const dashboard = createDashboard();
 
     const closeButton = dashboard.select("button")
@@ -29,7 +11,7 @@ export function initDashboard(dispatch) {
     const infoPanel = dashboard.select(".info-panel");
 
     function updateInfoPanel(countryId) {
-        const data = countryData[countryId] || {};
+        const data = eu_countries[countryId] || {};
 
         infoPanel.html(`
             <div class="info-item">

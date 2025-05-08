@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
-export function initMapContainer(svgContent, dispatch, questions, color) {
-    const mapContainer = createMapContainer(svgContent);
+export function initMapContainer(svgContent, dispatch, questions, color, eu) {
+    const mapContainer = createMapContainer(svgContent, eu);
     const svg = mapContainer.select("svg");
     const paths = svg.selectAll("path");
 
@@ -16,7 +16,7 @@ export function initMapContainer(svgContent, dispatch, questions, color) {
         // Reset previous country's color
         if (clickedCountry) {
             clickedCountry
-                .style("fill", "#212728")
+                .style("fill", "#ccc")
                 .style("filter", "none");
         }
 
@@ -116,7 +116,7 @@ export function initMapContainer(svgContent, dispatch, questions, color) {
     function unselect_country() {
         if (clickedCountry) {
             clickedCountry
-                .style("fill", "#212728")
+                .style("fill", "#ccc")
                 .style("filter", "none");
         }
         resetZoom();
@@ -190,7 +190,8 @@ export function initMapContainer(svgContent, dispatch, questions, color) {
         click_country(d3.select(this));
     })
     .on("mouseover", function() {
-        if (!clickedCountry || clickedCountry.attr("id") !== d3.select(this).attr("id")) {
+        const countryId = d3.select(this).attr("id");
+        if (eu.has(countryId) && (!clickedCountry || clickedCountry.attr("id") !== countryId)) {
             d3.select(this)
                 .style("filter", "url(#hover-glow)")
                 .style("stroke", "white")
@@ -198,7 +199,8 @@ export function initMapContainer(svgContent, dispatch, questions, color) {
         }
     })
     .on("mouseout", function() {
-        if (!clickedCountry || clickedCountry.attr("id") !== d3.select(this).attr("id")) {
+        const countryId = d3.select(this).attr("id");
+        if (eu.has(countryId) && (!clickedCountry || clickedCountry.attr("id") !== countryId)) {
             d3.select(this)
                 .style("filter", "none")
                 .style("stroke", "white")
@@ -209,7 +211,7 @@ export function initMapContainer(svgContent, dispatch, questions, color) {
     return mapContainer;
 }
 
-function createMapContainer(svgContent) {
+function createMapContainer(svgContent, eu) {
     const mapContainer = d3.create("div")
         .style("width", "99%")
         .style("height", "99%")
@@ -280,10 +282,16 @@ function createMapContainer(svgContent) {
 
 
     const paths = svg.selectAll("path")
-        .style("fill", "#212728")
+        .style("fill", function() {
+            const countryId = d3.select(this).attr("id");
+            return eu.has(countryId) ? "#ccc" : "#212728";
+        })
         .style("stroke", "white")
         .style("stroke-width", "0.5px")
-        .style("cursor", "pointer")
+        .style("cursor", function() {
+            const countryId = d3.select(this).attr("id");
+            return eu.has(countryId) ? "pointer" : "default";
+        })
         .style("transition", "all 0.3s ease")
         .style("opacity", "0.9");
 

@@ -13,11 +13,12 @@ const questions = [question1, question2, question3];
 ```
 
 ```js
-// Import the svg file
+// Load other data for mapview
 const svgContent = await FileAttachment("data/europe.svg").text();
+const eu_countries = await FileAttachment("data/eu_countries.json").json();
 ```
 
 ```js
 import {renderMapView} from "./components/mapView.js";
-display(renderMapView(svgContent, questions))
+display(renderMapView(svgContent, questions, eu_countries));
 ```
