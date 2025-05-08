@@ -134,7 +134,7 @@ export function initMapContainer(svgContent, dispatch) {
             d3.select(this)
                 .style("filter", "url(#hover-glow)")
                 .style("stroke", "white")
-                .style("stroke-width", "1px");
+                .style("stroke-width", "2px");
         }
     })
     .on("mouseout", function() {

@@ -2,14 +2,24 @@ import * as d3 from "d3";
 
 import { initMapContainer } from "./map.js";
 import { initDashboard } from "./dashboard.js";
+import { initSelectBox } from "./selectBox.js";
 
-export function renderMapView(svgContent) {
+export function renderMapView(svgContent, questions) {
+
     // Dispatching
-    const dispatch = d3.dispatch("openDashboard", "closeDashboard");
+    const dispatch = d3.dispatch("openDashboard", "closeDashboard", "selectQuestion");
+
+    // create selectBox
+    const container = d3.create("div")
+        .style("width", "100%")
+        .style("height", "100%")
+        .style("overflow", "hidden");
+
+    const selectBox = initSelectBox(dispatch, questions);
+    container.append(() => selectBox.node());
 
     // Create main container
-    const container = d3.select("body")
-        .append("div")
+    const mapViewContainer = d3.create("div")
         .style("position", "relative")
         .style("width", "100%")
         .style("height", "100vh")
@@ -17,12 +27,14 @@ export function renderMapView(svgContent) {
 
     // Create map container
     const mapContainer = initMapContainer(svgContent, dispatch);
-    container.append(() => mapContainer.node());
+    mapViewContainer.append(() => mapContainer.node());
 
     // Create dashboard
     const dashboard = initDashboard(dispatch);
-    container.append(() => dashboard.node());
+    mapViewContainer.append(() => dashboard.node());
 
+
+    container.append(() => mapViewContainer.node());
 
     return container.node();
 }
