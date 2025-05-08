@@ -14,11 +14,26 @@ export function initLegend(dispatch, questions, colorScale) {
     function updateLegend(question) {
         legendContainer.html(""); // Clear previous legend
 
-        if (!question || !question["answers"]) return;
+        if (!question || !question["answers"] || !question["volume_A"]) return;
+
+        const data = question["volume_A"];
+        const answers = question["answers"];
+
+        // Determine the highest value indices across all countries
+        const highestAnswerIndices = new Set();
+        Object.values(data).forEach(countryData => {
+            if (countryData && countryData["values"]) {
+                const maxIndex = countryData["values"].reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+                highestAnswerIndices.add(maxIndex);
+            }
+        });
+
+        // Filter answers to include only those with the highest values
+        const filteredAnswers = answers.filter((_, index) => highestAnswerIndices.has(index));
 
         // Create legend items
         const legendItems = legendContainer.selectAll(".legend-item")
-            .data(question["answers"])
+            .data(filteredAnswers)
             .enter()
             .append("div")
             .style("display", "flex")

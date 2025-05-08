@@ -2,7 +2,7 @@
     "id": "D48count",
     "title": "Amount of languages spoken well enough to have a conversation",
     "question": "D48count. Languages that you speak well enough in order to be able to have a conversation - TOTAL",
-    "category": "categorical",
+    "category": "continuous",
     "subquestion": "nan",
     "old_values_A": true,
     "old_values_B": true,
