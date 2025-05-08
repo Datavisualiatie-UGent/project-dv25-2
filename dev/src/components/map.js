@@ -1,5 +1,11 @@
 import * as d3 from "d3";
 
+const DEFAULT_FILL = "#212728";
+const EU_FILL = "#ccc";
+const CLICKED_FILL = "#00ffff";
+const HOVER_STROKE_WIDTH = "2px";
+const DEFAULT_STROKE_WIDTH = "0.5px";
+
 export function initMapContainer(svgContent, dispatch, questions, color, eu) {
     const mapContainer = createMapContainer(svgContent, eu);
     const svg = mapContainer.select("svg");
@@ -7,6 +13,30 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
 
     let clickedCountry = null;
     let selectedQuestion = null;
+
+    function getFillColor(countryId) {
+        if (selectedQuestion) {
+            if (selectedQuestion["type"] === "categorical") {
+                const data = selectedQuestion["volume_A"];
+                const countryData = data[countryId];
+                if (countryData) {
+                    const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
+                        x > arr[iMax] ? i : iMax, 0);
+                    return color["categorical"](selectedQuestion["answers"][maxIndex]);
+                }
+            } else {
+                const data = selectedQuestion["volume_A"];
+                const countryData = data[countryId];
+                if (countryData) {
+                    const percentage = countryData["percentages"] ? countryData["percentages"][0] : 0;
+                    return d3.scaleSequential()
+                        .domain([0, Math.max(...Object.values(data).flatMap(countryData => countryData["percentages"] || [0]))])
+                        .interpolator(d3.interpolateBlues)(percentage);
+                }
+            }
+        }
+        return eu.has(countryId) ? EU_FILL : DEFAULT_FILL;
+    }
 
     function click_country(path) {
         const countryId = path.attr("id");
@@ -19,13 +49,13 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
             clickedCountry
                 .style("fill", function() {
                     const countryId = clickedCountry.attr("id");
-                    return getFillColor(countryId, eu, selectedQuestion, color);
+                    return getFillColor(countryId);
                 })
                 .style("filter", "none");
         }
 
         // Update clicked country
-        path.style("fill", "#00ffff");
+        path.style("fill", CLICKED_FILL);
         clickedCountry = path;
 
         // Zoom to country
@@ -114,7 +144,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
 
         svg.selectAll("path")
             .style("stroke", "white")
-            .style("stroke-width", "0.5px")
+            .style("stroke-width", DEFAULT_STROKE_WIDTH)
     }
 
     function unselect_country() {
@@ -122,7 +152,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
             clickedCountry
                 .style("fill", function() {
                     const countryId = clickedCountry.attr("id");
-                    return getFillColor(countryId, eu, selectedQuestion, color);
+                    return getFillColor(countryId);
                 })
                 .style("filter", "none");
         }
@@ -145,7 +175,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                 path.style("fill", color["categorical"](answers[maxIndex]));
             } else {
                 // Handle countries with no data
-                path.style("fill", "#212728"); // Gray for no data
+                path.style("fill", DEFAULT_FILL); // Gray for no data
             }
         });
     }
@@ -181,7 +211,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                 path.style("fill", colorScale(percentage));
             } else {
                 // Handle countries with no data
-                path.style("fill", "#212728"); // Gray for no data
+                path.style("fill", DEFAULT_FILL); // Gray for no data
             }
         });
     }
@@ -205,7 +235,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
             d3.select(this)
                 .style("filter", "url(#hover-glow)")
                 .style("stroke", "white")
-                .style("stroke-width", "2px");
+                .style("stroke-width", HOVER_STROKE_WIDTH);
         }
     })
     .on("mouseout", function() {
@@ -214,7 +244,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
             d3.select(this)
                 .style("filter", "none")
                 .style("stroke", "white")
-                .style("stroke-width", "0.5px");
+                .style("stroke-width", DEFAULT_STROKE_WIDTH);
         }
         });
 
@@ -264,7 +294,7 @@ function createMapContainer(svgContent, eu) {
             return eu.has(countryId) ? "#ccc" : "#212728";
         })
         .style("stroke", "white")
-        .style("stroke-width", "0.5px")
+        .style("stroke-width", DEFAULT_STROKE_WIDTH)
         .style("cursor", function() {
             const countryId = d3.select(this).attr("id");
             return eu.has(countryId) ? "pointer" : "default";
@@ -273,19 +303,4 @@ function createMapContainer(svgContent, eu) {
         .style("opacity", "0.9");
 
     return mapContainer;
-}
-
-function getFillColor(countryId, eu, selectedQuestion, color) {
-    if (selectedQuestion) {
-        if (selectedQuestion["type"] === "categorical") {
-            const data = selectedQuestion["volume_A"];
-            const countryData = data[countryId];
-            if (countryData) {
-                const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
-                    x > arr[iMax] ? i : iMax, 0);
-                return color["categorical"](selectedQuestion["answers"][maxIndex]);
-            }
-        }
-    }
-    return eu.has(countryId) ? "#ccc" : "#212728";
 }
