@@ -11,8 +11,10 @@ export function renderMapView(svgContent, questions) {
     const dispatch = d3.dispatch("openDashboard", "closeDashboard", "selectQuestion");
 
     // Create a color scale for the legend and map
-    const colorScale = d3.scaleOrdinal()
-        .range(d3.schemeTableau10); // Using a built-in color scheme
+    const color = {
+        "categorical": d3.scaleOrdinal(d3.schemeTableau10),
+        "numerical": d3.scaleSequential(d3.interpolateBlues)
+    };
 
     // create selectBox
     const container = d3.create("div")
@@ -31,7 +33,7 @@ export function renderMapView(svgContent, questions) {
         .style("overflow", "hidden");
 
     // Create map container
-    const mapContainer = initMapContainer(svgContent, dispatch, questions, colorScale);
+    const mapContainer = initMapContainer(svgContent, dispatch, questions, color);
     mapViewContainer.append(() => mapContainer.node());
 
     // Create dashboard
@@ -41,7 +43,7 @@ export function renderMapView(svgContent, questions) {
     container.append(() => mapViewContainer.node());
 
     // Create legend
-    const legendContainer = initLegend(dispatch, questions, colorScale);
+    const legendContainer = initLegend(dispatch, questions, color);
     container.append(() => legendContainer.node());
 
     return container.node();

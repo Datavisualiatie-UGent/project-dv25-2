@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export function initMapContainer(svgContent, dispatch, questions, colorScale) {
+export function initMapContainer(svgContent, dispatch, questions, color) {
     const mapContainer = createMapContainer(svgContent);
     const svg = mapContainer.select("svg");
     const paths = svg.selectAll("path");
@@ -128,6 +128,8 @@ export function initMapContainer(svgContent, dispatch, questions, colorScale) {
     function updateMap(question) {
         const answers = question["answers"];
         const data = question["volume_A"];
+        const type = question["type"];
+
 
         paths.each(function() {
             const path = d3.select(this);
@@ -138,7 +140,7 @@ export function initMapContainer(svgContent, dispatch, questions, colorScale) {
                 const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
                     x > arr[iMax] ? i : iMax, 0);
 
-                path.style("fill", colorScale(answers[maxIndex]));
+                path.style("fill", color[type](answers[maxIndex]));
             } else {
                 // Handle countries with no data
                 path.style("fill", "#ccc"); // Gray for no data

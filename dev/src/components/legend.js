@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export function initLegend(dispatch, questions, colorScale) {
+export function initLegend(dispatch, questions, color) {
     // Create legend container
     const legendContainer = createLegendContainer();
 
@@ -10,12 +10,7 @@ export function initLegend(dispatch, questions, colorScale) {
         updateLegend(question);
     });
 
-    // Update legend function
-    function updateLegend(question) {
-        legendContainer.html(""); // Clear previous legend
-
-        if (!question || !question["answers"] || !question["volume_A"]) return;
-
+    function handleCategoricalQuestion(question) {
         const data = question["volume_A"];
         const answers = question["answers"];
 
@@ -45,13 +40,32 @@ export function initLegend(dispatch, questions, colorScale) {
             .style("width", "15px")
             .style("height", "15px")
             .style("margin-right", "8px")
-            .style("background-color", d => colorScale(d));
+            .style("background-color", d => color["categorical"](d));
 
         // Add answer text
         legendItems.append("div")
             .style("font-size", "12px")
             .style("color", "#333")
             .text(d => d);
+    }
+
+    function handleNumericalQuestion(question) {
+
+    }
+
+    // Update legend function
+    function updateLegend(question) {
+        legendContainer.html(""); // Clear previous legend
+
+        if (!question || !question["answers"] || !question["volume_A"]) return;
+
+        if (question["type"] === "categorical") {
+            handleCategoricalQuestion(question);
+            return;
+        }
+
+        // Handle other question types (e.g., numerical)
+        handleNumericalQuestion(question);
     }
 
     return legendContainer;

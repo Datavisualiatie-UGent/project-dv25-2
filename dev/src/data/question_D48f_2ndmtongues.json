@@ -3,7 +3,7 @@
     "title": "Percentage of people who have a second mother tongue",
     "question": "D48f.2ndmtongues. Is your  \u2026  Total second mother tongue/native language?",
     "subquestion": "nan",
-    "category": "continuous",
+    "type": "numerical",
     "old_values_A": false,
     "old_values_B": false,
     "answers": [
