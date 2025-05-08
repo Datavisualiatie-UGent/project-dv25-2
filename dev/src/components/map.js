@@ -125,12 +125,7 @@ export function initMapContainer(svgContent, dispatch, questions, color) {
 
     dispatch.on("closeDashboard.map", unselect_country);
 
-    function updateMap(question) {
-        const answers = question["answers"];
-        const data = question["volume_A"];
-        const type = question["type"];
-
-
+    function updateMapCategorical(data, answers) {
         paths.each(function() {
             const path = d3.select(this);
             const countryId = path.attr("id"); // Get country ID from path attribute
@@ -140,7 +135,43 @@ export function initMapContainer(svgContent, dispatch, questions, color) {
                 const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
                     x > arr[iMax] ? i : iMax, 0);
 
-                path.style("fill", color[type](answers[maxIndex]));
+                path.style("fill", color["categorical"](answers[maxIndex]));
+            } else {
+                // Handle countries with no data
+                path.style("fill", "#ccc"); // Gray for no data
+            }
+        });
+    }
+
+    function updateMap(question) {
+        const answers = question["answers"];
+        const data = question["volume_A"];
+        const type = question["type"];
+
+        if (!question || !answers || !data) return;
+
+        if (type === "categorical") {
+            updateMapCategorical(data, answers);
+            return;
+        }
+
+        // Create a sequential color scale
+        const maxPercentage = Math.max(
+            ...Object.values(data).flatMap(countryData => countryData["percentages"] || [0])
+        );
+        const colorScale = d3.scaleSequential()
+            .domain([0, maxPercentage])
+            .interpolator(d3.interpolateBlues);
+
+        paths.each(function() {
+            const path = d3.select(this);
+            const countryId = path.attr("id"); // Get country ID from path attribute
+
+            if (countryId && data[countryId]) {
+                const countryData = data[countryId];
+                const percentage = countryData["percentages"] ? countryData["percentages"][0] : 0;
+
+                path.style("fill", colorScale(percentage));
             } else {
                 // Handle countries with no data
                 path.style("fill", "#ccc"); // Gray for no data

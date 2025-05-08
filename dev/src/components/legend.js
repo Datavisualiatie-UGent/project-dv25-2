@@ -50,7 +50,62 @@ export function initLegend(dispatch, questions, color) {
     }
 
     function handleNumericalQuestion(question) {
+        const data = question["volume_A"];
+        const maxPercentage = Math.max(
+            ...Object.values(data).flatMap(countryData => countryData["percentages"] || [0])
+        );
 
+        // Create a sequential color scale
+        const colorScale = d3.scaleSequential()
+            .domain([0, maxPercentage])
+            .interpolator(d3.interpolateBlues);
+
+        // Create an SVG for the legend
+        const legendWidth = 200;
+        const legendHeight = 20;
+
+        const svg = legendContainer.append("svg")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight + 30);
+
+        // Define a gradient
+        const gradient = svg.append("defs")
+            .append("linearGradient")
+            .attr("id", "legend-gradient")
+            .attr("x1", "0%")
+            .attr("x2", "100%")
+            .attr("y1", "0%")
+            .attr("y2", "0%");
+
+        // Add gradient stops
+        const numStops = 10;
+        const stops = d3.range(numStops).map(i => i / (numStops - 1));
+        stops.forEach(stop => {
+            gradient.append("stop")
+                .attr("offset", `${stop * 100}%`)
+                .attr("stop-color", colorScale(stop * maxPercentage));
+        });
+
+        // Draw the gradient rectangle
+        svg.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .style("fill", "url(#legend-gradient)");
+
+        // Add axis for percentages
+        const legendScale = d3.scaleLinear()
+            .domain([0, maxPercentage])
+            .range([0, legendWidth]);
+
+        const axis = d3.axisBottom(legendScale)
+            .ticks(5)
+            .tickFormat(d3.format(".0%"));
+
+        svg.append("g")
+            .attr("transform", `translate(0, ${legendHeight})`)
+            .call(axis);
     }
 
     // Update legend function
