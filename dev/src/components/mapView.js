@@ -39,7 +39,7 @@ export function renderMapView(svgContent, questions, eu_countries) {
     mapViewContainer.append(() => mapContainer.node());
 
     // Create dashboard
-    const dashboard = initDashboard(dispatch, eu_countries);
+    const dashboard = initDashboard(dispatch, eu_countries, questions, color["categorical"]);
     mapViewContainer.append(() => dashboard.node());
 
     container.append(() => mapViewContainer.node());

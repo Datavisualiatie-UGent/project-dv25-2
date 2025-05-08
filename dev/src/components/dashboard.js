@@ -1,6 +1,8 @@
 import * as d3 from "d3";
 
-export function initDashboard(dispatch, eu_countries) {
+import { createBarChart } from "./dashBoardBarChart.js";
+
+export function initDashboard(dispatch, eu_countries, questions, color) {
     const dashboard = createDashboard();
 
     const closeButton = dashboard.select("button")
@@ -10,24 +12,31 @@ export function initDashboard(dispatch, eu_countries) {
 
     const infoPanel = dashboard.select(".info-panel");
 
-    function updateInfoPanel(countryId) {
-        const data = eu_countries[countryId] || {};
+    function updateInfoPanel(countryId, questionId = null) {
+        const countryData = eu_countries[countryId] || {};
+        const questionData = questionId ? questions.find(q => q.id === questionId) : null;
 
         infoPanel.html(`
-            <div class="info-item">
-                <h3>${data.name || "Select a country"}</h3>
-                <p><strong>Capital:</strong> ${data.capital || "-"}</p>
-                <p><strong>Population:</strong> ${data.population || "-"}</p>
-                <p><strong>Area:</strong> ${data.area || "-"}</p>
-                <p><strong>GDP:</strong> ${data.gdp || "-"}</p>
-            </div>
-        `);
+        <div class="info-item">
+            <h3>${countryData.name || "Select a country"}</h3>
+            <p><strong>Capital:</strong> ${countryData.capital || "-"}</p>
+            <p><strong>Population:</strong> ${countryData.population || "-"}</p>
+            <p><strong>Area:</strong> ${countryData.area || "-"}</p>
+            <p><strong>GDP:</strong> ${countryData.gdp || "-"}</p>
+        </div>
+    `);
+
+        if (questionData && countryId && questionData.volume_A[countryId]) {
+            createBarChart(infoPanel, questionData, countryId, color);
+        }
     }
 
     let isDashboardOpen = false;
+    let selectedQuestion = null;
 
     function openDashboard(countryId) {
-        updateInfoPanel(countryId);
+        updateInfoPanel(countryId, selectedQuestion);
+
         if (!isDashboardOpen) {
             dashboard.style("transform", "translateX(0)");
             isDashboardOpen = true;
@@ -42,6 +51,10 @@ export function initDashboard(dispatch, eu_countries) {
 
     dispatch.on("openDashboard.dashboard", openDashboard);
 
+    dispatch.on("selectQuestion.dashboard", function(questionId) {
+        selectedQuestion = questionId;
+    })
+
     return dashboard;
 }
 
@@ -51,7 +64,7 @@ function createDashboard() {
         .style("position", "absolute")
         .style("right", "0")
         .style("top", "0")
-        .style("width", "45%")
+        .style("width", "50%")
         .style("height", "100%")
         .style("background", "rgba(15, 32, 39, 0.9)") // Dark blue from map bg
         .style("backdrop-filter", "blur(8px)")
@@ -60,6 +73,7 @@ function createDashboard() {
         .style("transition", "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)")
         .style("z-index", "10")
         .style("padding", "25px")
+        .style("overflow-x", "auto")
         .style("overflow-y", "auto")
         .style("color", "#ecf0f1")
         .style("font-family", "'Segoe UI', Roboto, sans-serif");
