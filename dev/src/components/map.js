@@ -138,7 +138,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                 path.style("fill", color["categorical"](answers[maxIndex]));
             } else {
                 // Handle countries with no data
-                path.style("fill", "#ccc"); // Gray for no data
+                path.style("fill", "#212728"); // Gray for no data
             }
         });
     }
@@ -174,7 +174,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                 path.style("fill", colorScale(percentage));
             } else {
                 // Handle countries with no data
-                path.style("fill", "#ccc"); // Gray for no data
+                path.style("fill", "#212728"); // Gray for no data
             }
         });
     }
@@ -231,22 +231,6 @@ function createMapContainer(svgContent, eu) {
     // Add SVG filters for high-tech effects
     const defs = svg.append("defs");
 
-    // Glow effect
-    const glowFilter = defs.append("filter")
-        .attr("id", "glow")
-        .attr("height", "130%")
-        .attr("width", "130%")
-        .attr("x", "-15%")
-        .attr("y", "-15%");
-
-    glowFilter.append("feGaussianBlur")
-        .attr("stdDeviation", "2")
-        .attr("result", "blur");
-    glowFilter.append("feComposite")
-        .attr("in", "SourceGraphic")
-        .attr("in2", "blur")
-        .attr("operator", "over");
-
     // Hover glow effect
     const hoverGlowFilter = defs.append("filter")
         .attr("id", "hover-glow")
@@ -262,23 +246,6 @@ function createMapContainer(svgContent, eu) {
         .attr("in", "SourceGraphic")
         .attr("in2", "blur")
         .attr("operator", "over");
-
-    // Pulsing glow for selected country
-    const pulseGlowFilter = defs.append("filter")
-        .attr("id", "pulse-glow")
-        .attr("height", "200%")
-        .attr("width", "200%")
-        .attr("x", "-50%")
-        .attr("y", "-50%");
-
-    pulseGlowFilter.append("feGaussianBlur")
-        .attr("stdDeviation", "5")
-        .attr("result", "blur");
-    pulseGlowFilter.append("feComposite")
-        .attr("in", "SourceGraphic")
-        .attr("in2", "blur")
-        .attr("operator", "over");
-
 
 
     const paths = svg.selectAll("path")
