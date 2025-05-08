@@ -6,6 +6,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
     const paths = svg.selectAll("path");
 
     let clickedCountry = null;
+    let selectedQuestion = null;
 
     function click_country(path) {
         const countryId = path.attr("id");
@@ -16,7 +17,10 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
         // Reset previous country's color
         if (clickedCountry) {
             clickedCountry
-                .style("fill", "#ccc")
+                .style("fill", function() {
+                    const countryId = clickedCountry.attr("id");
+                    return getFillColor(countryId, eu, selectedQuestion, color);
+                })
                 .style("filter", "none");
         }
 
@@ -116,7 +120,10 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
     function unselect_country() {
         if (clickedCountry) {
             clickedCountry
-                .style("fill", "#ccc")
+                .style("fill", function() {
+                    const countryId = clickedCountry.attr("id");
+                    return getFillColor(countryId, eu, selectedQuestion, color);
+                })
                 .style("filter", "none");
         }
         resetZoom();
@@ -181,13 +188,16 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
 
 
     dispatch.on("selectQuestion.map", function(questionId) {
-        const selectedQuestion = questions.find(q => q.id === questionId);
+        selectedQuestion = questions.find(q => q.id === questionId);
         updateMap(selectedQuestion);
     });
 
     // Add click interaction
     paths.on("click", function(event, d) {
-        click_country(d3.select(this));
+        const countryId = d3.select(this).attr("id");
+        if (eu.has(countryId)) {
+            click_country(d3.select(this));
+        }
     })
     .on("mouseover", function() {
         const countryId = d3.select(this).attr("id");
@@ -263,4 +273,19 @@ function createMapContainer(svgContent, eu) {
         .style("opacity", "0.9");
 
     return mapContainer;
+}
+
+function getFillColor(countryId, eu, selectedQuestion, color) {
+    if (selectedQuestion) {
+        if (selectedQuestion["type"] === "categorical") {
+            const data = selectedQuestion["volume_A"];
+            const countryData = data[countryId];
+            if (countryData) {
+                const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
+                    x > arr[iMax] ? i : iMax, 0);
+                return color["categorical"](selectedQuestion["answers"][maxIndex]);
+            }
+        }
+    }
+    return eu.has(countryId) ? "#ccc" : "#212728";
 }
