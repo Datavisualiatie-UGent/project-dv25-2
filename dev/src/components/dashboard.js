@@ -33,8 +33,10 @@ export function initDashboard(dispatch, eu_countries, questions, color) {
 
     let isDashboardOpen = false;
     let selectedQuestion = null;
+    let selectedCountryId = null;
 
     function openDashboard(countryId) {
+        selectedCountryId = countryId;
         updateInfoPanel(countryId, selectedQuestion);
 
         if (!isDashboardOpen) {
@@ -44,6 +46,7 @@ export function initDashboard(dispatch, eu_countries, questions, color) {
     }
 
     function closeDashboard() {
+        selectedCountryId = null;
         isDashboardOpen = false;
         dashboard.style("transform", "translateX(100%)");
         dispatch.call("closeDashboard");
@@ -53,6 +56,9 @@ export function initDashboard(dispatch, eu_countries, questions, color) {
 
     dispatch.on("selectQuestion.dashboard", function(questionId) {
         selectedQuestion = questionId;
+        if (isDashboardOpen) {
+            openDashboard(selectedCountryId);
+        }
     })
 
     return dashboard;

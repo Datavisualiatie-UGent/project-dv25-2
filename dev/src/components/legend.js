@@ -45,7 +45,7 @@ export function initLegend(dispatch, questions, color) {
         // Add answer text
         legendItems.append("div")
             .style("font-size", "12px")
-            .style("color", "#333")
+            .style("color", "white")
             .text(d => d);
     }
 
@@ -63,9 +63,10 @@ export function initLegend(dispatch, questions, color) {
         // Create an SVG for the legend
         const legendWidth = 200;
         const legendHeight = 20;
+        const padding = 25; // Add padding for the gradient box
 
         const svg = legendContainer.append("svg")
-            .attr("width", legendWidth)
+            .attr("width", legendWidth + padding * 2 + 50) // Add padding to the width
             .attr("height", legendHeight + 30);
 
         // Define a gradient
@@ -86,18 +87,18 @@ export function initLegend(dispatch, questions, color) {
                 .attr("stop-color", colorScale(stop * maxPercentage));
         });
 
-        // Draw the gradient rectangle
+        // Draw the gradient rectangle with padding
         svg.append("rect")
-            .attr("x", 0)
+            .attr("x", padding) // Add padding to the x position
             .attr("y", 0)
-            .attr("width", legendWidth)
+            .attr("width", legendWidth) // Keep the width of the gradient
             .attr("height", legendHeight)
             .style("fill", "url(#legend-gradient)");
 
         // Add axis for percentages
         const legendScale = d3.scaleLinear()
             .domain([0, maxPercentage])
-            .range([0, legendWidth]);
+            .range([padding, legendWidth + padding]); // Adjust range to include padding
 
         const axis = d3.axisBottom(legendScale)
             .ticks(5)

@@ -291,7 +291,6 @@ function createMapContainer(svgContent, eu) {
         .attr("in2", "blur")
         .attr("operator", "over");
 
-
     const paths = svg.selectAll("path")
         .style("fill", function() {
             const countryId = d3.select(this).attr("id");
