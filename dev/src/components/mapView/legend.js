@@ -220,8 +220,8 @@ function createGradientLegend(maxValue, isPercentage = false) {
 function createLegendContainer() {
     const legendContainer = d3.create("div")
         .style("position", "absolute")
-        .style("bottom", "20px")
         .style("left", "20px")
+        .style("bottom", "550px")
         .style("padding", "10px")
         .style("z-index", "10")
         .style("max-height", "200px")

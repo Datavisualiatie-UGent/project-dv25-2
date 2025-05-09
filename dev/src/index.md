@@ -20,6 +20,11 @@ theme: dark
   </p>
 </div>
 
+```js
+// Load general data
+const svgContent = await FileAttachment("data/europe.svg").text();
+const eu_countries = await FileAttachment("data/eu_countries.json").json();
+```
 
 ```js
 // Load the questions for mapview   
@@ -35,18 +40,25 @@ const living = await FileAttachment("data/questions/question_D25.json").json(); 
 const bills = await FileAttachment("data/questions/question_D60.json").json(); // bills
 const household_class = await FileAttachment("data/questions/question_D63.json").json(); // household class
 
-const questions = [mothertongue, percentage_bilingual, languages_amount, second_language, politics_left_right, education, age, living, bills, household_class];
+const mapViewQuestions = [mothertongue, percentage_bilingual, languages_amount, second_language, politics_left_right, education, age, living, bills, household_class];
 ```
 
 ```js
-// Load other data for the mapview
-const svgContent = await FileAttachment("data/europe.svg").text();
-const eu_countries = await FileAttachment("data/eu_countries.json").json();
+// Load the questions for barview
+const discuss_national_pol = await FileAttachment("data/question_D71_1.json").json(); // discuss national politics
+const barViewQuestions = [discuss_national_pol];
 ```
+
+
 
 ```js
 import {renderMapView} from "./components/mapView/mapView.js";
-display(renderMapView(svgContent, questions, eu_countries));
+display(renderMapView(svgContent, mapViewQuestions, eu_countries));
+```
+
+```js
+import {renderBarView} from "./components/barView/barView.js";
+display(renderBarView(barViewQuestions));
 ```
 
 <style>
