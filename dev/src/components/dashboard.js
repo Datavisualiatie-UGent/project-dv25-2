@@ -27,6 +27,17 @@ export function initDashboard(dispatch, eu_countries, questions, color) {
     `);
 
         if (questionData && countryId && questionData.volume_A[countryId]) {
+            const totalVotes = questionData.volume_A[countryId].total || 0;
+
+            // Add total votes above the bar chart
+            infoPanel.append("div")
+                .attr("class", "total-votes")
+                .style("margin-bottom", "15px")
+                .style("font-size", "16px")
+                .style("font-weight", "bold")
+                .style("color", "#00ffff")
+                .text(`Total Votes: ${totalVotes}`);
+
             createBarChart(infoPanel, questionData, countryId, color);
         }
     }

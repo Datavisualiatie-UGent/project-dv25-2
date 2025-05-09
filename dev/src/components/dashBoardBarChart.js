@@ -7,21 +7,6 @@ export function createBarChart(infoPanel, questionData, countryId, color) {
     // Clear previous chart
     infoPanel.selectAll(".bar-chart").remove();
 
-    // Larger chart dimensions
-    const numBars = questionData.answers.length;
-    const barHeight = 30; // Fixed height per bar
-    const width = 650;  // Increased width
-    const height = Math.max(400, numBars * (barHeight + 10)); // Minimum 400px
-    const margin = {top: 40, right: 30, bottom: 60, left: 90}; // More spacing
-
-    // Create SVG with larger dimensions
-    const svg = infoPanel.append("svg")
-        .attr("class", "bar-chart")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
     // Prepare data
     const data = questionData.answers.map((answer, i) => ({
         answer,
@@ -31,10 +16,25 @@ export function createBarChart(infoPanel, questionData, countryId, color) {
         .filter(d => d.value > 0) // Filter out zero values
         .sort((a, b) => a.value - b.value); // Sort descending
 
+    // Larger chart dimensions
+    const numBars = data.length;
+    const barHeight = 30; // Fixed height per bar
+    const width = 650;  // Increased width
+    const margin = {top: 40, right: 30, bottom: 60, left: 90}; // More spacing
+    const height = numBars * barHeight + margin.top + margin.bottom;
+
+    // Create SVG with larger dimensions
+    const svg = infoPanel.append("svg")
+        .attr("class", "bar-chart")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
     // Flip scales (now horizontal)
     const y = d3.scaleBand()
         .domain(data.map(d => d.answer))
-        .range([height - margin.top - margin.bottom, 0])
+        .range([numBars * barHeight, 0])
         .padding(0.3); // More spacing between bars
 
     const x = d3.scaleLinear()
