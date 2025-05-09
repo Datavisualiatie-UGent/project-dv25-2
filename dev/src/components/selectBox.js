@@ -1,5 +1,7 @@
 import * as d3 from "d3";
 
+const TITLE_TEXT = "The European Union visualized";
+
 export function initSelectBoxContainer(dispatch, questions) {
     // Create a container for the select box and title
     const container = d3.create("div")
@@ -14,7 +16,7 @@ export function initSelectBoxContainer(dispatch, questions) {
     const title = container.append("div")
         .style("font-size", "35px")
         .style("height", "50px")
-        .text(""); // Initially empty
+        .text(TITLE_TEXT);
 
     // Create the second select box (initially hidden)
     const answerSelectBox = createAnswerSelectbox();
@@ -64,6 +66,7 @@ export function initSelectBoxContainer(dispatch, questions) {
         }
         // If no question is selected, hide the second select box
         answerSelectBox.style("display", "none");
+        title.text(TITLE_TEXT);
         dispatch.call("selectQuestion", null, selectedValue, null);
     });
 
