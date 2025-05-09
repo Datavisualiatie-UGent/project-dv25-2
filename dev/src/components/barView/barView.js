@@ -57,6 +57,8 @@ export function renderBarView(questions, flags) {
     // Color scale
     const color = d3.scaleOrdinal(d3.schemeTableau10);
 
+    console.log(series);
+
     // Draw the stacked bars
     chart.append("g")
         .selectAll("g")
@@ -64,7 +66,7 @@ export function renderBarView(questions, flags) {
         .join("g")
         .attr("fill", d => color(d.key))
         .selectAll("rect")
-        .data(d => d)
+        .data(d => d.map(v => ({ ...v, key: d.key }))) // Attach the key to each rect's data
         .join("rect")
         .attr("x", d => x(d.data.country))
         .attr("y", d => y(d[1]))

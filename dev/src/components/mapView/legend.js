@@ -173,7 +173,8 @@ function createGradientLegend(maxValue, isPercentage = false) {
 
     const svg = d3.create("svg")
         .attr("width", legendWidth + padding * 2 + 50) // Add padding to the width
-        .attr("height", legendHeight + 30);
+        .attr("height", legendHeight + 30)
+        .style("position", "relative");
 
     // Define a gradient
     const gradient = svg.append("defs")
@@ -221,7 +222,7 @@ function createLegendContainer() {
     const legendContainer = d3.create("div")
         .style("position", "absolute")
         .style("left", "20px")
-        .style("bottom", "550px")
+        .style("bottom", "700px")
         .style("padding", "10px")
         .style("z-index", "10")
         .style("max-height", "200px")

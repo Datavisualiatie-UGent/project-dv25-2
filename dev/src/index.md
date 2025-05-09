@@ -43,6 +43,12 @@ const household_class = await FileAttachment("data/questions/question_D63.json")
 const mapViewQuestions = [mothertongue, percentage_bilingual, languages_amount, second_language, politics_left_right, education, age, living, bills, household_class];
 ```
 
+
+```js
+import {renderMapView} from "./components/mapView/mapView.js";
+display(renderMapView(svgContent, mapViewQuestions, eu_countries));
+```
+
 ```js
 // Load all the EU Flags
 const flags = await FileAttachment("data/flags.json").json();
@@ -52,13 +58,6 @@ const flags = await FileAttachment("data/flags.json").json();
 // Load the questions for barview
 const discuss_national_pol = await FileAttachment("data/question_D71_1.json").json(); // discuss national politics
 const barViewQuestions = [discuss_national_pol];
-```
-
-
-
-```js
-import {renderMapView} from "./components/mapView/mapView.js";
-display(renderMapView(svgContent, mapViewQuestions, eu_countries));
 ```
 
 ```js
