@@ -16,8 +16,9 @@ const education = await FileAttachment("data/question_D8c.json").json(); // educ
 const age = await FileAttachment("data/question_D11R.json").json(); // age
 const living = await FileAttachment("data/question_D25.json").json(); // living situation
 const bills = await FileAttachment("data/question_D60.json").json(); // bills
+const household_class = await FileAttachment("data/question_D63.json").json(); // household class
 
-const questions = [mothertongue, second_language, politics_left_right, education, age, living, bills];
+const questions = [mothertongue, second_language, politics_left_right, education, age, living, bills, household_class];
 ```
 
 ```js
