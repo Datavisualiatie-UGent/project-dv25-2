@@ -18,17 +18,27 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
 
     function getFillColor(countryId) {
         if (selectedQuestion) {
+
+            const data = selectedQuestion["volume_A"];
+            const countryData = data[countryId];
+
+            if (selectedAnswer) {
+                const answerIndex = selectedQuestion["answers"].indexOf(selectedAnswer);
+                if (countryData) {
+                    const value = countryData["values"] ? countryData["values"][answerIndex] : 0;
+                    return d3.scaleSequential()
+                        .domain([0, Math.max(...Object.values(data).slice(1).map(countryData => countryData["values"][answerIndex] || [0]))])
+                        .interpolator(d3.interpolateBlues)(value);
+                }
+            }
+
             if (selectedQuestion["type"] === "categorical") {
-                const data = selectedQuestion["volume_A"];
-                const countryData = data[countryId];
                 if (countryData) {
                     const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
                         x > arr[iMax] ? i : iMax, 0);
                     return currentColor(selectedQuestion["answers"][maxIndex]);
                 }
             } else {
-                const data = selectedQuestion["volume_A"];
-                const countryData = data[countryId];
                 if (countryData) {
                     const percentage = countryData["percentages"] ? countryData["percentages"][0] : 0;
                     return d3.scaleSequential()
