@@ -17,14 +17,7 @@ export function initSelectBoxContainer(dispatch, questions) {
         .text(""); // Initially empty
 
     // Create the second select box (initially hidden)
-    const answerSelectBox = d3.create("select")
-        .style("position", "absolute")
-        .style("top", "200px")
-        .style("left", "20px")
-        .style("padding", "10px")
-        .style("width", "200px")
-        .style("z-index", "10")
-        .style("display", "none"); // Initially hidden
+    const answerSelectBox = createAnswerSelectbox();
     container.append(() => answerSelectBox.node());
 
     function populateAnswerSelectBox(question) {
@@ -71,7 +64,30 @@ export function initSelectBoxContainer(dispatch, questions) {
         }
     });
 
+    answerSelectBox.on("change", function() {
+        const selectedValue = d3.select(this).property("value"); // answer
+
+        dispatch.call("selectAnswer", null, selectedValue);
+    });
+
     return container;
+}
+
+function initAnswerSelectBox(questions) {
+
+}
+
+function createAnswerSelectbox() {
+    const answerSelectBox = d3.create("select")
+        .style("position", "absolute")
+        .style("top", "200px")
+        .style("left", "20px")
+        .style("padding", "10px")
+        .style("width", "200px")
+        .style("z-index", "10")
+        .style("display", "none"); // Initially hidden
+
+    return answerSelectBox;
 }
 
 function createSelectbox(questions) {

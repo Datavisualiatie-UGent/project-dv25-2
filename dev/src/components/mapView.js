@@ -8,7 +8,7 @@ import { initLegend } from "./legend.js";
 export function renderMapView(svgContent, questions, eu_countries) {
 
     // Dispatching
-    const dispatch = d3.dispatch("openDashboard", "closeDashboard", "selectQuestion");
+    const dispatch = d3.dispatch("openDashboard", "closeDashboard", "selectQuestion", "selectAnswer");
 
     const eu = new Set(Object.keys(eu_countries));
 
