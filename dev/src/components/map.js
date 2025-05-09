@@ -14,6 +14,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
     let clickedCountry = null;
     let selectedQuestion = null;
     let currentColor = null;
+    let selectedAnswer = null;
 
     function getFillColor(countryId) {
         if (selectedQuestion) {
@@ -186,12 +187,48 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
         });
     }
 
-    function updateMap(question) {
-        const answers = question["answers"];
-        const data = question["volume_A"];
-        const type = question["type"];
+    function updateMapSequential(maxValue, answerIndex, data, isPercentage = false) {
+        const colorScale = d3.scaleSequential()
+            .domain([0, maxValue])
+            .interpolator(d3.interpolateBlues);
 
-        if (!question || !answers || !data) return;
+        paths.each(function() {
+            const path = d3.select(this);
+            const countryId = path.attr("id"); // Get country ID from path attribute
+
+            if (countryId && data[countryId]) {
+                const countryData = data[countryId];
+                const value = isPercentage
+                    ? (countryData["percentages"] ? countryData["percentages"][answerIndex] : 0)
+                    : (countryData["values"] ? countryData["values"][answerIndex] : 0);
+
+                path.style("fill", colorScale(value));
+            } else {
+                // Handle countries with no data
+                path.style("fill", DEFAULT_FILL); // Gray for no data
+            }
+        });
+    }
+
+    function updateMap() {
+        const answers = selectedQuestion["answers"];
+        const data = selectedQuestion["volume_A"];
+        const type = selectedQuestion["type"];
+
+        if (!selectedQuestion || !answers || !data) return;
+
+        if (selectedAnswer) {
+            const answerIndex = answers.indexOf(selectedAnswer);
+            const maxValue = Math.max(
+                ...Object.values(data)
+                    .slice(1)
+                    .map(countryData => countryData["values"][answerIndex] || 0)
+            );
+
+            updateMapSequential(maxValue, answerIndex, data);
+
+            return;
+        }
 
         if (type === "categorical") {
             updateMapCategorical(data, answers);
@@ -226,8 +263,14 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
     dispatch.on("selectQuestion.map", function(questionId, color) {
         selectedQuestion = questions.find(q => q.id === questionId);
         currentColor = color;
-        updateMap(selectedQuestion);
+        selectedAnswer = null;
+        updateMap();
     });
+
+    dispatch.on("selectAnswer.map", function(answer) {
+        selectedAnswer = answer;
+        updateMap();
+    })
 
     // Add click interaction
     paths.on("click", function(event, d) {

@@ -141,8 +141,6 @@ export function initLegend(dispatch, questions) {
                     .slice(1)
                     .map(countryData => countryData["values"][answerIdx] || 0)
             );
-            console.log(maxValue);
-
             // Create a gradient legend for the selected answer
             const gradientLegend = createGradientLegend(maxValue);
             legendContainer.append(() => gradientLegend.node());
@@ -166,7 +164,7 @@ function createGradientLegend(maxValue, isPercentage = false) {
     // Create a sequential color scale
     const colorScale = d3.scaleSequential()
         .domain([0, maxValue])
-        .interpolator(d3.interpolateGreens);
+        .interpolator(d3.interpolateBlues);
 
     // Create an SVG for the legend
     const legendWidth = 200;
