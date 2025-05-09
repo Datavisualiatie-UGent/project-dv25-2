@@ -13,6 +13,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
 
     let clickedCountry = null;
     let selectedQuestion = null;
+    let currentColor = null;
 
     function getFillColor(countryId) {
         if (selectedQuestion) {
@@ -22,7 +23,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
                 if (countryData) {
                     const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
                         x > arr[iMax] ? i : iMax, 0);
-                    return color(selectedQuestion["answers"][maxIndex]);
+                    return currentColor(selectedQuestion["answers"][maxIndex]);
                 }
             } else {
                 const data = selectedQuestion["volume_A"];
@@ -165,7 +166,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
 
     dispatch.on("closeDashboard.map", unselect_country);
 
-    function updateMapCategorical(data, answers, color) {
+    function updateMapCategorical(data, answers) {
         paths.each(function() {
             const path = d3.select(this);
             const countryId = path.attr("id"); // Get country ID from path attribute
@@ -177,7 +178,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
                 const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
                     x > arr[iMax] ? i : iMax, 0);
 
-                path.style("fill", color(answers[maxIndex]));
+                path.style("fill", currentColor(answers[maxIndex]));
             } else {
                 // Handle countries with no data
                 path.style("fill", DEFAULT_FILL); // Gray for no data
@@ -185,7 +186,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
         });
     }
 
-    function updateMap(question, color) {
+    function updateMap(question) {
         const answers = question["answers"];
         const data = question["volume_A"];
         const type = question["type"];
@@ -193,7 +194,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
         if (!question || !answers || !data) return;
 
         if (type === "categorical") {
-            updateMapCategorical(data, answers, color);
+            updateMapCategorical(data, answers);
             return;
         }
 
@@ -224,7 +225,8 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
 
     dispatch.on("selectQuestion.map", function(questionId, color) {
         selectedQuestion = questions.find(q => q.id === questionId);
-        updateMap(selectedQuestion, color);
+        currentColor = color;
+        updateMap(selectedQuestion);
     });
 
     // Add click interaction
