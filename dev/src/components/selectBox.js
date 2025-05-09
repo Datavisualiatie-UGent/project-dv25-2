@@ -43,9 +43,9 @@ export function initSelectBoxContainer(dispatch, questions) {
     // Add event listener for selection change
     selectBox.on("change", function() {
         const selectedValue = d3.select(this).property("value");
-        const question= questions.find(q => q.id === selectedValue);
-        const titleText = question.title;
         if (selectedValue) {
+            const question = questions.find(q => q.id === selectedValue);
+            const titleText = question.title;
             const color = d3.scaleOrdinal([
                 "#e6194b", "#3cb44b", "#ffe119", "#4363d8",
                 "#f58231", "#911eb4", "#b6ffff", "#f032e6",
@@ -59,9 +59,12 @@ export function initSelectBoxContainer(dispatch, questions) {
             // Dispatch the event with the selected question ID
             title.text(titleText);
             dispatch.call("selectQuestion", null, selectedValue, color);
-
             populateAnswerSelectBox(question);
+            return;
         }
+        // If no question is selected, hide the second select box
+        answerSelectBox.style("display", "none");
+        dispatch.call("selectQuestion", null, selectedValue, null);
     });
 
     answerSelectBox.on("change", function() {
@@ -71,10 +74,6 @@ export function initSelectBoxContainer(dispatch, questions) {
     });
 
     return container;
-}
-
-function initAnswerSelectBox(questions) {
-
 }
 
 function createAnswerSelectbox() {
@@ -102,7 +101,6 @@ function createSelectbox(questions) {
     // Add a default option
     const defaultOption = selectBox.append("option")
         .attr("value", "")
-        .attr("disabled", true)
         .attr("selected", true)
         .text("Select a question");
 

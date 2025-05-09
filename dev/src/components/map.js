@@ -221,6 +221,17 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
     }
 
     function updateMap() {
+
+        if (!selectedQuestion) {
+            // default fill
+            paths.each(function() {
+                const path = d3.select(this);
+                const countryId = path.attr("id"); // Get country ID from path attribute
+                path.style("fill", getFillColor(countryId));
+            });
+            return;
+        }
+
         const answers = selectedQuestion["answers"];
         const data = selectedQuestion["volume_A"];
         const type = selectedQuestion["type"];
@@ -271,7 +282,7 @@ export function initMapContainer(svgContent, dispatch, questions, eu) {
 
 
     dispatch.on("selectQuestion.map", function(questionId, color) {
-        selectedQuestion = questions.find(q => q.id === questionId);
+        selectedQuestion = questions.find(q => q.id === questionId) || null;
         currentColor = color;
         selectedAnswer = null;
         updateMap();
