@@ -273,7 +273,7 @@ function createMapContainer(svgContent, eu) {
         .attr("preserveAspectRatio", "xMidYMid meet")
         .style("width", "100%")
         .style("height", "100%")
-        .style("margin-left", "-5%")
+        .style("margin-left", "-150px")
 
     // Add SVG filters for high-tech effects
     const defs = svg.append("defs");

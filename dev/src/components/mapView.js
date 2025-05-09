@@ -2,7 +2,7 @@ import * as d3 from "d3";
 
 import { initMapContainer } from "./map.js";
 import { initDashboard } from "./dashboard.js";
-import { initSelectBox } from "./selectBox.js";
+import { initSelectBoxContainer } from "./selectBox.js";
 import { initLegend } from "./legend.js";
 
 export function renderMapView(svgContent, questions, eu_countries) {
@@ -18,21 +18,25 @@ export function renderMapView(svgContent, questions, eu_countries) {
         "numerical": d3.scaleSequential(d3.interpolateBlues)
     };
 
-    // create selectBox
+
     const container = d3.create("div")
         .style("width", "100%")
         .style("height", "100%")
-        .style("overflow", "hidden");
+        .style("margin-top", "20px")
+        .style("overflow", "hidden")
+        .style("display", "flex") // Use flexbox for layout
+        .style("flex-direction", "column") // Stack items vertically
+        .style("gap", "20px"); // Add spacing between child elements
 
-    const selectBox = initSelectBox(dispatch, questions);
-    container.append(() => selectBox.node());
+    // create selectBox
+    const selectBoxContainer = initSelectBoxContainer(dispatch, questions);
+    container.append(() => selectBoxContainer.node());
 
     // Create map view container
     const mapViewContainer = d3.create("div")
         .style("position", "relative")
         .style("width", "100%")
         .style("height", "80vh")
-        .style("margin", "0 auto")
         .style("overflow", "hidden");
 
     // Create map container
