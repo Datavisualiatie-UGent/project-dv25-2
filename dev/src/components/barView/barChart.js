@@ -1,7 +1,11 @@
 import * as d3 from "d3";
 
 export function createBarChart(question, flags) {
-    const categories = question.answers;
+    const excluded_categories = [
+        "Total 'Agree'", "Total 'Disagree'",
+        "Total 'Satisfied'", "Total 'Not satisfied'"
+    ];
+    const categories = question.answers.filter(d => !excluded_categories.includes(d));
     const data = question.volume_A;
 
     // Get all EU country IDs except EU27

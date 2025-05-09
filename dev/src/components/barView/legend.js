@@ -1,12 +1,16 @@
 import * as d3 from "d3";
 
 export function initLegend(question) {
+    const excluded_categories = [
+        "Total 'Agree'", "Total 'Disagree'",
+        "Total 'Satisfied'", "Total 'Not satisfied'"
+    ];
     const color = d3.scaleOrdinal(d3.schemeTableau10);
 
     // Create a container for the legend
     const legendContainer = createLegendContainer();
     // Create legend items
-    const categories = question["answers"];
+    const categories = question["answers"].filter(d => !excluded_categories.includes(d));
 
     const legendItems = legendContainer.selectAll(".legend-item")
         .data(categories)

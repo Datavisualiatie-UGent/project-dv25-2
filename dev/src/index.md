@@ -56,9 +56,30 @@ const flags = await FileAttachment("data/flags.json").json();
 
 ```js
 // Load the questions for barview
-const discuss_national_pol = await FileAttachment("data/question_D71_1.json").json(); // discuss national politics
-const direction_eu = await FileAttachment("data/question_D73_2.json").json(); // direction of EU
-const barViewQuestions = [discuss_national_pol, direction_eu];
+const direction_life = await FileAttachment("data/questions/question_D73_4.json").json(); // direction of life
+const discuss_national_pol = await FileAttachment("data/questions/question_D71_1.json").json(); // discuss national politics
+const direction_national = await FileAttachment("data/questions/question_D73_1.json").json(); // direction of national politics
+const democracy_national = await FileAttachment("data/questions/question_SD18a.json").json(); // democracy national
+const voice_national = await FileAttachment("data/questions/question_D72_2.json").json(); // voice in national politics
+
+const discuss_eu_pol = await FileAttachment("data/questions/question_D71_2.json").json(); // discuss EU politics
+const direction_eu = await FileAttachment("data/questions/question_D73_2.json").json(); // direction of EU
+const democracy_eu = await FileAttachment("data/questions/question_SD18b.json").json(); // democracy EU
+const voice_eu = await FileAttachment("data/questions/question_D72_1.json").json(); // voice in EU
+const voice_country_eu = await FileAttachment("data/questions/question_D72_3.json").json(); // voice in country EU
+
+const barViewQuestions = [
+  direction_life,
+  discuss_national_pol,
+  direction_national,
+  democracy_national,
+  voice_national,
+  discuss_eu_pol,
+  direction_eu,
+  democracy_eu,
+  voice_eu,
+  voice_country_eu
+];
 ```
 
 ```js
