@@ -51,7 +51,8 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                     const countryId = clickedCountry.attr("id");
                     return getFillColor(countryId);
                 })
-                .style("filter", "none");
+                .style("filter", "none")
+                .style("stroke-width", DEFAULT_STROKE_WIDTH);
         }
 
         // Update clicked country
@@ -111,7 +112,9 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                 .attr("transform", `translate(${translateX},${translateY}) scale(${scale})`);
         }
 
-        svg.style("margin-left", "-40%");
+        svg
+            .style("margin-left", "-40%")
+
     }
 
     function resetZoom() {
@@ -166,6 +169,8 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
         paths.each(function() {
             const path = d3.select(this);
             const countryId = path.attr("id"); // Get country ID from path attribute
+
+            if (countryId === clickedCountry?.attr("id")) return;
 
             if (countryId && data[countryId]) {
                 const countryData = data[countryId];
@@ -261,7 +266,6 @@ function createMapContainer(svgContent, eu) {
         .style("border-radius", "10px")
         .style("background", "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)")
         .style("transition", "all 0.5s ease")
-        .style("perspective", "1000px")
         .style("transform-style", "preserve-3d");
 
     mapContainer.html(svgContent);
@@ -270,7 +274,6 @@ function createMapContainer(svgContent, eu) {
         .style("width", "100%")
         .style("height", "100%")
         .style("margin-left", "-150px")
-        .style("transform", "rotateX(15deg) rotateY(-5deg)");
 
     // Add SVG filters for high-tech effects
     const defs = svg.append("defs");
