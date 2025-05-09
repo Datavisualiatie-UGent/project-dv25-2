@@ -63,13 +63,13 @@ export function renderMapView(svgContent, questions, eu_countries) {
     mapViewContainer.append(() => mapContainer.node());
 
     // Create dashboard
-    const dashboard = initDashboard(dispatch, eu_countries, questions, color["categorical"]);
+    const dashboard = initDashboard(dispatch, eu_countries, questions);
     mapViewContainer.append(() => dashboard.node());
 
     container.append(() => mapViewContainer.node());
 
     // Create legend
-    const legendContainer = initLegend(dispatch, questions, color);
+    const legendContainer = initLegend(dispatch, questions);
     container.append(() => legendContainer.node());
 
     return container.node();

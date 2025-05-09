@@ -1,12 +1,15 @@
 import * as d3 from "d3";
 
-export function initLegend(dispatch, questions, color) {
+export function initLegend(dispatch, questions) {
     // Create legend container
     const legendContainer = createLegendContainer();
 
+    let currentColor = null;
+
     // Listen for question selection
-    dispatch.on("selectQuestion.legend", function(questionId) {
+    dispatch.on("selectQuestion.legend", function(questionId, color) {
         const question = questions.find(q => q.id === questionId);
+        currentColor = color;
         updateLegend(question);
     });
 
@@ -47,7 +50,7 @@ export function initLegend(dispatch, questions, color) {
             .style("width", "15px")
             .style("height", "15px")
             .style("margin-right", "8px")
-            .style("background-color", d => color["categorical"](d));
+            .style("background-color", d => currentColor(d));
 
         // Add answer text
         legendItems.append("div")

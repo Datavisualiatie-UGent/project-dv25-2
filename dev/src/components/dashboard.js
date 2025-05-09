@@ -2,7 +2,7 @@ import * as d3 from "d3";
 
 import { createBarChart } from "./dashBoardBarChart.js";
 
-export function initDashboard(dispatch, eu_countries, questions, color) {
+export function initDashboard(dispatch, eu_countries, questions) {
     const dashboard = createDashboard();
 
     let isDashboardOpen = false;
@@ -12,7 +12,7 @@ export function initDashboard(dispatch, eu_countries, questions, color) {
 
     const closeButton = dashboard.select("button")
         .on("click", function(event, d) {
-                closeDashboard()
+            closeDashboard()
         });
 
     const infoPanel = dashboard.select(".info-panel");
