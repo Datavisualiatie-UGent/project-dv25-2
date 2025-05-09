@@ -207,7 +207,7 @@ function createGradientLegend(maxValue, isPercentage = false) {
         .range([padding, legendWidth + padding]); // Adjust range to include padding
 
     const axis = d3.axisBottom(legendScale)
-        .ticks(5)
+        .ticks(isPercentage ? 5 : maxValue > 5 ? 5 : maxValue)
         .tickFormat(isPercentage ? d3.format(".0%") : d3.format(".0f"));
 
     svg.append("g")
