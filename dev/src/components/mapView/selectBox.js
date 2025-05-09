@@ -6,6 +6,7 @@ export function initSelectBoxContainer(dispatch, questions) {
     // Create a container for the select box and title
     const container = d3.create("div")
         .style("display", "flex")
+        .style("position", "relative")
         .style("align-items", "center")
         .style("justify-content", "center")
         .style("flex-direction", "column");
@@ -87,7 +88,7 @@ export function initSelectBoxContainer(dispatch, questions) {
 function createAnswerSelectbox() {
     const answerSelectBox = d3.create("select")
         .style("position", "absolute")
-        .style("top", "200px")
+        .style("top", "150px")
         .style("left", "20px")
         .style("padding", "10px")
         .style("width", "200px")
@@ -100,7 +101,7 @@ function createAnswerSelectbox() {
 function createSelectbox(questions) {
     const selectBox = d3.create("select")
         .style("position", "absolute")
-        .style("top", "150px")
+        .style("top", "100px")
         .style("left", "20px")
         .style("padding", "10px")
         .style("width", "300px")

@@ -17,7 +17,7 @@ This led to the launch of the first artificial satellite, Sputnik 1, and the cre
 ## The Space Shuttle era
 
 ```js
-import {timeline} from "./components/timeline.js";
+import {timeline} from "./timeline.js";
 ```
 
 ```js
