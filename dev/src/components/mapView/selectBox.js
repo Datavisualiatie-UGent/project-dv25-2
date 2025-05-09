@@ -98,7 +98,7 @@ function createAnswerSelectbox() {
     return answerSelectBox;
 }
 
-function createSelectbox(questions) {
+export function createSelectbox(questions) {
     const selectBox = d3.create("select")
         .style("position", "absolute")
         .style("top", "100px")

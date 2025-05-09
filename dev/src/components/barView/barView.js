@@ -1,8 +1,24 @@
 import * as d3 from "d3";
 
+import { initSelectBoxContainer } from "./selectBox.js";
+import { initLegend } from "./legend.js";
 
 export function renderBarView(questions, flags) {
-    const question = questions[0];
+    const container = d3.create("div");
+
+    const selectBoxContainer = initSelectBoxContainer(questions);
+    container.append(() => selectBoxContainer.node());
+
+    const barChart = createBarChart(questions[0], flags);
+    container.append(() => barChart.node());
+
+    const legendContainer = initLegend(questions[0].answers);
+    container.append(() => legendContainer.node());
+
+    return container.node();
+}
+
+function createBarChart(question, flags) {
     const categories = question.answers;
     const data = question.volume_A;
 
@@ -24,7 +40,7 @@ export function renderBarView(questions, flags) {
 
     // Set up dimensions
     const margin = {top: 50, right: 30, bottom: 100, left: 60};
-    const width = window.innerWidth * 0.9 - margin.left - margin.right;
+    const width = window.innerWidth * 0.85 - margin.left - margin.right;
     const height = window.innerHeight * 0.8 - margin.top - margin.bottom;
 
     // Create SVG
@@ -101,25 +117,6 @@ export function renderBarView(questions, flags) {
         .call(d3.axisLeft(y).ticks(5, "%"))
         .call(g => g.select(".domain").remove());
 
-    // Add legend
-    const legend = svg.append("g")
-        .attr("transform", `translate(${width - 100}, 20)`);
-
-    categories.forEach((category, i) => {
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", i * 20)
-            .attr("width", 15)
-            .attr("height", 15)
-            .attr("fill", color(category));
-
-        legend.append("text")
-            .attr("x", 20)
-            .attr("y", i * 20 + 12)
-            .text(category)
-            .style("font-size", "12px");
-    });
-
-    return svg.node();
+    return svg
 }
 
