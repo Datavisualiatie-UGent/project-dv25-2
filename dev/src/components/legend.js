@@ -133,7 +133,9 @@ function createLegendContainer() {
         .style("bottom", "20px")
         .style("left", "20px")
         .style("padding", "10px")
-        .style("z-index", "10");
+        .style("z-index", "10")
+        .style("max-height", "200px")
+        .style("overflow-y", "auto");
 
     return legendContainer;
 }
