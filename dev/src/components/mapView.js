@@ -22,6 +22,21 @@ export function renderMapView(svgContent, questions, eu_countries) {
         "numerical": d3.scaleSequential(d3.interpolateBlues)
     };
 
+    function hashKey(key) {
+        let hash = 0;
+        for (let i = 0; i < key.length; i++) {
+            hash = (hash << 5) - hash + key.charCodeAt(i);
+            hash |= 0; // Convert to 32-bit integer
+        }
+        return Math.abs(hash);
+    }
+
+// Assign colors dynamically based on keys
+    function getColor(key) {
+        const index = hashKey(key) % color.range().length;
+        return color.range()[index];
+    }
+
 
     const container = d3.create("div")
         .style("width", "100%")

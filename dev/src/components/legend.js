@@ -14,11 +14,18 @@ export function initLegend(dispatch, questions, color) {
         const data = question["volume_A"];
         const answers = question["answers"];
 
+        // Check if the last answer is "Total" or "Average"
+        const isLastAnswerExcluded = ["Total", "Average"].includes(answers[answers.length - 1]);
+
         // Determine the highest value indices across all countries
         const highestAnswerIndices = new Set();
         Object.values(data).forEach(countryData => {
             if (countryData && countryData["values"]) {
-                const maxIndex = countryData["values"].reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+                const values = isLastAnswerExcluded
+                    ? countryData["values"].slice(0, -1) // Exclude the last value
+                    : countryData["values"];
+
+                const maxIndex = values.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
                 highestAnswerIndices.add(maxIndex);
             }
         });

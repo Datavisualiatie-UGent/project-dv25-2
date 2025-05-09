@@ -20,7 +20,7 @@ export function createBarChart(infoPanel, questionData, countryId, color) {
     const numBars = data.length;
     const barHeight = 30; // Fixed height per bar
     const width = 650;  // Increased width
-    const margin = {top: 40, right: 30, bottom: 60, left: 90}; // More spacing
+    const margin = {top: 40, right: 25, bottom: 60, left: 90}; // More spacing
     const height = numBars * barHeight + margin.top + margin.bottom;
 
     // Create SVG with larger dimensions
@@ -61,7 +61,15 @@ export function createBarChart(infoPanel, questionData, countryId, color) {
 
     svg.append("g")
         .attr("class", "y-axis")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y))
+        .selectAll("text")
+        .style("overflow", "hidden") // Ensure overflow is hidden
+        .style("text-overflow", "ellipsis") // Add ellipsis for overflowed text
+        .style("white-space", "nowrap") // Prevent text wrapping
+        .style("max-width", "120px") // Set a maximum width for the text
+        .style("cursor", "pointer") // Optional: Add a pointer cursor for interactivity
+        .append("title") // Add a tooltip to show full text on hover
+        .text(d => d);
 
     // Value labels at end of bars
     svg.selectAll(".bar-label")
