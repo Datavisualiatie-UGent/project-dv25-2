@@ -44,6 +44,11 @@ const mapViewQuestions = [mothertongue, percentage_bilingual, languages_amount, 
 ```
 
 ```js
+// Load all the EU Flags
+const flags = await FileAttachment("data/flags.json").json();
+```
+
+```js
 // Load the questions for barview
 const discuss_national_pol = await FileAttachment("data/question_D71_1.json").json(); // discuss national politics
 const barViewQuestions = [discuss_national_pol];
@@ -58,7 +63,7 @@ display(renderMapView(svgContent, mapViewQuestions, eu_countries));
 
 ```js
 import {renderBarView} from "./components/barView/barView.js";
-display(renderBarView(barViewQuestions));
+display(renderBarView(barViewQuestions, flags));
 ```
 
 <style>

@@ -1,13 +1,14 @@
 import * as d3 from "d3";
 
 
-export function renderBarView(questions) {
+export function renderBarView(questions, flags) {
     const question = questions[0];
     const categories = question.answers;
     const data = question.volume_A;
 
     // Get all EU country IDs except EU27
-    const countryIds = Object.keys(data).filter(d => d !== "EU27");
+    const excluded = ["EU27", "D-E", "D-W"];
+    const countryIds = Object.keys(data).filter(d => !excluded.includes(d));
 
     // Prepare data for stacking
     const stackedData = countryIds.map(country => {
@@ -18,12 +19,13 @@ export function renderBarView(questions) {
                 return acc;
             }, {})
         };
-    });
+    }).sort((a, b) => b[categories[0]] - a[categories[0]]); // Sort by the first category
+
 
     // Set up dimensions
     const margin = {top: 50, right: 30, bottom: 100, left: 60};
-    const width = 800 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const width = window.innerWidth * 0.9 - margin.left - margin.right;
+    const height = window.innerHeight * 0.8 - margin.top - margin.bottom;
 
     // Create SVG
     const svg = d3.create("svg")
@@ -44,7 +46,7 @@ export function renderBarView(questions) {
 
     // Scales
     const x = d3.scaleBand()
-        .domain(countryIds)
+        .domain(stackedData.map(d => d.country))
         .range([0, width])
         .padding(0.2);
 
@@ -53,9 +55,7 @@ export function renderBarView(questions) {
         .range([height, 0]);
 
     // Color scale
-    const color = d3.scaleOrdinal()
-        .domain(categories)
-        .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"]); // Add more colors if needed
+    const color = d3.scaleOrdinal(d3.schemeTableau10);
 
     // Draw the stacked bars
     chart.append("g")
@@ -82,6 +82,18 @@ export function renderBarView(questions) {
         .style("text-anchor", "end")
         .style("font-size", "10px");
 
+    // Add flags under the x-axis
+    chart.append("g")
+        .selectAll(".flag-emoji")
+        .data(stackedData)
+        .join("text")
+        .attr("class", "flag-emoji")
+        .attr("x", d => x(d.country) + x.bandwidth() / 2)
+        .attr("y", height + 45)
+        .attr("text-anchor", "middle")
+        .style("font-size", "24px")
+        .text(d => flags[d.country] || d.country);
+
     // Add y-axis
     chart.append("g")
         .call(d3.axisLeft(y).ticks(5, "%"))
@@ -106,23 +118,6 @@ export function renderBarView(questions) {
             .style("font-size", "12px");
     });
 
-    // Add chart title
-    svg.append("text")
-        .attr("x", width / 2 + margin.left)
-        .attr("y", 20)
-        .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .style("font-weight", "bold")
-        .text(question.question);
-
-    // Add subtitle
-    svg.append("text")
-        .attr("x", width / 2 + margin.left)
-        .attr("y", 40)
-        .attr("text-anchor", "middle")
-        .style("font-size", "12px")
-        .style("fill", "#777")
-        .text(question.subquestion);
-
     return svg.node();
 }
+
