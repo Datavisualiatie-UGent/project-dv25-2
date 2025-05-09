@@ -57,7 +57,8 @@ const flags = await FileAttachment("data/flags.json").json();
 ```js
 // Load the questions for barview
 const discuss_national_pol = await FileAttachment("data/question_D71_1.json").json(); // discuss national politics
-const barViewQuestions = [discuss_national_pol];
+const direction_eu = await FileAttachment("data/question_D73_2.json").json(); // direction of EU
+const barViewQuestions = [discuss_national_pol, direction_eu];
 ```
 
 ```js

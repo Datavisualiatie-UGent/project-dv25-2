@@ -1,11 +1,13 @@
 import * as d3 from "d3";
 
-export function initLegend(categories) {
+export function initLegend(question) {
     const color = d3.scaleOrdinal(d3.schemeTableau10);
 
     // Create a container for the legend
     const legendContainer = createLegendContainer();
     // Create legend items
+    const categories = question["answers"];
+
     const legendItems = legendContainer.selectAll(".legend-item")
         .data(categories)
         .enter()
@@ -32,6 +34,7 @@ export function initLegend(categories) {
 
 function createLegendContainer() {
     const legendContainer = d3.create("div")
+        .attr("class", "legend")
         .style("position", "absolute")
         .style("right", "20px")
         .style("bottom", "480px")
