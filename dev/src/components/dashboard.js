@@ -5,6 +5,11 @@ import { createBarChart } from "./dashBoardBarChart.js";
 export function initDashboard(dispatch, eu_countries, questions, color) {
     const dashboard = createDashboard();
 
+    let isDashboardOpen = false;
+    let selectedQuestion = null;
+    let selectedCountryId = null;
+    let currentColor = null;
+
     const closeButton = dashboard.select("button")
         .on("click", function(event, d) {
                 closeDashboard()
@@ -38,13 +43,9 @@ export function initDashboard(dispatch, eu_countries, questions, color) {
                 .style("color", "#00ffff")
                 .text(`Total Votes: ${totalVotes}`);
 
-            createBarChart(infoPanel, questionData, countryId, color);
+            createBarChart(infoPanel, questionData, countryId, currentColor);
         }
     }
-
-    let isDashboardOpen = false;
-    let selectedQuestion = null;
-    let selectedCountryId = null;
 
     function openDashboard(countryId) {
         selectedCountryId = countryId;
@@ -65,8 +66,9 @@ export function initDashboard(dispatch, eu_countries, questions, color) {
 
     dispatch.on("openDashboard.dashboard", openDashboard);
 
-    dispatch.on("selectQuestion.dashboard", function(questionId) {
+    dispatch.on("selectQuestion.dashboard", function(questionId, color) {
         selectedQuestion = questionId;
+        currentColor = color;
         if (isDashboardOpen) {
             openDashboard(selectedCountryId);
         }
