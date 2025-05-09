@@ -25,6 +25,12 @@ export function initSelectBoxContainer(dispatch, questions) {
     function populateAnswerSelectBox(question) {
         // Populate the second select box with answers
         answerSelectBox.selectAll("option").remove(); // Clear previous options
+
+        if (question.type === "numerical") {
+            answerSelectBox.style("display", "none");
+            return;
+        }
+
         answerSelectBox.append("option")
             .attr("value", "")
             .attr("selected", true)
@@ -72,7 +78,6 @@ export function initSelectBoxContainer(dispatch, questions) {
 
     answerSelectBox.on("change", function() {
         const selectedValue = d3.select(this).property("value"); // answer
-
         dispatch.call("selectAnswer", null, selectedValue);
     });
 
