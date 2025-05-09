@@ -59,7 +59,7 @@ export function renderMapView(svgContent, questions, eu_countries) {
         .style("overflow", "hidden");
 
     // Create map container
-    const mapContainer = initMapContainer(svgContent, dispatch, questions, color, eu);
+    const mapContainer = initMapContainer(svgContent, dispatch, questions, eu);
     mapViewContainer.append(() => mapContainer.node());
 
     // Create dashboard

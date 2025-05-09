@@ -21,9 +21,14 @@ export function initSelectBoxContainer(dispatch, questions) {
         const selectedValue = d3.select(this).property("value");
         const titleText = questions.find(q => q.id === selectedValue)?.title;
         if (selectedValue) {
+            const color = d3.scaleOrdinal([
+                "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#911eb4", "#46f0f0", "#f032e6", "#bcf60c", "#fabebe",
+                "#008080", "#e6beff", "#9a6324", "#fffac8", "#800000", "#aaffc3", "#808000", "#ffd8b1", "#000075", "#808080",
+                "#ffffff", "#000000"
+            ])
             // Dispatch the event with the selected question ID
             title.text(titleText);
-            dispatch.call("selectQuestion", null, selectedValue);
+            dispatch.call("selectQuestion", null, selectedValue, color);
         }
     });
 

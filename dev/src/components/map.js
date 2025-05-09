@@ -6,7 +6,7 @@ const CLICKED_FILL = "#00ffff";
 const HOVER_STROKE_WIDTH = "2px";
 const DEFAULT_STROKE_WIDTH = "0.5px";
 
-export function initMapContainer(svgContent, dispatch, questions, color, eu) {
+export function initMapContainer(svgContent, dispatch, questions, eu) {
     const mapContainer = createMapContainer(svgContent, eu);
     const svg = mapContainer.select("svg");
     const paths = svg.selectAll("path");
@@ -22,7 +22,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                 if (countryData) {
                     const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
                         x > arr[iMax] ? i : iMax, 0);
-                    return color["categorical"](selectedQuestion["answers"][maxIndex]);
+                    return color(selectedQuestion["answers"][maxIndex]);
                 }
             } else {
                 const data = selectedQuestion["volume_A"];
@@ -165,7 +165,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
 
     dispatch.on("closeDashboard.map", unselect_country);
 
-    function updateMapCategorical(data, answers) {
+    function updateMapCategorical(data, answers, color) {
         paths.each(function() {
             const path = d3.select(this);
             const countryId = path.attr("id"); // Get country ID from path attribute
@@ -177,7 +177,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
                 const maxIndex = countryData.values.reduce((iMax, x, i, arr) =>
                     x > arr[iMax] ? i : iMax, 0);
 
-                path.style("fill", color["categorical"](answers[maxIndex]));
+                path.style("fill", color(answers[maxIndex]));
             } else {
                 // Handle countries with no data
                 path.style("fill", DEFAULT_FILL); // Gray for no data
@@ -185,7 +185,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
         });
     }
 
-    function updateMap(question) {
+    function updateMap(question, color) {
         const answers = question["answers"];
         const data = question["volume_A"];
         const type = question["type"];
@@ -193,7 +193,7 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
         if (!question || !answers || !data) return;
 
         if (type === "categorical") {
-            updateMapCategorical(data, answers);
+            updateMapCategorical(data, answers, color);
             return;
         }
 
@@ -222,9 +222,9 @@ export function initMapContainer(svgContent, dispatch, questions, color, eu) {
     }
 
 
-    dispatch.on("selectQuestion.map", function(questionId) {
+    dispatch.on("selectQuestion.map", function(questionId, color) {
         selectedQuestion = questions.find(q => q.id === questionId);
-        updateMap(selectedQuestion);
+        updateMap(selectedQuestion, color);
     });
 
     // Add click interaction
