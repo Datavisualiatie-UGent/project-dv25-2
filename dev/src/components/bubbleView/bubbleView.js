@@ -1,9 +1,12 @@
 import * as d3 from "d3";
 import {createBubbleChart} from "./bubbleChart.js";
-import {initSelectBoxContainer} from "../barView/selectBox.js";
+import {initSelectBoxContainer} from "./selectBox.js";
 
 export function renderBubbleView(questions) {
-    const dispatch = d3.dispatch("selectQuestion");
+    const dispatch = d3.dispatch("selectQuestion", "selectAnswer");
+
+    let selectedQuestion = null;
+    let selectedAnswer = null;
 
     // Create SVG container
     const container = d3.create("div")
@@ -19,12 +22,21 @@ export function renderBubbleView(questions) {
         container.selectAll("svg").remove();
         container.selectAll(".legend").remove();
 
-        const question = questions.find(q => q.id === questionId);
-        if (question) {
-            const bubbleChart = createBubbleChart(question, "BE");
+        selectedQuestion = questions.find(q => q.id === questionId);
+        selectedAnswer = null; // Reset selected answer when question changes
+    });
+
+    dispatch.on("selectAnswer", (answer) => {
+        // reset the container
+        container.selectAll("svg").remove();
+        container.selectAll(".legend").remove();
+
+        selectedAnswer = answer;
+        if (selectedQuestion) {
+            const bubbleChart = createBubbleChart(selectedQuestion, selectedAnswer);
             container.append(() => bubbleChart.node());
         }
-    });
+    })
 
     return container.node();
 }

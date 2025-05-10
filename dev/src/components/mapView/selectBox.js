@@ -85,7 +85,7 @@ export function initSelectBoxContainer(dispatch, questions) {
     return container;
 }
 
-function createAnswerSelectbox() {
+export function createAnswerSelectbox() {
     const answerSelectBox = d3.create("select")
         .style("position", "absolute")
         .style("top", "150px")
