@@ -181,6 +181,19 @@ import {renderBubbleView} from "./components/bubbleView/bubbleView.js";
 display(renderBubbleView(bubbleViewQuestions, eu_countries));
 ```
 
+<div class="visualization-section">
+    <div class="visualization-header">Connected Dot Plot: Comparing 2012 and 2023 Survey Results</div>
+    <div class="visualization-content">
+        <p>The 2023 survey conducted by the European Commission serves as a follow-up to their original 2012 study. This connected dot plot reveals how responses have evolved over this eleven-year period.</p>
+        <p>Each question from the survey is represented by:</p>
+            <p>A <strong>connecting line</strong> between two points in time</p>
+            <p><span style="color: #4daf4a">Green lines</span> indicating increased percentages</p>
+            <p><span style="color: #e41a1c">Red lines</span> showing decreased percentages</p>
+        <p>By examining these connections, we can identify which attitudes about language learning and usage have changed most significantly across the EU member states between 2012 and 2023.</p>
+        <p class="chart-note">Hover over any line to see the exact percentage change. Click on legend items to filter by question category.</p>
+    </div>
+</div>
+
 ```js
 const timelineQuestions = [
     question_QB4a,
@@ -200,8 +213,25 @@ const timelineQuestions = [
 ];
 import {renderTimelineView} from "./components/timelineView/timelineView.js";
 
-display(renderTimelineView(timelineQuestions, flags));
+display(renderTimelineView(timelineQuestions, flags, eu_countries));
 ```
+
+<div class="contributor-section">
+    <div class="contributor-grid">
+        <div class="contributor-card">
+            <div class="contributor-name">Timon</div>
+            <div class="contributor-role">Coucke</div>
+        </div>
+        <div class="contributor-card">
+            <div class="contributor-name">Gus</div>
+            <div class="contributor-role">Vanpoucke</div>
+        </div>
+        <div class="contributor-card">
+            <div class="contributor-name">Mattis</div>
+            <div class="contributor-role">Cauwel</div>
+        </div>
+    </div>
+</div>
 
 <style>
     body {
@@ -258,7 +288,14 @@ display(renderTimelineView(timelineQuestions, flags));
         white-space: collapse;
     }
 
+    .intro h2 {
+        padding-left: 25%;
+        text-align: center;
+    }
+
     .intro p {
+        padding-left: 25%;
+        text-align: center;
     }
 
     .visualization-section {
@@ -275,14 +312,73 @@ display(renderTimelineView(timelineQuestions, flags));
         padding: 16px 25px;
         font-size: 1.3rem;
         font-weight: 500;
+        text-align: center;
     }
 
     .visualization-content {
         padding-left: 25px;
     }
 
+    .visualization-content ul {
+        padding-left: 25%;
+        text-align: center;
+    }
+
+    .visualization-content li {
+        padding-left: 25%;
+        text-align: center;
+    }
+
     .visualization-content p {
         margin-bottom: 16px;
         color: #e0e0e0;
+        padding-left: 25%;
+        text-align: center;
     }
+
+    .contributor-section {
+    margin: 60px 0;
+    padding: 40px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.contributor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contributor-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.contributor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.08);
+}
+
+.contributor-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.contributor-role {
+    font-size: 0.9rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 </style>
