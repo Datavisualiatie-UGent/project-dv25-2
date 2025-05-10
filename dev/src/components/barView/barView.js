@@ -8,7 +8,8 @@ export function renderBarView(questions, flags) {
 
     const dispatch = d3.dispatch("selectQuestion");
 
-    const container = d3.create("div");
+    const container = d3.create("div")
+        .style("min-height", "100vh");
 
     const selectBoxContainer = initSelectBoxContainer(dispatch, questions);
     container.append(() => selectBoxContainer.node());

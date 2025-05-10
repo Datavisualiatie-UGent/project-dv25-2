@@ -87,6 +87,12 @@ import {renderBarView} from "./components/barView/barView.js";
 display(renderBarView(barViewQuestions, flags));
 ```
 
+
+```js
+import {renderBubbleView} from "./components/bubbleView/bubbleView.js";
+display(renderBubbleView());
+```
+
 <style>
   .europe-container {
     margin: 0 auto;
