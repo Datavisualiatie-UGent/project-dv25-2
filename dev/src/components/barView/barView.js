@@ -3,7 +3,6 @@ import * as d3 from "d3";
 import { initSelectBoxContainer } from "./selectBox.js";
 import { createBarChart } from "./barChart.js";
 import { initLegend } from "./legend.js";
-import { initResetButton} from "./resetButton.js";
 
 export function renderBarView(questions, eu_countries, flags) {
 
@@ -36,7 +35,6 @@ export function renderBarView(questions, eu_countries, flags) {
         // reset the container
         chartContainer.selectAll("svg").remove();
         container.selectAll(".legend").remove();
-        container.selectAll(".reset-button").remove();
 
 
         const question = questions.find(q => q.id === questionId);
@@ -44,6 +42,8 @@ export function renderBarView(questions, eu_countries, flags) {
             initBarchartContainer(container, dispatch, question, eu_countries, flags);
         }
     });
+
+    initBarchartContainer(container, dispatch, questions[0], eu_countries, flags);
 
     return container.node();
 }
