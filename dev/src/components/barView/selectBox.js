@@ -17,7 +17,7 @@ export function initSelectBoxContainer(dispatch, questions) {
     const title = container.append("div")
         .style("font-size", "35px")
         .style("height", "50px")
-        .text("");
+        .text(questions[0].title || DEFAULT_TEXT);
 
     // Add event listener for select box change
     selectBox.on("change", function() {
@@ -48,18 +48,13 @@ function createSelectbox(questions) {
         .style("width", "300px")
         .style("z-index", "10");
 
-    // Add a default option
-    const defaultOption = selectBox.append("option")
-        .attr("value", "")
-        .attr("selected", true)
-        .text("Select a question");
-
     // Add options to the selection box
     selectBox.selectAll("option.question-option")
         .data(questions)
         .enter()
         .append("option")
         .attr("class", "question-option")
+        .attr("selected", d => d.id === questions[0].id ? true : null)
         .attr("value", d => d.id)
         .text(d => d.title || `Question ${d.id}`);
 

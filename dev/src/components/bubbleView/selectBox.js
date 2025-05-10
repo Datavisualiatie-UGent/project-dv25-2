@@ -1,10 +1,9 @@
 import * as d3 from "d3";
 
-import { createSelectbox, createAnswerSelectbox } from "../mapView/selectBox.js";
-
 const DEFAULT_TEXT = "";
 
-export function initSelectBoxContainer(dispatch, questions) {
+export function initSelectBoxContainer(dispatch, questions, eu_countries) {
+    const excluded = ["EU27", "D-E", "D-W"];
     // Create a container for the select box and title
     const container = d3.create("div")
         .style("display", "flex")
@@ -19,28 +18,24 @@ export function initSelectBoxContainer(dispatch, questions) {
     const title = container.append("div")
         .style("font-size", "35px")
         .style("height", "50px")
-        .text("");
+        .text(questions[0].title || DEFAULT_TEXT);
 
     const answerSelectBox = createAnswerSelectbox();
     container.append(() => answerSelectBox.node());
 
-    function populateAnswerSelectBox(question) {
-        const data = Object.keys(question.volume_A);
-        console.log(data);
+    function populateAnswerSelectBox(question, ) {
+        const data = Object.keys(question.volume_A).filter(d => !excluded.includes(d));
 
         answerSelectBox.selectAll("option").remove(); // Clear previous options
-        answerSelectBox.append("option")
-            .attr("value", "")
-            .attr("selected", true)
-            .text("Select a country");
 
         answerSelectBox.selectAll("option.answer-option")
             .data(data)
             .enter()
             .append("option")
             .attr("class", "answer-option")
+            .attr("selected", d => d === "BE" ? true : null)
             .attr("value", d => d)
-            .text(d => d);
+            .text(d => eu_countries[d].name);
         // Make the second select box visible
         answerSelectBox.style("display", "block");
     }
@@ -48,7 +43,6 @@ export function initSelectBoxContainer(dispatch, questions) {
     // Add event listener for select box change
     selectBox.on("change", function() {
         const selectedValue = d3.select(this).property("value");
-        console.log(selectedValue);
         if (selectedValue) {
             const question = questions.find(q => q.id === selectedValue);
             const titleText = question.title;
@@ -72,7 +66,43 @@ export function initSelectBoxContainer(dispatch, questions) {
         dispatch.call("selectAnswer", this, selectedValue);
     })
 
+    populateAnswerSelectBox(questions[0]);
+
     return container;
+}
+
+function createAnswerSelectbox() {
+    const answerSelectBox = d3.create("select")
+        .style("position", "absolute")
+        .style("top", "150px")
+        .style("left", "20px")
+        .style("padding", "10px")
+        .style("width", "200px")
+        .style("z-index", "10")
+
+    return answerSelectBox;
+}
+
+function createSelectbox(questions) {
+    const selectBox = d3.create("select")
+        .style("position", "absolute")
+        .style("top", "100px")
+        .style("left", "20px")
+        .style("padding", "10px")
+        .style("width", "300px")
+        .style("z-index", "10");
+
+    // Add options to the selection box
+    selectBox.selectAll("option.question-option")
+        .data(questions)
+        .enter()
+        .append("option")
+        .attr("selected", d => d.id === questions[0].id ? true : null)
+        .attr("class", "question-option")
+        .attr("value", d => d.id)
+        .text(d => d.title || `Question ${d.id}`);
+
+    return selectBox;
 }
 
 

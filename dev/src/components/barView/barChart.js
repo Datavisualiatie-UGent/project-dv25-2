@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export function createBarChart(dispatch, question, flags) {
+export function createBarChart(dispatch, question, eu_countries, flags) {
 
     dispatch.on("resetBarView", () => {
         bars.attr("opacity", 1);
@@ -97,13 +97,12 @@ export function createBarChart(dispatch, question, flags) {
         .on("mouseover", function(event, d) {
             // Highlight the hovered segment
             d3.select(this).attr("stroke", "white").attr("stroke-width", 2);
-
             // Show tooltip
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9);
             tooltip.html(`
-                <strong>${d.data.country}</strong><br/>
+                <strong>${eu_countries[d.data.country].name}</strong><br/>
                 ${d.key}: ${((d[1] - d[0]) * 100).toFixed(1)}%<br/>
             `)
                 .style("left", (event.pageX + 10) + "px")
@@ -124,6 +123,10 @@ export function createBarChart(dispatch, question, flags) {
             bars.attr("opacity", 0.5);
             bars.filter(d => d.key === category).attr("opacity", 1);
             dispatch.call("selectBar");
+        })
+        .on("dblclick", function(event, d) {
+            // On double-click, reset the opacity of all segments
+            bars.attr("opacity", 1);
         });
 
     // Add x-axis
