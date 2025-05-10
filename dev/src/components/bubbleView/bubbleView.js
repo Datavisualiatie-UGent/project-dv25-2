@@ -2,11 +2,13 @@ import * as d3 from "d3";
 import {createBubbleChart} from "./bubbleChart.js";
 import {initSelectBoxContainer} from "./selectBox.js";
 
+const DEFAULT_COUNTRY = "BE";
+
 export function renderBubbleView(questions, eu_countries) {
     const dispatch = d3.dispatch("selectQuestion", "selectAnswer");
 
-    let selectedQuestion = null;
-    let selectedAnswer = null;
+    let selectedQuestion = questions[0];
+    let selectedAnswer = DEFAULT_COUNTRY;
 
     // Create SVG container
     const container = d3.create("div")
@@ -37,7 +39,10 @@ export function renderBubbleView(questions, eu_countries) {
         container.selectAll(".legend").remove();
 
         selectedQuestion = questions.find(q => q.id === questionId);
-        selectedAnswer = null; // Reset selected answer when question changes
+        selectedAnswer = DEFAULT_COUNTRY; // Reset selected answer when question changes
+        if (selectedQuestion) {
+            initBubbleChartContainer(container, selectedQuestion, selectedAnswer);
+        }
     });
 
     dispatch.on("selectAnswer", (answer) => {
@@ -50,6 +55,8 @@ export function renderBubbleView(questions, eu_countries) {
             initBubbleChartContainer(container, selectedQuestion, selectedAnswer);
         }
     })
+
+    initBubbleChartContainer(container, selectedQuestion, selectedAnswer);
 
     return container.node();
 }
