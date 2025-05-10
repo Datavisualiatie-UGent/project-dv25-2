@@ -1,111 +1,184 @@
 ---
 toc: false
+title: A data-visualizing journey through Europe
+theme: dark
 ---
 
-<div class="hero">
-  <h1>Dataviz</h1>
-  <h2>Welcome to your new app! Edit&nbsp;<code style="font-size: 90%;">src/index.md</code> to change this page.</h2>
-  <a href="https://observablehq.com/framework/getting-started">Get started<span style="display: inline-block; margin-left: 0.25rem;">↗︎</span></a>
+<div class="europe-container">
+  <h1 class="europe-title">A Data-Visualizing Journey Through Europe</h1>
+
+<p class="europe-source">
+    <em>Data source: Special Eurobarometer 540 (2023), European Commission</em>
+  </p>
+
+  <p class="europe-intro">
+    Europe's rich tapestry of cultures, languages, and political landscapes makes it one of the world's most fascinating regions to explore through data. This project reveals the continent's diversity through interactive visualizations.
+  </p>
+
+  <p class="europe-intro">
+    From the Nordic fjords to the Mediterranean coast, each nation tells its own story through numbers and patterns. Let's discover what makes each country unique and how they come together in the European Union.
+  </p>
 </div>
 
-<div class="grid grid-cols-2" style="grid-auto-rows: 504px;">
-  <div class="card">${
-    resize((width) => Plot.plot({
-      title: "Your awesomeness over time 🚀",
-      subtitle: "Up and to the right!",
-      width,
-      y: {grid: true, label: "Awesomeness"},
-      marks: [
-        Plot.ruleY([0]),
-        Plot.lineY(aapl, {x: "Date", y: "Close", tip: true})
-      ]
-    }))
-  }</div>
-  <div class="card">${
-    resize((width) => Plot.plot({
-      title: "How big are penguins, anyway? 🐧",
-      width,
-      grid: true,
-      x: {label: "Body mass (g)"},
-      y: {label: "Flipper length (mm)"},
-      color: {legend: true},
-      marks: [
-        Plot.linearRegressionY(penguins, {x: "body_mass_g", y: "flipper_length_mm", stroke: "species"}),
-        Plot.dot(penguins, {x: "body_mass_g", y: "flipper_length_mm", stroke: "species", tip: true})
-      ]
-    }))
-  }</div>
-</div>
+```js
+// Load general data
+const svgContent = await FileAttachment("data/europe.svg").text();
+const eu_countries = await FileAttachment("data/eu_countries.json").json();
+```
 
----
+```js
+// Load the questions for mapview   
+const mothertongue = await FileAttachment("data/questions/question_D48a.json").json(); // mothertongue
+const percentage_bilingual = await FileAttachment("data/questions/question_D48f_2ndmtongues.json").json(); // bilangual percentage
+const languages_amount = await FileAttachment("data/questions/question_D48count.json").json(); // amount languages
+const second_language = await FileAttachment("data/questions/question_D48b.json").json(); // 2nd language
 
-## Next steps
+const politics_left_right = await FileAttachment("data/questions/question_D1.json").json(); // left-right politics
+const education = await FileAttachment("data/questions/question_D8c.json").json(); // education
+const age = await FileAttachment("data/questions/question_D11R.json").json(); // age
+const living = await FileAttachment("data/questions/question_D25.json").json(); // living situation
+const bills = await FileAttachment("data/questions/question_D60.json").json(); // bills
+const household_class = await FileAttachment("data/questions/question_D63.json").json(); // household class
 
-Here are some ideas of things you could try…
+const mapViewQuestions = [mothertongue, percentage_bilingual, languages_amount, second_language, politics_left_right, education, age, living, bills, household_class];
+```
 
-<div class="grid grid-cols-4">
-  <div class="card">
-    Chart your own data using <a href="https://observablehq.com/framework/lib/plot"><code>Plot</code></a> and <a href="https://observablehq.com/framework/files"><code>FileAttachment</code></a>. Make it responsive using <a href="https://observablehq.com/framework/javascript#resize(render)"><code>resize</code></a>.
-  </div>
-  <div class="card">
-    Create a <a href="https://observablehq.com/framework/project-structure">new page</a> by adding a Markdown file (<code>whatever.md</code>) to the <code>src</code> folder.
-  </div>
-  <div class="card">
-    Add a drop-down menu using <a href="https://observablehq.com/framework/inputs/select"><code>Inputs.select</code></a> and use it to filter the data shown in a chart.
-  </div>
-  <div class="card">
-    Write a <a href="https://observablehq.com/framework/loaders">data loader</a> that queries a local database or API, generating a data snapshot on build.
-  </div>
-  <div class="card">
-    Import a <a href="https://observablehq.com/framework/imports">recommended library</a> from npm, such as <a href="https://observablehq.com/framework/lib/leaflet">Leaflet</a>, <a href="https://observablehq.com/framework/lib/dot">GraphViz</a>, <a href="https://observablehq.com/framework/lib/tex">TeX</a>, or <a href="https://observablehq.com/framework/lib/duckdb">DuckDB</a>.
-  </div>
-  <div class="card">
-    Ask for help, or share your work or ideas, on our <a href="https://github.com/observablehq/framework/discussions">GitHub discussions</a>.
-  </div>
-  <div class="card">
-    Visit <a href="https://github.com/observablehq/framework">Framework on GitHub</a> and give us a star. Or file an issue if you’ve found a bug!
-  </div>
-</div>
+
+```js
+import {renderMapView} from "./components/mapView/mapView.js";
+display(renderMapView(svgContent, mapViewQuestions, eu_countries));
+```
+
+```js
+// Load all the EU Flags
+const flags = await FileAttachment("data/flags.json").json();
+```
+
+```js
+// Load the questions for barview
+const direction_life = await FileAttachment("data/questions/question_D73_4.json").json(); // direction of life
+const discuss_national_pol = await FileAttachment("data/questions/question_D71_1.json").json(); // discuss national politics
+const direction_national = await FileAttachment("data/questions/question_D73_1.json").json(); // direction of national politics
+const democracy_national = await FileAttachment("data/questions/question_SD18a.json").json(); // democracy national
+const voice_national = await FileAttachment("data/questions/question_D72_2.json").json(); // voice in national politics
+
+const discuss_eu_pol = await FileAttachment("data/questions/question_D71_2.json").json(); // discuss EU politics
+const direction_eu = await FileAttachment("data/questions/question_D73_2.json").json(); // direction of EU
+const democracy_eu = await FileAttachment("data/questions/question_SD18b.json").json(); // democracy EU
+const voice_eu = await FileAttachment("data/questions/question_D72_1.json").json(); // voice in EU
+const voice_country_eu = await FileAttachment("data/questions/question_D72_3.json").json(); // voice in country EU
+
+const barViewQuestions = [
+  direction_life,
+  discuss_national_pol,
+  direction_national,
+  democracy_national,
+  voice_national,
+  discuss_eu_pol,
+  direction_eu,
+  democracy_eu,
+  voice_eu,
+  voice_country_eu
+];
+```
+
+```js
+import {renderBarView} from "./components/barView/barView.js";
+display(renderBarView(barViewQuestions, eu_countries, flags));
+```
+```js
+// Load the questions for bubbleview
+
+const language_learning_advantages = await FileAttachment("data/questions/question_QB2.json").json(); // language learning advantages
+const language_situation = await FileAttachment("data/questions/question_QB3.json").json(); // language situation
+const language_importance = await FileAttachment("data/questions/question_QB1b.json").json(); // language importance
+const language_methods = await FileAttachment("data/questions/question_QB4b.json").json(); // language learning methods
+const discourage_learning = await FileAttachment("data/questions/question_QB5.json").json(); // discourage learning
+const encourage_learning = await FileAttachment("data/questions/question_QB6.json").json(); // encourage learning
+const bubbleViewQuestions = [
+    language_learning_advantages,
+    language_situation,
+    language_importance,
+    language_methods,
+    discourage_learning,
+    encourage_learning,
+];
+```
+
+```js
+import {renderBubbleView} from "./components/bubbleView/bubbleView.js";
+display(renderBubbleView(bubbleViewQuestions, eu_countries));
+```
 
 <style>
-
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: var(--sans-serif);
-  margin: 4rem 0 8rem;
-  text-wrap: balance;
-  text-align: center;
-}
-
-.hero h1 {
-  margin: 1rem 0;
-  padding: 1rem 0;
-  max-width: none;
-  font-size: 14vw;
-  font-weight: 900;
-  line-height: 1;
-  background: linear-gradient(30deg, var(--theme-foreground-focus), currentColor);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero h2 {
-  margin: 0;
-  max-width: 34em;
-  font-size: 20px;
-  font-style: initial;
-  font-weight: 500;
-  line-height: 1.5;
-  color: var(--theme-foreground-muted);
-}
-
-@media (min-width: 640px) {
-  .hero h1 {
-    font-size: 90px;
+  .europe-container {
+    margin: 0 auto;
+    padding: 0 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-wrap: balance;
+    text-align: center;
   }
-}
+  .europe-title {
+    max-width: none;
+    color: #253b82;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+  .europe-intro {
+    max-width: none;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  .europe-section {
+    max-width: none;
+    margin: 2rem 0;
+  }
+  .europe-subtitle {
+    max-width: none;
+    color: #253b82;
+    border-bottom: 2px solid #00ffff;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+  .europe-highlight {
+    max-width: none;
+    font-weight: bold;
+    color: #253b82;
+  }
+  .europe-divider {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 2rem 0;
+  }
+  .europe-callout {
+    max-width: none;
+    font-weight: bold;
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+  .europe-source {
+    max-width: none;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    margin-top: 2rem;
+  }
 
+.map-container {
+    margin: 0 auto;
+    padding: 0 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    text-wrap: balance;
+    text-align: center;
+  }
 </style>
