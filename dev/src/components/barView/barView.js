@@ -55,8 +55,5 @@ function initBarchartContainer(container, dispatch, question, eu_countries, flag
 
     const legendContainer = initLegend(question);
     container.append(() => legendContainer.node());
-
-    const resetButton = initResetButton(dispatch);
-    container.append(() => resetButton.node());
 }
 

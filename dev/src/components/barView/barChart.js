@@ -123,6 +123,10 @@ export function createBarChart(dispatch, question, eu_countries, flags) {
             bars.attr("opacity", 0.5);
             bars.filter(d => d.key === category).attr("opacity", 1);
             dispatch.call("selectBar");
+        })
+        .on("dblclick", function(event, d) {
+            // On double-click, reset the opacity of all segments
+            bars.attr("opacity", 1);
         });
 
     // Add x-axis
