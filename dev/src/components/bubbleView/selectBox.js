@@ -18,7 +18,7 @@ export function initSelectBoxContainer(dispatch, questions, eu_countries) {
     const title = container.append("div")
         .style("font-size", "35px")
         .style("height", "50px")
-        .text("");
+        .text(questions[0].title || DEFAULT_TEXT);
 
     const answerSelectBox = createAnswerSelectbox();
     container.append(() => answerSelectBox.node());
