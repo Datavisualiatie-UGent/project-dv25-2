@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import { createSelectbox } from "./mapView/selectBox.js";
+import { createSelectbox } from "../mapView/selectBox.js";
 
 const DEFAULT_TEXT = "";
 

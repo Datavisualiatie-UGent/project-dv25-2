@@ -1,65 +1,128 @@
 import * as d3 from "d3";
 
 export function createBubbleChart() {
-    // Set up dimensions and margins
-    const margin = {top: 20, right: 20, bottom: 30, left: 40};
+    // Set up dimensions
     const width = window.innerWidth * 0.8;
     const height = window.innerHeight * 0.8;
+    const padding = 50;
 
     // Create SVG
     const svg = d3.create("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom]);
+        .attr("width", width)
+        .attr("height", height)
+        .attr("viewBox", [0, 0, width, height])
+        .attr("style", "max-width: 100%; height: auto;");
 
-
-    // Sample data - replace with your actual data
-    const data = [
-        {x: 10, y: 20, value: 30, category: "A", name: "Item 1"},
-        {x: 20, y: 40, value: 10, category: "B", name: "Item 2"},
-        {x: 30, y: 30, value: 20, category: "A", name: "Item 3"},
-        {x: 40, y: 10, value: 40, category: "B", name: "Item 4"},
-        {x: 50, y: 50, value: 30, category: "C", name: "Item 5"}
+    // Prepare the data for Belgium
+    const answers = [
+        "To use on holidays abroad",
+        "To use at work (including travelling abroad on business)",
+        "To be able to study in another country",
+        "To be able to work in another country",
+        "To be able to train or volunteer in another country",
+        "To get a better job in (OUR COUNTRY)",
+        "For personal satisfaction",
+        "To keep up knowledge of a language spoken by your family",
+        "To meet people from other countries",
+        "To be able to understand people from other cultures",
+        "To feel more European",
+        "To be able to use the Internet",
+        "Other",
+        "None",
+        "Don't know"
     ];
 
+    const beValues = [416, 418, 308, 393, 204, 469, 361, 176, 354, 424, 99, 239, 4, 9, 8];
+
+    // Create data array
+    const data = answers.map((answer, i) => ({
+        answer: answer,
+        value: beValues[i],
+        category: i < 12 ? "Main" : "Other" // Group main answers together
+    }));
+
     // Create scales
-    const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.x) * 1.1])
-        .range([0, width]);
-
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.y) * 1.1])
-        .range([height, 0]);
-
-    const sizeScale = d3.scaleLinear()
+    const sizeScale = d3.scaleSqrt()
         .domain([0, d3.max(data, d => d.value)])
-        .range([5, 30]);
+        .range([10, 60]);
 
     const colorScale = d3.scaleOrdinal()
-        .domain(["A", "B", "C"])
-        .range(d3.schemeCategory10);
+        .domain(["Main", "Other"])
+        .range(["#4e79a7", "#e15759"]);
 
-    // Add axes
-    svg.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(xScale));
-
-    svg.append("g")
-        .call(d3.axisLeft(yScale));
+    // Create a force simulation to position bubbles
+    const simulation = d3.forceSimulation(data)
+        .force("x", d3.forceX(width / 2).strength(0.05))
+        .force("y", d3.forceY(height / 2).strength(0.05))
+        .force("charge", d3.forceManyBody().strength(-20))
+        .force("collision", d3.forceCollide().radius(d => sizeScale(d.value) + 2));
 
     // Create bubbles
-    const bubbles = svg.selectAll(".bubble")
+    const bubbles = svg.append("g")
+        .selectAll("circle")
         .data(data)
-        .enter()
-        .append("circle")
+        .join("circle")
         .attr("class", "bubble")
-        .attr("cx", d => xScale(d.x))
-        .attr("cy", d => yScale(d.y))
         .attr("r", d => sizeScale(d.value))
         .attr("fill", d => colorScale(d.category))
-        .attr("opacity", 0.7)
+        .attr("opacity", 0.8)
         .attr("stroke", "white")
-        .attr("stroke-width", 2);
+        .attr("stroke-width", 1.5)
+        .on("mouseover", function(event, d) {
+            d3.select(this).attr("opacity", 1).attr("stroke-width", 3);
+            tooltip.style("visibility", "visible")
+                .html(`<strong>${d.answer}</strong><br/>
+                       Respondents: ${d.value}<br/>`);
+        })
+        .on("mousemove", function(event) {
+            tooltip.style("top", (event.pageY - 10) + "px")
+                .style("left", (event.pageX + 10) + "px");
+        })
+        .on("mouseout", function() {
+            d3.select(this).attr("opacity", 0.8).attr("stroke-width", 1.5);
+            tooltip.style("visibility", "hidden");
+        });
+
+    // Add answer labels to bubbles
+    const labels = svg.append("g")
+        .selectAll("text")
+        .data(data.filter(d => d.value > 50)) // Only show labels for larger bubbles
+        .join("text")
+        .attr("dy", ".3em")
+        .style("font-size", "10px")
+        .style("text-anchor", "middle")
+        .style("pointer-events", "none")
+        .style("fill", "white")
+        .text(d => {
+            // Shorten long labels
+            if (d.answer.length > 25) return d.answer.substring(0, 22) + "...";
+            return d.answer;
+        });
+
+    // Update positions on simulation tick
+    simulation.on("tick", () => {
+        bubbles
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        labels
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+    });
+
+    // Create tooltip
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("visibility", "hidden")
+        .style("background", "white")
+        .style("border", "1px solid #ddd")
+        .style("padding", "8px")
+        .style("border-radius", "4px")
+        .style("pointer-events", "none")
+        .style("font-family", "Arial, sans-serif")
+        .style("font-size", "12px")
+        .style("box-shadow", "2px 2px 4px rgba(0,0,0,0.2)");
 
     return svg;
 }

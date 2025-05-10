@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import {createBubbleChart} from "./bubbleChart.js";
-import {initSelectBoxContainer} from "../selectBox.js";
+import {initSelectBoxContainer} from "../barView/selectBox.js";
 
 export function renderBubbleView(questions) {
     const dispatch = d3.dispatch("selectQuestion");
