@@ -1,6 +1,6 @@
 ---
 toc: false
-title: A data-visualizing journey through Europe
+title: Data-visualizing journey through Europe
 theme: dark
 ---
 
@@ -40,20 +40,28 @@ const discourage_learning = await FileAttachment("data/questions/question_QB5.js
 const encourage_learning = await FileAttachment("data/questions/question_QB6.json").json(); // encourage learning
 ```
 
-<div class="europe-container">
-  <h1 class="europe-title">A Data-Visualizing Journey Through Europe</h1>
+<div class="header">
+    <h1>Data-Visualizing Journey Through Europe</h1>
+    <div class="subtitle">Exploring the EU's linguistic and political landscape</div>
+</div>
 
-<p class="europe-source">
-    <em>Data source: Special Eurobarometer 540 (2023), European Commission</em>
-  </p>
+<div class="data-source">
+    <strong>Data source:</strong> Special Eurobarometer 540 (2023), European Commission
+</div>
 
-  <p class="europe-intro">
-    Europe's rich tapestry of cultures, languages, and political landscapes makes it one of the world's most fascinating regions to explore through data. This project reveals the continent's diversity through interactive visualizations.
-  </p>
+<div class="intro">
+    <h2>Introduction</h2>
+    <p>Europe's rich tapestry of cultures, languages, and political landscapes makes it one of the world's most fascinating regions to explore through data. This project reveals the continent's diversity through interactive visualizations. From the Nordic fjords to the Mediterranean coast, each nation tells its own story through numbers and patterns. Let's discover what makes each country unique and how they come together in the European Union.</p>
+    <p>This project aims to provide a comprehensive overview of the EU's linguistic and political landscape, showcasing the diversity of languages spoken, the political spectrum, and the various factors that shape public opinion across member states. This is all based on the survey conducted by the European Commission, which gathered insights from citizens across the EU.</p>
+</div>
 
-  <p class="europe-intro">
-    From the Nordic fjords to the Mediterranean coast, each nation tells its own story through numbers and patterns. Let's discover what makes each country unique and how they come together in the European Union.
-  </p>
+<div class="visualization-section">
+    <div class="visualization-header">Map View: Exploring the EU's Geographical and Cultural Diversity</div>
+    <div class="visualization-content">
+        <p>Europe is a tapestry of cultures, languages, and histories, each nation contributing its own unique identity to the European Union. This interactive map invites you to explore the geographical and cultural diversity across EU member states.</p>
+        <p>By navigating through the regions, you'll uncover key differences in language, political landscapes, and societal values that shape each country's role within the EU. Hover over countries to reveal insights—whether it's the prevalence of multilingualism, shifting political sentiments, or regional perspectives on European unity.</p>
+        <p>This visualization not only highlights contrasts but also underscores the shared connections that bind the EU together. Use the filters to compare specific aspects, such as dominant languages or political leanings, and discover how geography influences national identity within the union.</p>
+    </div>
 </div>
 
 ```js
@@ -83,6 +91,15 @@ import {renderRadarView} from "./components/radarView/radarView.js";
 display(renderRadarView(radarViewQuestions, eu_countries));
 ```
 
+<div class="visualization-section">
+    <div class="visualization-header">Stacked Bar Chart: Political Landscape of the EU</div>
+    <div class="visualization-content">
+        <p>While the EU claims to be a democratic union that connects its member states, the thoughts about the direction of national and EU politics are not always the same in each member state.</p>
+        <p>The following stacked bar chart visualizes the differences in satisfaction with the direction of life, national politics, and EU politics. Each category represents the level of satisfaction with these three aspects. The different colors represent the spectrum of satisfaction levels, ranging from <span class="highlight">very satisfied</span> to <span class="highlight">very dissatisfied</span>.</p>
+        <p class="chart-note">Hover over each segment to view exact percentages. Use the legend to toggle between different satisfaction levels.</p>
+    </div>
+</div>
+
 ```js
 // Barview
 // Load the questions for barview
@@ -101,6 +118,16 @@ const barViewQuestions = [
 import {renderBarView} from "./components/barView/barView.js";
 display(renderBarView(barViewQuestions, eu_countries, flags));
 ```
+
+<div class="visualization-section">
+    <div class="visualization-header">Bubble Chart: Language Learning in the EU</div>
+    <div class="visualization-content">
+        <p>Language learning is a crucial aspect of the EU's cultural and linguistic diversity. The following bubble chart visualizes the differences in language learning across EU member states.</p>
+        <p>The visualization uses bubbles to represent survey responses about language learning habits and attitudes. Each bubble's <span class="highlight">size corresponds to the number of people</span> who gave that particular response, allowing quick identification of the most common perspectives across Europe.</p>
+        <p class="chart-note">Interact with the chart: Hover over bubbles for details, click to filter by country, or use the legend to focus on specific categories.</p>
+    </div>
+</div>
+
 ```js
 // Bubbleview
 // Load the questions for bubbleview
@@ -117,74 +144,87 @@ display(renderBubbleView(bubbleViewQuestions, eu_countries));
 ```
 
 <style>
-  .europe-container {
-    margin: 0 auto;
-    padding: 0 20px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-wrap: balance;
-    text-align: center;
-  }
-  .europe-title {
-    max-width: none;
-    color: #253b82;
-    text-align: center;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-  }
-  .europe-intro {
-    max-width: none;
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-  }
-  .europe-section {
-    max-width: none;
-    margin: 2rem 0;
-  }
-  .europe-subtitle {
-    max-width: none;
-    color: #253b82;
-    border-bottom: 2px solid #00ffff;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-  }
-  .europe-highlight {
-    max-width: none;
-    font-weight: bold;
-    color: #253b82;
-  }
-  .europe-divider {
-    border: 0;
-    height: 1px;
-    background: #ddd;
-    margin: 2rem 0;
-  }
-  .europe-callout {
-    max-width: none;
-    font-weight: bold;
-    text-align: center;
-    margin: 1.5rem 0;
-  }
-  .europe-source {
-    max-width: none;
-    font-size: 0.9rem;
-    color: #666;
-    text-align: center;
-    margin-top: 2rem;
-  }
+    body {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: #e0e0e0;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #1a1a1a;
+    }
 
-.map-container {
-    margin: 0 auto;
-    padding: 0 20px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    text-wrap: balance;
-    text-align: center;
-  }
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #2d2d2d;
+    }
+
+    .header h1 {
+        font-size: 2.5rem;
+        color: #ffffff;
+        margin-left: 25%;
+        margin-bottom: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        
+    }
+
+    .header .subtitle {
+        font-size: 1.1rem;
+        color: #aaaaaa;
+        font-style: italic;
+    }
+
+    .data-source {
+        background-color: #252525;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 20px 0;
+        font-size: 0.9rem;
+        color: #a0c4e0;
+        border-left: 3px solid #4a90e2;
+    }
+
+    .intro {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        padding: 25px;
+        background-color: #252525;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        white-space: collapse;
+    }
+
+    .intro p {
+    }
+
+    .visualization-section {
+        margin: 40px 0;
+        background-color: #252525;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #333;
+    }
+
+    .visualization-header {
+        background-color: #333;
+        color: #ffffff;
+        padding: 16px 25px;
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    .visualization-content {
+        padding-left: 25px;
+    }
+
+    .visualization-content p {
+        margin-bottom: 16px;
+        color: #e0e0e0;
+    }
 </style>
+
+
