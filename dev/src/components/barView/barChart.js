@@ -1,6 +1,11 @@
 import * as d3 from "d3";
 
-export function createBarChart(question, flags) {
+export function createBarChart(dispatch, question, flags) {
+
+    dispatch.on("resetBarView", () => {
+        bars.attr("opacity", 1);
+    });
+
     const excluded_categories = [
         "Total 'Agree'", "Total 'Disagree'",
         "Total 'Satisfied'", "Total 'Not satisfied'"
@@ -118,10 +123,7 @@ export function createBarChart(question, flags) {
             const category = d.key;
             bars.attr("opacity", 0.5);
             bars.filter(d => d.key === category).attr("opacity", 1);
-
-            // Update legend to show which category is selected
-            legendItems.attr("opacity", 0.5);
-            legendItems.filter(d => d === category).attr("opacity", 1);
+            dispatch.call("selectBar");
         });
 
     // Add x-axis

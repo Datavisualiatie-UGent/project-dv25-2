@@ -3,10 +3,11 @@ import * as d3 from "d3";
 import { initSelectBoxContainer } from "./selectBox.js";
 import { createBarChart } from "./barChart.js";
 import { initLegend } from "./legend.js";
+import { initResetButton} from "./resetButton.js";
 
 export function renderBarView(questions, flags) {
 
-    const dispatch = d3.dispatch("selectQuestion");
+    const dispatch = d3.dispatch("selectQuestion", "selectBar", "resetBarView");
 
     const container = d3.create("div")
 
@@ -36,17 +37,27 @@ export function renderBarView(questions, flags) {
         // reset the container
         chartContainer.selectAll("svg").remove();
         container.selectAll(".legend").remove();
+        container.selectAll(".reset-button").remove();
 
 
         const question = questions.find(q => q.id === questionId);
         if (question) {
-            const barChart = createBarChart(question, flags);
-            chartContainer.append(() => barChart.node());
-            const legendContainer = initLegend(question);
-            container.append(() => legendContainer.node());
+            initBarchartContainer(container, dispatch, question, flags);
         }
     });
 
     return container.node();
+}
+
+function initBarchartContainer(container, dispatch, question, flags) {
+    const chartContainer = container.select(".chart-container");
+    const barChart = createBarChart(dispatch, question, flags);
+    chartContainer.append(() => barChart.node());
+
+    const legendContainer = initLegend(question);
+    container.append(() => legendContainer.node());
+
+    const resetButton = initResetButton(dispatch);
+    container.append(() => resetButton.node());
 }
 
