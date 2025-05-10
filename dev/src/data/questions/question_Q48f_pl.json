@@ -1,0 +1,2257 @@
+{
+    "id": "Q48f_pl",
+    "title": "Is your Polish very good, good, basic?",
+    "question": "Q48f.pl. Is your Polish very good, good, basic?",
+    "subquestion": "nan",
+    "old_values_A": false,
+    "old_values_B": false,
+    "answers": [
+        "Very good",
+        "Good",
+        "Basic",
+        "(Second) mother tongue",
+        "Don't know"
+    ],
+    "volume_A": {
+        "EU27": {
+            "total": 109,
+            "values": [
+                22,
+                41,
+                39,
+                4,
+                3
+            ],
+            "percentages": [
+                0.2,
+                0.38,
+                0.36,
+                0.04,
+                0.02
+            ]
+        },
+        "BE": {
+            "total": 8,
+            "values": [
+                1,
+                2,
+                3,
+                3,
+                0
+            ],
+            "percentages": [
+                0.12,
+                0.21,
+                0.33,
+                0.34,
+                0
+            ]
+        },
+        "BG": {
+            "total": 1,
+            "values": [
+                0,
+                1,
+                0,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                1,
+                0,
+                0,
+                0
+            ]
+        },
+        "CZ": {
+            "total": 36,
+            "values": [
+                6,
+                15,
+                14,
+                0,
+                0
+            ],
+            "percentages": [
+                0.17,
+                0.43,
+                0.4,
+                0,
+                0
+            ]
+        },
+        "DK": {
+            "total": 1,
+            "values": [
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "percentages": [
+                0,
+                0,
+                0,
+                1,
+                0
+            ]
+        },
+        "D-W": {
+            "total": 4,
+            "values": [
+                2,
+                1,
+                1,
+                0,
+                0
+            ],
+            "percentages": [
+                0.43,
+                0.23,
+                0.34,
+                0,
+                0
+            ]
+        },
+        "DE": {
+            "total": 7,
+            "values": [
+                3,
+                1,
+                2,
+                1,
+                0
+            ],
+            "percentages": [
+                0.46,
+                0.15,
+                0.3,
+                0.09,
+                0
+            ]
+        },
+        "D-E": {
+            "total": 2,
+            "values": [
+                1,
+                0,
+                1,
+                1,
+                0
+            ],
+            "percentages": [
+                0.52,
+                0,
+                0.22,
+                0.26,
+                0
+            ]
+        },
+        "EE": {
+            "total": 7,
+            "values": [
+                1,
+                0,
+                5,
+                0,
+                1
+            ],
+            "percentages": [
+                0.17,
+                0,
+                0.72,
+                0,
+                0.11
+            ]
+        },
+        "IE": {
+            "total": 3,
+            "values": [
+                2,
+                1,
+                0,
+                0,
+                0
+            ],
+            "percentages": [
+                0.54,
+                0.46,
+                0,
+                0,
+                0
+            ]
+        },
+        "ES": {
+            "total": 1,
+            "values": [
+                0,
+                0,
+                1,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                0,
+                1,
+                0,
+                0
+            ]
+        },
+        "FR": {
+            "total": 1,
+            "values": [
+                0,
+                1,
+                0,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                1,
+                0,
+                0,
+                0
+            ]
+        },
+        "IT": {
+            "total": 1,
+            "values": [
+                0,
+                0,
+                1,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                0,
+                1,
+                0,
+                0
+            ]
+        },
+        "CY": {
+            "total": 1,
+            "values": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "percentages": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "LV": {
+            "total": 24,
+            "values": [
+                1,
+                9,
+                13,
+                0,
+                1
+            ],
+            "percentages": [
+                0.04,
+                0.38,
+                0.53,
+                0.02,
+                0.03
+            ]
+        },
+        "LT": {
+            "total": 111,
+            "values": [
+                11,
+                61,
+                39,
+                1,
+                0
+            ],
+            "percentages": [
+                0.1,
+                0.54,
+                0.35,
+                0.01,
+                0
+            ]
+        },
+        "LU": {
+            "total": 2,
+            "values": [
+                0,
+                2,
+                0,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                1,
+                0,
+                0,
+                0
+            ]
+        },
+        "HU": {
+            "total": 1,
+            "values": [
+                0,
+                0,
+                0,
+                0,
+                1
+            ],
+            "percentages": [
+                0,
+                0,
+                0,
+                0,
+                1
+            ]
+        },
+        "NL": {
+            "total": 2,
+            "values": [
+                0,
+                1,
+                1,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                0.37,
+                0.63,
+                0,
+                0
+            ]
+        },
+        "PL": {
+            "total": 8,
+            "values": [
+                2,
+                4,
+                1,
+                0,
+                1
+            ],
+            "percentages": [
+                0.28,
+                0.45,
+                0.17,
+                0,
+                0.1
+            ]
+        },
+        "SI": {
+            "total": 1,
+            "values": [
+                0,
+                0,
+                1,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                0,
+                1,
+                0,
+                0
+            ]
+        },
+        "SK": {
+            "total": 17,
+            "values": [
+                2,
+                6,
+                9,
+                0,
+                0
+            ],
+            "percentages": [
+                0.09,
+                0.37,
+                0.54,
+                0,
+                0
+            ]
+        },
+        "FI": {
+            "total": 3,
+            "values": [
+                0,
+                3,
+                0,
+                0,
+                0
+            ],
+            "percentages": [
+                0,
+                1,
+                0,
+                0,
+                0
+            ]
+        },
+        "SE": {
+            "total": 3,
+            "values": [
+                0,
+                2,
+                1,
+                0,
+                0
+            ],
+            "percentages": [
+                0.12,
+                0.51,
+                0.37,
+                0,
+                0
+            ]
+        }
+    },
+    "volume_B": {
+        "Gender": {
+            "Man": {
+                "total": 62,
+                "values": [
+                    9,
+                    25,
+                    25,
+                    1,
+                    3
+                ],
+                "percentages": [
+                    0.15,
+                    0.4,
+                    0.4,
+                    0.01,
+                    0.04
+                ]
+            },
+            "Woman": {
+                "total": 47,
+                "values": [
+                    13,
+                    16,
+                    14,
+                    3,
+                    0
+                ],
+                "percentages": [
+                    0.28,
+                    0.35,
+                    0.3,
+                    0.07,
+                    0
+                ]
+            }
+        },
+        "Age": {
+            "15-24": {
+                "total": 6,
+                "values": [
+                    4,
+                    1,
+                    1,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.62,
+                    0.24,
+                    0.11,
+                    0.03,
+                    0
+                ]
+            },
+            "25-34": {
+                "total": 13,
+                "values": [
+                    1,
+                    7,
+                    6,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.07,
+                    0.5,
+                    0.43,
+                    0,
+                    0
+                ]
+            },
+            "35-44": {
+                "total": 14,
+                "values": [
+                    3,
+                    6,
+                    3,
+                    1,
+                    1
+                ],
+                "percentages": [
+                    0.23,
+                    0.43,
+                    0.22,
+                    0.06,
+                    0.06
+                ]
+            },
+            "45-54": {
+                "total": 24,
+                "values": [
+                    3,
+                    14,
+                    7,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.11,
+                    0.59,
+                    0.3,
+                    0,
+                    0
+                ]
+            },
+            "55-64": {
+                "total": 23,
+                "values": [
+                    5,
+                    8,
+                    10,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.21,
+                    0.34,
+                    0.45,
+                    0,
+                    0
+                ]
+            },
+            "65-74": {
+                "total": 16,
+                "values": [
+                    1,
+                    3,
+                    7,
+                    2,
+                    2
+                ],
+                "percentages": [
+                    0.07,
+                    0.21,
+                    0.47,
+                    0.14,
+                    0.11
+                ]
+            },
+            "75+": {
+                "total": 13,
+                "values": [
+                    6,
+                    2,
+                    4,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.44,
+                    0.15,
+                    0.33,
+                    0.07,
+                    0.01
+                ]
+            }
+        },
+        "Generation": {
+            "Total 'Before 1946'": {
+                "total": 13,
+                "values": [
+                    6,
+                    2,
+                    4,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.44,
+                    0.15,
+                    0.33,
+                    0.07,
+                    0.01
+                ]
+            },
+            "1946 - 1964 'BB'": {
+                "total": 38,
+                "values": [
+                    6,
+                    10,
+                    17,
+                    2,
+                    2
+                ],
+                "percentages": [
+                    0.16,
+                    0.27,
+                    0.46,
+                    0.06,
+                    0.05
+                ]
+            },
+            "1965 - 1980 'X'": {
+                "total": 29,
+                "values": [
+                    3,
+                    17,
+                    9,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.09,
+                    0.58,
+                    0.3,
+                    0.03,
+                    0
+                ]
+            },
+            "1981 \u2013 1996 'Millenials'": {
+                "total": 23,
+                "values": [
+                    4,
+                    11,
+                    8,
+                    0,
+                    1
+                ],
+                "percentages": [
+                    0.16,
+                    0.47,
+                    0.34,
+                    0,
+                    0.03
+                ]
+            },
+            "1997 and beyond 'Generation Z'": {
+                "total": 6,
+                "values": [
+                    4,
+                    1,
+                    1,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.64,
+                    0.22,
+                    0.11,
+                    0.03,
+                    0
+                ]
+            }
+        },
+        "Education (End of)": {
+            "15-": {
+                "total": 1,
+                "values": [
+                    0,
+                    1,
+                    0,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0,
+                    0.66,
+                    0.34,
+                    0,
+                    0
+                ]
+            },
+            "16-19": {
+                "total": 44,
+                "values": [
+                    10,
+                    15,
+                    17,
+                    0,
+                    3
+                ],
+                "percentages": [
+                    0.22,
+                    0.34,
+                    0.38,
+                    0,
+                    0.06
+                ]
+            },
+            "20+": {
+                "total": 57,
+                "values": [
+                    10,
+                    23,
+                    20,
+                    4,
+                    0
+                ],
+                "percentages": [
+                    0.17,
+                    0.41,
+                    0.35,
+                    0.07,
+                    0
+                ]
+            },
+            "Still studying": {
+                "total": 5,
+                "values": [
+                    3,
+                    2,
+                    1,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.47,
+                    0.37,
+                    0.13,
+                    0.03,
+                    0
+                ]
+            }
+        },
+        "Level of diploma": {
+            "Pre-primary education (include no education)": {
+                "total": "-",
+                "values": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0,
+                    1,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "Primary education": {
+                "total": 3,
+                "values": [
+                    2,
+                    1,
+                    0,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.79,
+                    0.21,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            "Lower secondary education": {
+                "total": 11,
+                "values": [
+                    4,
+                    2,
+                    5,
+                    0,
+                    1
+                ],
+                "percentages": [
+                    0.32,
+                    0.15,
+                    0.45,
+                    0.01,
+                    0.07
+                ]
+            },
+            "Upper secondary education": {
+                "total": 48,
+                "values": [
+                    9,
+                    19,
+                    16,
+                    2,
+                    2
+                ],
+                "percentages": [
+                    0.19,
+                    0.39,
+                    0.34,
+                    0.04,
+                    0.04
+                ]
+            },
+            "Post-secondary non tertiary (including pre-vocational or vocational education)": {
+                "total": 7,
+                "values": [
+                    1,
+                    2,
+                    4,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.13,
+                    0.29,
+                    0.58,
+                    0,
+                    0
+                ]
+            },
+            "Short-cycle tertiary": {
+                "total": "-",
+                "values": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.31,
+                    0,
+                    0.14,
+                    0.55,
+                    0
+                ]
+            },
+            "Bachelor or equivalent": {
+                "total": 13,
+                "values": [
+                    1,
+                    7,
+                    3,
+                    2,
+                    0
+                ],
+                "percentages": [
+                    0.09,
+                    0.51,
+                    0.25,
+                    0.15,
+                    0
+                ]
+            },
+            "Master or equivalent": {
+                "total": 25,
+                "values": [
+                    5,
+                    11,
+                    10,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.19,
+                    0.43,
+                    0.38,
+                    0,
+                    0
+                ]
+            },
+            "Doctoral or equivalent": {
+                "total": 1,
+                "values": [
+                    0,
+                    1,
+                    0,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0,
+                    0.83,
+                    0.17,
+                    0,
+                    0
+                ]
+            }
+        },
+        "Socio-professional category": {
+            "Self- employed": {
+                "total": 14,
+                "values": [
+                    3,
+                    8,
+                    4,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.2,
+                    0.54,
+                    0.25,
+                    0,
+                    0.01
+                ]
+            },
+            "Managers": {
+                "total": 12,
+                "values": [
+                    3,
+                    5,
+                    5,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.24,
+                    0.38,
+                    0.38,
+                    0,
+                    0
+                ]
+            },
+            "Other white collars": {
+                "total": 16,
+                "values": [
+                    1,
+                    8,
+                    6,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.06,
+                    0.48,
+                    0.4,
+                    0.06,
+                    0
+                ]
+            },
+            "Manual workers": {
+                "total": 24,
+                "values": [
+                    5,
+                    12,
+                    7,
+                    0,
+                    1
+                ],
+                "percentages": [
+                    0.19,
+                    0.48,
+                    0.3,
+                    0,
+                    0.03
+                ]
+            },
+            "House persons": {
+                "total": 1,
+                "values": [
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0,
+                    0.46,
+                    0.54,
+                    0,
+                    0
+                ]
+            },
+            "Unemployed": {
+                "total": 4,
+                "values": [
+                    0,
+                    1,
+                    3,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.03,
+                    0.34,
+                    0.63,
+                    0,
+                    0
+                ]
+            },
+            "Retired": {
+                "total": 32,
+                "values": [
+                    8,
+                    6,
+                    13,
+                    3,
+                    2
+                ],
+                "percentages": [
+                    0.26,
+                    0.17,
+                    0.41,
+                    0.1,
+                    0.06
+                ]
+            },
+            "Students": {
+                "total": 5,
+                "values": [
+                    3,
+                    2,
+                    1,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.47,
+                    0.37,
+                    0.13,
+                    0.03,
+                    0
+                ]
+            }
+        },
+        "Difficulties paying bills": {
+            "Most of the time": {
+                "total": 9,
+                "values": [
+                    1,
+                    3,
+                    5,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.08,
+                    0.32,
+                    0.51,
+                    0.09,
+                    0
+                ]
+            },
+            "From time to time": {
+                "total": 22,
+                "values": [
+                    2,
+                    5,
+                    15,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.07,
+                    0.23,
+                    0.69,
+                    0.01,
+                    0
+                ]
+            },
+            "Almost never/ Never": {
+                "total": 72,
+                "values": [
+                    17,
+                    33,
+                    19,
+                    1,
+                    3
+                ],
+                "percentages": [
+                    0.23,
+                    0.45,
+                    0.26,
+                    0.02,
+                    0.04
+                ]
+            }
+        },
+        "Consider belonging to": {
+            "The working class": {
+                "total": 17,
+                "values": [
+                    3,
+                    4,
+                    9,
+                    0,
+                    1
+                ],
+                "percentages": [
+                    0.15,
+                    0.24,
+                    0.55,
+                    0.01,
+                    0.05
+                ]
+            },
+            "The lower middle class": {
+                "total": 26,
+                "values": [
+                    8,
+                    7,
+                    9,
+                    0,
+                    2
+                ],
+                "percentages": [
+                    0.31,
+                    0.26,
+                    0.36,
+                    0,
+                    0.07
+                ]
+            },
+            "The middle class": {
+                "total": 53,
+                "values": [
+                    10,
+                    26,
+                    15,
+                    2,
+                    0
+                ],
+                "percentages": [
+                    0.18,
+                    0.49,
+                    0.29,
+                    0.04,
+                    0
+                ]
+            },
+            "The upper middle class": {
+                "total": 11,
+                "values": [
+                    2,
+                    4,
+                    5,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.18,
+                    0.36,
+                    0.46,
+                    0,
+                    0
+                ]
+            },
+            "The upper class": {
+                "total": "-",
+                "values": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    1,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            }
+        },
+        "Subjective urbanisation": {
+            "Rural village": {
+                "total": 24,
+                "values": [
+                    3,
+                    5,
+                    13,
+                    2,
+                    0
+                ],
+                "percentages": [
+                    0.13,
+                    0.23,
+                    0.56,
+                    0.08,
+                    0
+                ]
+            },
+            "Small/ mid size town": {
+                "total": 41,
+                "values": [
+                    9,
+                    15,
+                    15,
+                    0,
+                    2
+                ],
+                "percentages": [
+                    0.22,
+                    0.37,
+                    0.36,
+                    0.01,
+                    0.04
+                ]
+            },
+            "Large town": {
+                "total": 44,
+                "values": [
+                    10,
+                    21,
+                    11,
+                    2,
+                    1
+                ],
+                "percentages": [
+                    0.23,
+                    0.47,
+                    0.24,
+                    0.04,
+                    0.02
+                ]
+            }
+        },
+        "Use of the Internet": {
+            "Everyday": {
+                "total": 88,
+                "values": [
+                    19,
+                    37,
+                    26,
+                    3,
+                    3
+                ],
+                "percentages": [
+                    0.22,
+                    0.41,
+                    0.3,
+                    0.04,
+                    0.03
+                ]
+            },
+            "Often/ Sometimes": {
+                "total": 11,
+                "values": [
+                    1,
+                    2,
+                    7,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.1,
+                    0.2,
+                    0.62,
+                    0.07,
+                    0.01
+                ]
+            },
+            "Never": {
+                "total": 10,
+                "values": [
+                    2,
+                    2,
+                    6,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.2,
+                    0.21,
+                    0.58,
+                    0.01,
+                    0
+                ]
+            }
+        },
+        "Political interest index": {
+            "++": {
+                "total": 27,
+                "values": [
+                    9,
+                    7,
+                    8,
+                    0,
+                    3
+                ],
+                "percentages": [
+                    0.32,
+                    0.27,
+                    0.3,
+                    0.01,
+                    0.1
+                ]
+            },
+            "+": {
+                "total": 56,
+                "values": [
+                    9,
+                    21,
+                    22,
+                    4,
+                    0
+                ],
+                "percentages": [
+                    0.16,
+                    0.37,
+                    0.4,
+                    0.07,
+                    0
+                ]
+            },
+            "-": {
+                "total": 20,
+                "values": [
+                    5,
+                    9,
+                    6,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.23,
+                    0.46,
+                    0.31,
+                    0,
+                    0
+                ]
+            },
+            "--": {
+                "total": 7,
+                "values": [
+                    0,
+                    4,
+                    2,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.02,
+                    0.61,
+                    0.35,
+                    0.01,
+                    0.01
+                ]
+            }
+        },
+        "Left-right political scale": {
+            "Left": {
+                "total": 28,
+                "values": [
+                    3,
+                    10,
+                    13,
+                    1,
+                    2
+                ],
+                "percentages": [
+                    0.1,
+                    0.36,
+                    0.44,
+                    0.04,
+                    0.06
+                ]
+            },
+            "Centre": {
+                "total": 41,
+                "values": [
+                    10,
+                    18,
+                    12,
+                    0,
+                    1
+                ],
+                "percentages": [
+                    0.24,
+                    0.43,
+                    0.31,
+                    0,
+                    0.02
+                ]
+            },
+            "Right": {
+                "total": 26,
+                "values": [
+                    6,
+                    10,
+                    10,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.24,
+                    0.38,
+                    0.38,
+                    0,
+                    0
+                ]
+            }
+        },
+        "Talk about European political matters": {
+            "Frequently": {
+                "total": 28,
+                "values": [
+                    8,
+                    7,
+                    10,
+                    0,
+                    3
+                ],
+                "percentages": [
+                    0.29,
+                    0.25,
+                    0.36,
+                    0.01,
+                    0.09
+                ]
+            },
+            "Occasionally": {
+                "total": 58,
+                "values": [
+                    9,
+                    22,
+                    22,
+                    4,
+                    0
+                ],
+                "percentages": [
+                    0.15,
+                    0.39,
+                    0.39,
+                    0.07,
+                    0
+                ]
+            },
+            "Never": {
+                "total": 23,
+                "values": [
+                    5,
+                    12,
+                    6,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.23,
+                    0.51,
+                    0.26,
+                    0,
+                    0
+                ]
+            }
+        },
+        "Image of the EU": {
+            "Positive": {
+                "total": 52,
+                "values": [
+                    11,
+                    24,
+                    14,
+                    1,
+                    3
+                ],
+                "percentages": [
+                    0.2,
+                    0.45,
+                    0.27,
+                    0.03,
+                    0.05
+                ]
+            },
+            "Neutral": {
+                "total": 36,
+                "values": [
+                    10,
+                    12,
+                    12,
+                    2,
+                    0
+                ],
+                "percentages": [
+                    0.29,
+                    0.33,
+                    0.33,
+                    0.05,
+                    0
+                ]
+            },
+            "Negative": {
+                "total": 19,
+                "values": [
+                    1,
+                    5,
+                    12,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.07,
+                    0.27,
+                    0.62,
+                    0.04,
+                    0
+                ]
+            }
+        },
+        "Things in country are going in\u2026": {
+            "Right direction": {
+                "total": 27,
+                "values": [
+                    5,
+                    7,
+                    15,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.17,
+                    0.27,
+                    0.56,
+                    0,
+                    0
+                ]
+            },
+            "Wrong direction": {
+                "total": 67,
+                "values": [
+                    17,
+                    27,
+                    18,
+                    2,
+                    3
+                ],
+                "percentages": [
+                    0.25,
+                    0.41,
+                    0.27,
+                    0.03,
+                    0.04
+                ]
+            },
+            "Neither": {
+                "total": 6,
+                "values": [
+                    0,
+                    4,
+                    1,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0,
+                    0.72,
+                    0.24,
+                    0.04,
+                    0
+                ]
+            }
+        },
+        "Things in the EU are going in\u2026": {
+            "Right direction": {
+                "total": 37,
+                "values": [
+                    7,
+                    16,
+                    12,
+                    0,
+                    2
+                ],
+                "percentages": [
+                    0.2,
+                    0.42,
+                    0.33,
+                    0,
+                    0.05
+                ]
+            },
+            "Wrong direction": {
+                "total": 52,
+                "values": [
+                    14,
+                    19,
+                    17,
+                    2,
+                    1
+                ],
+                "percentages": [
+                    0.27,
+                    0.36,
+                    0.32,
+                    0.04,
+                    0.01
+                ]
+            },
+            "Neither": {
+                "total": 6,
+                "values": [
+                    0,
+                    4,
+                    2,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0,
+                    0.61,
+                    0.38,
+                    0.01,
+                    0
+                ]
+            }
+        },
+        "Things in your life are going in\u2026": {
+            "Right direction": {
+                "total": 80,
+                "values": [
+                    20,
+                    31,
+                    28,
+                    0,
+                    1
+                ],
+                "percentages": [
+                    0.25,
+                    0.38,
+                    0.35,
+                    0.01,
+                    0.01
+                ]
+            },
+            "Wrong direction": {
+                "total": 18,
+                "values": [
+                    1,
+                    7,
+                    6,
+                    2,
+                    2
+                ],
+                "percentages": [
+                    0.07,
+                    0.38,
+                    0.35,
+                    0.1,
+                    0.1
+                ]
+            },
+            "Neither": {
+                "total": 6,
+                "values": [
+                    1,
+                    3,
+                    2,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.17,
+                    0.44,
+                    0.38,
+                    0.01,
+                    0
+                ]
+            }
+        },
+        "My voice counts in the EU": {
+            "Total 'Agree'": {
+                "total": 56,
+                "values": [
+                    15,
+                    21,
+                    18,
+                    1,
+                    2
+                ],
+                "percentages": [
+                    0.26,
+                    0.37,
+                    0.32,
+                    0.02,
+                    0.03
+                ]
+            },
+            "Total 'Disagree'": {
+                "total": 48,
+                "values": [
+                    7,
+                    19,
+                    18,
+                    3,
+                    1
+                ],
+                "percentages": [
+                    0.15,
+                    0.39,
+                    0.38,
+                    0.06,
+                    0.02
+                ]
+            }
+        },
+        "My voice counts in (OUR COUNTRY)": {
+            "Total 'Agree'": {
+                "total": 68,
+                "values": [
+                    18,
+                    25,
+                    23,
+                    1,
+                    2
+                ],
+                "percentages": [
+                    0.26,
+                    0.36,
+                    0.33,
+                    0.02,
+                    0.03
+                ]
+            },
+            "Total 'Disagree'": {
+                "total": 38,
+                "values": [
+                    5,
+                    15,
+                    14,
+                    3,
+                    1
+                ],
+                "percentages": [
+                    0.12,
+                    0.4,
+                    0.38,
+                    0.08,
+                    0.02
+                ]
+            }
+        },
+        "(OUR COUNTRY)\u2019s voice counts in the EU": {
+            "Total 'Agree'": {
+                "total": 71,
+                "values": [
+                    16,
+                    27,
+                    24,
+                    3,
+                    1
+                ],
+                "percentages": [
+                    0.22,
+                    0.38,
+                    0.34,
+                    0.05,
+                    0.01
+                ]
+            },
+            "Total 'Disagree'": {
+                "total": 36,
+                "values": [
+                    6,
+                    13,
+                    14,
+                    1,
+                    2
+                ],
+                "percentages": [
+                    0.18,
+                    0.37,
+                    0.38,
+                    0.02,
+                    0.05
+                ]
+            }
+        },
+        "Satisfaction with democracy in one's country": {
+            "Yes": {
+                "total": 50,
+                "values": [
+                    14,
+                    17,
+                    17,
+                    2,
+                    0
+                ],
+                "percentages": [
+                    0.27,
+                    0.35,
+                    0.34,
+                    0.04,
+                    0
+                ]
+            },
+            "No": {
+                "total": 57,
+                "values": [
+                    8,
+                    23,
+                    21,
+                    2,
+                    3
+                ],
+                "percentages": [
+                    0.15,
+                    0.39,
+                    0.38,
+                    0.04,
+                    0.04
+                ]
+            }
+        },
+        "Satisfaction with democracy in the EU": {
+            "Yes": {
+                "total": 62,
+                "values": [
+                    13,
+                    28,
+                    18,
+                    2,
+                    3
+                ],
+                "percentages": [
+                    0.2,
+                    0.44,
+                    0.28,
+                    0.04,
+                    0.04
+                ]
+            },
+            "No": {
+                "total": 44,
+                "values": [
+                    9,
+                    13,
+                    20,
+                    2,
+                    0
+                ],
+                "percentages": [
+                    0.21,
+                    0.29,
+                    0.45,
+                    0.05,
+                    0
+                ]
+            }
+        },
+        "Expectation of situation of national economy": {
+            "Better": {
+                "total": 12,
+                "values": [
+                    4,
+                    4,
+                    4,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.34,
+                    0.36,
+                    0.3,
+                    0,
+                    0
+                ]
+            },
+            "Worse": {
+                "total": 61,
+                "values": [
+                    14,
+                    23,
+                    21,
+                    1,
+                    2
+                ],
+                "percentages": [
+                    0.23,
+                    0.37,
+                    0.35,
+                    0.02,
+                    0.03
+                ]
+            },
+            "Same": {
+                "total": 33,
+                "values": [
+                    4,
+                    13,
+                    13,
+                    3,
+                    0
+                ],
+                "percentages": [
+                    0.11,
+                    0.4,
+                    0.4,
+                    0.09,
+                    0
+                ]
+            }
+        },
+        "Expectations situation of living conditions": {
+            "Better": {
+                "total": 10,
+                "values": [
+                    3,
+                    1,
+                    6,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.3,
+                    0.13,
+                    0.57,
+                    0,
+                    0
+                ]
+            },
+            "Worse": {
+                "total": 43,
+                "values": [
+                    13,
+                    13,
+                    13,
+                    3,
+                    2
+                ],
+                "percentages": [
+                    0.29,
+                    0.29,
+                    0.31,
+                    0.07,
+                    0.04
+                ]
+            },
+            "Same": {
+                "total": 48,
+                "values": [
+                    4,
+                    24,
+                    19,
+                    1,
+                    0
+                ],
+                "percentages": [
+                    0.07,
+                    0.5,
+                    0.4,
+                    0.03,
+                    0
+                ]
+            }
+        },
+        "Optimism about the future of the EU": {
+            "Optimistic": {
+                "total": 71,
+                "values": [
+                    16,
+                    31,
+                    21,
+                    1,
+                    2
+                ],
+                "percentages": [
+                    0.22,
+                    0.44,
+                    0.29,
+                    0.02,
+                    0.03
+                ]
+            },
+            "Pessimiste": {
+                "total": 34,
+                "values": [
+                    6,
+                    9,
+                    16,
+                    1,
+                    1
+                ],
+                "percentages": [
+                    0.19,
+                    0.28,
+                    0.48,
+                    0.03,
+                    0.02
+                ]
+            }
+        },
+        "Voted in the last European elections": {
+            "Yes": {
+                "total": 64,
+                "values": [
+                    14,
+                    24,
+                    22,
+                    1,
+                    3
+                ],
+                "percentages": [
+                    0.22,
+                    0.37,
+                    0.35,
+                    0.02,
+                    0.04
+                ]
+            },
+            "No": {
+                "total": 43,
+                "values": [
+                    8,
+                    17,
+                    16,
+                    3,
+                    0
+                ],
+                "percentages": [
+                    0.18,
+                    0.39,
+                    0.36,
+                    0.07,
+                    0
+                ]
+            }
+        },
+        "Voted in the last national elections": {
+            "Yes": {
+                "total": 81,
+                "values": [
+                    15,
+                    32,
+                    30,
+                    1,
+                    3
+                ],
+                "percentages": [
+                    0.18,
+                    0.4,
+                    0.37,
+                    0.02,
+                    0.03
+                ]
+            },
+            "No": {
+                "total": 26,
+                "values": [
+                    7,
+                    7,
+                    9,
+                    3,
+                    0
+                ],
+                "percentages": [
+                    0.28,
+                    0.27,
+                    0.34,
+                    0.11,
+                    0
+                ]
+            }
+        },
+        "Voted in the last local elections": {
+            "Yes": {
+                "total": 79,
+                "values": [
+                    15,
+                    28,
+                    31,
+                    1,
+                    3
+                ],
+                "percentages": [
+                    0.19,
+                    0.36,
+                    0.4,
+                    0.02,
+                    0.03
+                ]
+            },
+            "No": {
+                "total": 28,
+                "values": [
+                    7,
+                    12,
+                    7,
+                    3,
+                    0
+                ],
+                "percentages": [
+                    0.23,
+                    0.42,
+                    0.25,
+                    0.1,
+                    0
+                ]
+            }
+        },
+        "Number of mother tongue(s)": {
+            "At least 1": {
+                "total": 101,
+                "values": [
+                    20,
+                    39,
+                    36,
+                    4,
+                    3
+                ],
+                "percentages": [
+                    0.2,
+                    0.38,
+                    0.35,
+                    0.04,
+                    0.03
+                ]
+            },
+            "At least 2": {
+                "total": 99,
+                "values": [
+                    20,
+                    39,
+                    36,
+                    2,
+                    3
+                ],
+                "percentages": [
+                    0.2,
+                    0.39,
+                    0.36,
+                    0.02,
+                    0.03
+                ]
+            },
+            "At least 3": {
+                "total": 81,
+                "values": [
+                    11,
+                    34,
+                    33,
+                    2,
+                    1
+                ],
+                "percentages": [
+                    0.13,
+                    0.42,
+                    0.41,
+                    0.03,
+                    0.01
+                ]
+            },
+            "At least 4": {
+                "total": 50,
+                "values": [
+                    9,
+                    20,
+                    20,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.18,
+                    0.41,
+                    0.4,
+                    0.01,
+                    0
+                ]
+            }
+        },
+        "Activity as language learner": {
+            "Very active": {
+                "total": 29,
+                "values": [
+                    6,
+                    5,
+                    14,
+                    2,
+                    3
+                ],
+                "percentages": [
+                    0.2,
+                    0.16,
+                    0.49,
+                    0.06,
+                    0.09
+                ]
+            },
+            "Active": {
+                "total": 6,
+                "values": [
+                    1,
+                    2,
+                    4,
+                    0,
+                    0
+                ],
+                "percentages": [
+                    0.1,
+                    0.28,
+                    0.59,
+                    0.03,
+                    0
+                ]
+            },
+            "Not active": {
+                "total": 70,
+                "values": [
+                    16,
+                    32,
+                    20,
+                    2,
+                    0
+                ],
+                "percentages": [
+                    0.22,
+                    0.47,
+                    0.28,
+                    0.03,
+                    0
+                ]
+            }
+        },
+        "Users of online machine translations": {
+            "Regular user": {
+                "total": 35,
+                "values": [
+                    2,
+                    15,
+                    15,
+                    0,
+                    2
+                ],
+                "percentages": [
+                    0.07,
+                    0.44,
+                    0.43,
+                    0.01,
+                    0.05
+                ]
+            },
+            "Not regular user": {
+                "total": 74,
+                "values": [
+                    20,
+                    26,
+                    24,
+                    4,
+                    1
+                ],
+                "percentages": [
+                    0.27,
+                    0.35,
+                    0.32,
+                    0.05,
+                    0.01
+                ]
+            }
+        }
+    }
+}
