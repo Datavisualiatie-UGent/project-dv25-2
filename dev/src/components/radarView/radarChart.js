@@ -6,7 +6,7 @@ const MAX_TOKEN_LENGTH = 18;
 export function createRadarChart(question, selectedAnswers, maxScale) {
     const answers = question.answers;
     // Set dimensions
-    const margin = {top: 100, right: 0, bottom: 100, left: 0};
+    const margin = {top: 100, right: 0, bottom: 120, left: 0};
     const width = window.innerWidth / 2;
     const height = window.innerHeight / 2;
     const radius = Math.min(width, height) / 2;

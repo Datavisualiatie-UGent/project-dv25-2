@@ -42,22 +42,31 @@ export function renderRadarView(questions, eu_countries) {
         chartContainer.selectAll(".category").remove();
 
         const question = questions.find(q => q.id === questionId);
-        if (question) {
-            currentSelectedQuestion = question;
-            selectedAnswers = {};
-            categories = {...question.volume_B};
-            categories.Countries = Object.keys(question.volume_A || {}).reduce((acc, key) => {
-                if (Object.keys(eu_countries).includes(key))
-                    acc[eu_countries[key].name] = question.volume_A[key];
-                return acc;
-            }, {});
-            redrawRadarChart()
-        }
+        if (question)
+            initQuestion(question)
     });
+
+    function initQuestion(question) {
+        currentSelectedQuestion = question;
+        selectedAnswers = {};
+        categories = {...question.volume_B};
+        categories.Countries = Object.keys(question.volume_A || {}).reduce((acc, key) => {
+            if (Object.keys(eu_countries).includes(key))
+                acc[eu_countries[key].name] = question.volume_A[key];
+            return acc;
+        }, {});
+        redrawRadarChart()
+        selectCategory("Countries");
+    }
 
     // Event listener for category selection
     dispatch.on("selectCategory", (categoryName) => {
         chartContainer.selectAll(".category").remove();
+        selectCategory(categoryName)
+
+    });
+
+    function selectCategory(categoryName) {
         const categoryValues = categories[categoryName];
 
         if (categoryValues) {
@@ -77,7 +86,8 @@ export function renderRadarView(questions, eu_countries) {
             chartContainer.append(() => categorySelector);
             redrawRadarChart()
         }
-    });
+    }
+
 
     dispatch.on("selectCategoryValue", (name, value, categoryColor, active) => {
         selectedAnswers[name] = active ? {value: value, color: categoryColor} : null;
@@ -101,8 +111,8 @@ export function renderRadarView(questions, eu_countries) {
     }
 
 
-    // Initialize with a default question (optional)
-    dispatch.call("selectQuestion", this, "D8c");
+    initQuestion(questions[0]);
+    selectCategory("Countries");
 
     return container.node();
 }

@@ -38,6 +38,13 @@ const language_importance = await FileAttachment("data/questions/question_QB1b.j
 const language_methods = await FileAttachment("data/questions/question_QB4b.json").json(); // language learning methods
 const discourage_learning = await FileAttachment("data/questions/question_QB5.json").json(); // discourage learning
 const encourage_learning = await FileAttachment("data/questions/question_QB6.json").json(); // encourage learning
+const often_use_first = await FileAttachment("data/questions/question_SD3_1.json").json(); // how often do you use first other language
+const often_use_second = await FileAttachment("data/questions/question_SD3_2.json").json(); // how often do you use second other language
+const often_use_third = await FileAttachment("data/questions/question_SD3_3.json").json(); // how often do you use third other language
+const location_use_first = await FileAttachment("data/questions/question_SD4a.json").json(); // where do you use first other language
+const location_use_second = await FileAttachment("data/questions/question_SD4b.json").json(); // where do you use second other language
+const location_use_third = await FileAttachment("data/questions/question_SD4c.json").json(); // where do you use third other language
+const location_use_mother = await FileAttachment("data/questions/question_SD4d.json").json(); // where do you use mother language
 ```
 
 <div class="header">
@@ -68,26 +75,39 @@ const encourage_learning = await FileAttachment("data/questions/question_QB6.jso
 // Mapview
 // Load the questions for mapview
 const mapViewQuestions = [
-    mothertongue, 
-    percentage_bilingual, 
-    languages_amount, 
-    second_language, 
-    politics_left_right, 
-    education, 
-    age, 
-    living, 
-    bills, 
+    mothertongue,
+    percentage_bilingual,
+    languages_amount,
+    second_language,
+    politics_left_right,
+    education,
+    age,
+    living,
+    bills,
     household_class
 ];
 import {renderMapView} from "./components/mapView/mapView.js";
+
 display(renderMapView(svgContent, mapViewQuestions, eu_countries));
 ```
 
 ```js
 // Radarview
 // Load questions for radarview
-const radarViewQuestions = mapViewQuestions
+const radarViewQuestions = [
+    language_learning_advantages,
+    language_situation,
+    encourage_learning,
+    often_use_first,
+    often_use_second,
+    often_use_third,
+    location_use_first,
+    location_use_second,
+    location_use_third,
+    location_use_mother
+];
 import {renderRadarView} from "./components/radarView/radarView.js";
+
 display(renderRadarView(radarViewQuestions, eu_countries));
 ```
 
@@ -104,18 +124,19 @@ display(renderRadarView(radarViewQuestions, eu_countries));
 // Barview
 // Load the questions for barview
 const barViewQuestions = [
-  direction_life,
-  discuss_national_pol,
-  direction_national,
-  democracy_national,
-  voice_national,
-  discuss_eu_pol,
-  direction_eu,
-  democracy_eu,
-  voice_eu,
-  voice_country_eu
+    direction_life,
+    discuss_national_pol,
+    direction_national,
+    democracy_national,
+    voice_national,
+    discuss_eu_pol,
+    direction_eu,
+    democracy_eu,
+    voice_eu,
+    voice_country_eu
 ];
 import {renderBarView} from "./components/barView/barView.js";
+
 display(renderBarView(barViewQuestions, eu_countries, flags));
 ```
 
@@ -140,6 +161,7 @@ const bubbleViewQuestions = [
     encourage_learning,
 ];
 import {renderBubbleView} from "./components/bubbleView/bubbleView.js";
+
 display(renderBubbleView(bubbleViewQuestions, eu_countries));
 ```
 
@@ -226,5 +248,3 @@ display(renderBubbleView(bubbleViewQuestions, eu_countries));
         color: #e0e0e0;
     }
 </style>
-
-
