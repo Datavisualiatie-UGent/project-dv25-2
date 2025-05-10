@@ -6,8 +6,8 @@ export function createBubbleChart(question, country) {
         width: window.innerWidth,
         height: window.innerHeight,
         padding: 50,
-        minBubbleSize: 30,
-        maxBubbleSize: 180,
+        minBubbleSize: 1,
+        maxBubbleSize: 200,
         minValueForLabel: 50,
         colorScheme: d3.scaleOrdinal([
                 "#e6194b", "#3cb44b", "#ffe119", "#4363d8",

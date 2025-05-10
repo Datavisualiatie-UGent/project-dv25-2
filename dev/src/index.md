@@ -91,9 +91,17 @@ display(renderBarView(barViewQuestions, eu_countries, flags));
 
 const language_learning_advantages = await FileAttachment("data/questions/question_QB2.json").json(); // language learning advantages
 const language_situation = await FileAttachment("data/questions/question_QB3.json").json(); // language situation
+const language_importance = await FileAttachment("data/questions/question_QB1b.json").json(); // language importance
+const language_methods = await FileAttachment("data/questions/question_QB4b.json").json(); // language learning methods
+const discourage_learning = await FileAttachment("data/questions/question_QB5.json").json(); // discourage learning
+const encourage_learning = await FileAttachment("data/questions/question_QB6.json").json(); // encourage learning
 const bubbleViewQuestions = [
-  language_learning_advantages,
-  language_situation
+    language_learning_advantages,
+    language_situation,
+    language_importance,
+    language_methods,
+    discourage_learning,
+    encourage_learning,
 ];
 ```
 
