@@ -1,11 +1,11 @@
 import * as d3 from "d3";
 
-export function createTimelineChart(dispatch, question, country, flags) {
+export function createTimelineChart(container, dispatch, question, country, flags) {
     dispatch.on("resetBarView", () => {
         dots.selectAll(".dot").attr("opacity", 1);
         chart.selectAll(".category-line").attr("opacity", 1);
     });
-    
+
     const categories = question.answers;
     const times = [2012, 2023];
     const data = question.volume_A[country];
@@ -27,12 +27,14 @@ export function createTimelineChart(dispatch, question, country, flags) {
         };
     });
 
-    const container = document.querySelector(".chart-container");
-    const containerWidth = container.getBoundingClientRect().width;
-    const containerHeight = container.getBoundingClientRect().height;
+
+    // Get container dimensions
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
+
 
     // Set up dimensions (adjusted for vertical orientation)
-    const margin = {top: 120, right: 100, bottom: 10, left: 300};
+    const margin = { top: 120, right: 100, bottom: 10, left: 300 };
     const width = containerWidth - margin.left - margin.right;
     const height = containerHeight - margin.top - margin.bottom;
 
@@ -116,9 +118,9 @@ export function createTimelineChart(dispatch, question, country, flags) {
         .attr("fill", d => color(d.time))
         .attr("stroke", "white")
         .attr("stroke-width", 1)
-        .on("mouseover", function(event, d) {
+        .on("mouseover", function (event, d) {
             d3.select(this).attr("r", 8);
-            
+
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9);
@@ -129,13 +131,13 @@ export function createTimelineChart(dispatch, question, country, flags) {
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
-        .on("mouseout", function() {
+        .on("mouseout", function () {
             d3.select(this).attr("r", 5);
             tooltip.transition()
                 .duration(500)
                 .style("opacity", 0);
         })
-        .on("click", function(event, d) {
+        .on("click", function (event, d) {
             chart.selectAll(".category-line").attr("opacity", 0.1);
             dots.selectAll(".dot").attr("opacity", 0.1);
             dots.selectAll(".dot")
@@ -146,15 +148,15 @@ export function createTimelineChart(dispatch, question, country, flags) {
 
     // Replace your truncateText function with this enhanced version
     function truncateTextWithTooltip(text, maxLength) {
-        text.each(function() {
+        text.each(function () {
             const textEl = d3.select(this);
             const fullText = textEl.text();
-            
+
             if (fullText.length > maxLength) {
                 // Truncate the visible text
                 textEl.text(fullText.substring(0, maxLength) + "...");
             }
-            textEl.on("mouseover", function(event) {
+            textEl.on("mouseover", function (event) {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
@@ -162,11 +164,11 @@ export function createTimelineChart(dispatch, question, country, flags) {
                     .style("left", (event.pageX + 10) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
-            .on("mouseout", function() {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
+                .on("mouseout", function () {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
         });
     }
 
