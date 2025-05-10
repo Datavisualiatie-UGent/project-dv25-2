@@ -45,6 +45,13 @@ const location_use_first = await FileAttachment("data/questions/question_SD4a.js
 const location_use_second = await FileAttachment("data/questions/question_SD4b.json").json(); // where do you use second other language
 const location_use_third = await FileAttachment("data/questions/question_SD4c.json").json(); // where do you use third other language
 const location_use_mother = await FileAttachment("data/questions/question_SD4d.json").json(); // where do you use mother language
+const question_Q48f_ru = await FileAttachment("data/questions/question_Q48f_ru.json").json();
+const question_Q48f_fr = await FileAttachment("data/questions/question_Q48f_fr.json").json();
+const question_Q48f_es = await FileAttachment("data/questions/question_Q48f_es.json").json();
+const question_Q48f_de = await FileAttachment("data/questions/question_Q48f_de.json").json();
+const question_Q48f_en = await FileAttachment("data/questions/question_Q48f_en.json").json();
+const question_D15a = await FileAttachment("data/questions/question_D15a.json").json();
+const question_QB4a = await FileAttachment("data/questions/question_QB4a.json").json();
 ```
 
 <div class="header">
@@ -91,26 +98,6 @@ import {renderMapView} from "./components/mapView/mapView.js";
 display(renderMapView(svgContent, mapViewQuestions, eu_countries));
 ```
 
-```js
-// Radarview
-// Load questions for radarview
-const radarViewQuestions = [
-    language_learning_advantages,
-    language_situation,
-    encourage_learning,
-    often_use_first,
-    often_use_second,
-    often_use_third,
-    location_use_first,
-    location_use_second,
-    location_use_third,
-    location_use_mother
-];
-import {renderRadarView} from "./components/radarView/radarView.js";
-
-display(renderRadarView(radarViewQuestions, eu_countries));
-```
-
 <div class="visualization-section">
     <div class="visualization-header">Stacked Bar Chart: Political Landscape of the EU</div>
     <div class="visualization-content">
@@ -141,6 +128,35 @@ display(renderBarView(barViewQuestions, eu_countries, flags));
 ```
 
 <div class="visualization-section">
+    <div class="visualization-header">Radar Chart: The usage of languages in the EU</div>
+    <div class="visualization-content">
+        <p>Not only political engagement in Europe comes with a variety of perspectives, but also the usage of languages differs greatly from person to person in regards to origin, age and other demografic factors.</p>
+        <p>The following radar chart visualizes the differences in the usage of languages in the EU. Each axis represents a different aspect of habits, opinions and situations regarding the usage of languages.</p>
+        <p>By selecting different questions one can compare the literal shape of a certain demographic group.</p>
+    </div>
+</div>
+
+```js
+// Radarview
+// Load questions for radarview
+const radarViewQuestions = [
+    language_learning_advantages,
+    language_situation,
+    encourage_learning,
+    often_use_first,
+    often_use_second,
+    often_use_third,
+    location_use_first,
+    location_use_second,
+    location_use_third,
+    location_use_mother
+];
+import {renderRadarView} from "./components/radarView/radarView.js";
+
+display(renderRadarView(radarViewQuestions, eu_countries));
+```
+
+<div class="visualization-section">
     <div class="visualization-header">Bubble Chart: Language Learning in the EU</div>
     <div class="visualization-content">
         <p>Language learning is a crucial aspect of the EU's cultural and linguistic diversity. The following bubble chart visualizes the differences in language learning across EU member states.</p>
@@ -163,6 +179,28 @@ const bubbleViewQuestions = [
 import {renderBubbleView} from "./components/bubbleView/bubbleView.js";
 
 display(renderBubbleView(bubbleViewQuestions, eu_countries));
+```
+
+```js
+const timelineQuestions = [
+    question_QB4a,
+    language_methods,
+    discourage_learning,
+    encourage_learning,
+    languages_amount,
+    question_Q48f_ru,
+    question_Q48f_fr,
+    question_Q48f_es,
+    question_Q48f_de,
+    question_Q48f_en,
+    bills,
+    language_learning_advantages,
+    language_situation,
+    question_D15a
+];
+import {renderTimelineView} from "./components/timelineView/timelineView.js";
+
+display(renderTimelineView(timelineQuestions, flags));
 ```
 
 <style>
