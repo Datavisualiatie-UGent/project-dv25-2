@@ -41,6 +41,10 @@ const encourage_learning = await FileAttachment("data/questions/question_QB6.jso
 const often_use_first = await FileAttachment("data/questions/question_SD3_1.json").json(); // how often do you use first other language
 const often_use_second = await FileAttachment("data/questions/question_SD3_2.json").json(); // how often do you use second other language
 const often_use_third = await FileAttachment("data/questions/question_SD3_3.json").json(); // how often do you use third other language
+const location_use_first = await FileAttachment("data/questions/question_SD4a.json").json(); // where do you use first other language
+const location_use_second = await FileAttachment("data/questions/question_SD4b.json").json(); // where do you use second other language
+const location_use_third = await FileAttachment("data/questions/question_SD4c.json").json(); // where do you use third other language
+const location_use_mother = await FileAttachment("data/questions/question_SD4d.json").json(); // where do you use mother language
 ```
 
 <div class="europe-container">
@@ -88,7 +92,11 @@ const radarViewQuestions = [
     encourage_learning,
     often_use_first,
     often_use_second,
-    often_use_third
+    often_use_third,
+    location_use_first,
+    location_use_second,
+    location_use_third,
+    location_use_mother
 ];
 import {renderRadarView} from "./components/radarView/radarView.js";
 
