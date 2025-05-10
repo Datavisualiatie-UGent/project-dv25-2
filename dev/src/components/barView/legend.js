@@ -8,6 +8,10 @@ export function initLegend(question) {
     const color = d3.scaleOrdinal(d3.schemeTableau10);
 
     // Create a container for the legend
+    const container = d3.create("div")
+        .style("position", "relative")
+
+
     const legendContainer = createLegendContainer();
     // Create legend items
     const categories = question["answers"].filter(d => !excluded_categories.includes(d));
@@ -33,7 +37,9 @@ export function initLegend(question) {
         .style("color", "white")
         .text(d => d);
 
-    return legendContainer;
+    container.append(() => legendContainer.node());
+
+    return container;
 }
 
 function createLegendContainer() {
