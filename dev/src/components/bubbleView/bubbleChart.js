@@ -1,51 +1,62 @@
 import * as d3 from "d3";
 
 export function createBubbleChart(question, country) {
-    // Set up dimensions
-    const width = window.innerWidth * 0.8;
-    const height = window.innerHeight * 0.8;
-    const padding = 50;
+    // Configuration
+    const config = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        padding: 50,
+        minBubbleSize: 30,
+        maxBubbleSize: 180,
+        minValueForLabel: 50,
+        colorScheme: d3.scaleOrdinal([
+                "#e6194b", "#3cb44b", "#ffe119", "#4363d8",
+                "#f58231", "#911eb4", "#b6ffff", "#f032e6",
+                "#bcf60c", "#fabebe", "#008080", "#e6beff",
+                "#9a6324", "#fffac8", "#800000", "#aaffc3",
+                "#808000", "#ffd8b1", "#000075", "#808080",
+                "#ffffff", "#000000", "#a9a9a9", "#ff4500",
+                "#2e8b57", "#4682b4", "#daa520", "#7b68ee",
+                "#ff69b4", "#cd5c5c", "#26837a", "#1e90ff"
+            ]),
+        transitionDuration: 300
+    };
 
-    // Create SVG
+    // Create SVG container
     const svg = d3.create("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [0, 0, width, height])
-        .attr("style", "max-width: 100%; height: auto;");
+        .attr("width", config.width)
+        .attr("height", config.height)
+        .attr("viewBox", [0, 0, config.width, config.height])
+        .attr("style", "max-width: 100%; height: 100%;");
 
-    // Prepare the data for Belgium
-    const answers = question["answers"];
-    const values = question["volume_A"][country]["values"];
+    // Prepare data
+    const data = question.answers.map((answer, i) => ({
+        answer,
+        value: question.volume_A[country].values[i],
+        category: i,
+        x: Math.random() * config.width,
+        y: Math.random() * config.height
+    })).filter(d => d.value > 0);
 
-
-    // Create data array with initial positions
-    const data = answers.map((answer, i) => ({
-        answer: answer,
-        value: values[i],
-        category: i < 12 ? "Main" : "Other",
-        x: Math.random() * width,
-        y: Math.random() * height
-    }));
-
-    // Create scales with more spacing between bubbles
+    // Scales
     const sizeScale = d3.scaleSqrt()
         .domain([0, d3.max(data, d => d.value)])
-        .range([15, 70]); // Increased minimum size for better visibility
+        .range([config.minBubbleSize, config.maxBubbleSize]);
 
-    const colorScale = d3.scaleOrdinal()
-        .domain(["Main", "Other"])
-        .range(["#4e79a7", "#e15759"]);
+    const colorScale = config.colorScheme;
 
-    // Create a force simulation with stronger repulsion
-    const simulation = d3.forceSimulation(data)
-        .force("x", d3.forceX(width / 2).strength(0.03)) // Weaker center force
-        .force("y", d3.forceY(height / 2).strength(0.03))
-        .force("charge", d3.forceManyBody().strength(-50)) // Increased repulsion
-        .force("collision", d3.forceCollide().radius(d => sizeScale(d.value) + 10)); // More padding
+    // Tooltip setup
+    const tooltip = createTooltip();
 
-    // Create bubbles with drag behavior
-    const bubbles = svg.append("g")
-        .selectAll("circle")
+    // Simulation setup
+    const simulation = createSimulation(data, config, sizeScale);
+
+    // Create bubbles group
+    const bubblesGroup = svg.append("g")
+        .attr("class", "bubbles");
+
+    // Draw bubbles with enhanced interactivity
+    const bubbles = bubblesGroup.selectAll(".bubble")
         .data(data)
         .join("circle")
         .attr("class", "bubble")
@@ -53,25 +64,206 @@ export function createBubbleChart(question, country) {
         .attr("fill", d => colorScale(d.category))
         .attr("opacity", 0.85)
         .attr("stroke", "white")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1)
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended))
-        .on("mouseover", function(event, d) {
-            d3.select(this).attr("opacity", 1).attr("stroke-width", 3);
-            tooltip.style("visibility", "visible")
-                .html(`<strong>${d.answer}</strong><br/>
-                       Respondents: ${d.value}<br/>`);
-        })
-        .on("mousemove", function(event) {
-            tooltip.style("top", (event.pageY - 10) + "px")
-                .style("left", (event.pageX + 10) + "px");
-        })
-        .on("mouseout", function() {
-            d3.select(this).attr("opacity", 0.85).attr("stroke-width", 2);
-            tooltip.style("visibility", "hidden");
+        .on("mouseover", handleMouseOver)
+        .on("mouseout", handleMouseOut)
+        .on("click", handleClick);
+
+    // Create labels with multi-line text
+    const labelsGroup = svg.append("g")
+        .attr("class", "labels");
+
+    const labels = labelsGroup.selectAll(".label-group")
+        .data(data.filter(d => d.value > config.minValueForLabel))
+        .join("g")
+        .attr("class", "label-group")
+        .attr("transform", d => `translate(${d.x},${d.y})`)
+        .style("pointer-events", "none");
+
+    labels.each(function(d) {
+        createMultiLineLabel(d3.select(this), d, sizeScale(d.value));
+    });
+
+    // Simulation tick handler
+    simulation.on("tick", () => {
+        bubbles
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
+
+        labels
+            .attr("transform", d => `translate(${d.x},${d.y})`);
+    });
+
+    // Add zoom/pan behavior
+    const zoom = d3.zoom()
+        .scaleExtent([0.5, 3])
+        .on("zoom", (event) => {
+            bubblesGroup.attr("transform", event.transform);
+            labelsGroup.attr("transform", event.transform);
         });
+
+    svg.call(zoom);
+
+    // Helper functions
+    function createTooltip() {
+        return d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("background", "rgba(0,0,0,0.8)")
+            .style("color", "white")
+            .style("padding", "8px 12px")
+            .style("border-radius", "4px")
+            .style("pointer-events", "none")
+            .style("font-family", "sans-serif")
+            .style("font-size", "14px")
+            .style("box-shadow", "0 2px 10px rgba(0,0,0,0.2)")
+            .style("transition", "opacity 0.2s");
+    }
+
+    function createSimulation(data, config, sizeScale) {
+        return d3.forceSimulation(data)
+            .force("x", d3.forceX(config.width / 2).strength(0.03))
+            .force("y", d3.forceY(config.height / 2).strength(0.03))
+            .force("charge", d3.forceManyBody().strength(-50))
+            .force("collision", d3.forceCollide()
+                .radius(d => sizeScale(d.value) + 10)
+                .strength(0.8));
+    }
+
+    function createMultiLineLabel(container, d, radius) {
+        const maxWidth = radius * 1.8;
+        const maxLines = Math.max(1, Math.floor(radius / 15));
+        const lineHeight = 16;
+
+        const lines = wrapText(d.answer, maxWidth, maxLines);
+
+        container.selectAll("text")
+            .data(lines)
+            .join("text")
+            .attr("dy", (_, i) => (i - (lines.length - 1) / 2) * lineHeight)
+            .attr("text-anchor", "middle")
+            .style("font-size", `${Math.min(16, radius / 3)}px`)
+            .style("fill", "white")
+            .style("font-weight", "bold")
+            .style("text-shadow", "1px 1px 2px rgba(0,0,0,0.7)")
+            .text(line => line);
+    }
+
+    function wrapText(text, maxWidth, maxLines = 2) {
+        const words = text.split(/\s+/);
+        const lines = [];
+        let currentLine = words[0];
+
+        for (let i = 1; i < words.length; i++) {
+            const word = words[i];
+            const testLine = currentLine + " " + word;
+
+            if (testLine.length * 8 <= maxWidth) {
+                currentLine = testLine;
+            } else {
+                if (lines.length + 1 >= maxLines) {
+                    currentLine = currentLine + "...";
+                    break;
+                }
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    }
+
+    // Interaction handlers
+    function handleMouseOver(event, d) {
+        d3.select(this)
+            .transition()
+            .duration(config.transitionDuration)
+            .attr("opacity", 1)
+            .attr("stroke-width", 3)
+            .attr("r", sizeScale(d.value) * 1.05);
+
+        tooltip
+            .style("visibility", "visible")
+            .html(`<strong>${d.answer}</strong><br/>Respondents: ${d.value}`)
+            .style("left", `${event.pageX + 15}px`)
+            .style("top", `${event.pageY - 15}px`);
+    }
+
+    function handleMouseOut(event, d) {
+        d3.select(this)
+            .transition()
+            .duration(config.transitionDuration)
+            .attr("opacity", 0.85)
+            .attr("stroke-width", 1)
+            .attr("r", sizeScale(d.value));
+
+        tooltip.style("visibility", "hidden");
+    }
+
+    function handleClick(event, d) {
+        // Stop current simulation to prevent interference
+        simulation.stop();
+
+        // Store original positions
+        const originalX = d.x;
+        const originalY = d.y;
+
+        // Calculate target center position
+        const targetX = config.width / 2;
+        const targetY = config.height / 2;
+
+        // Create smooth transition
+        const duration = 1000; // milliseconds
+        const startTime = Date.now();
+
+        function animate() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Apply easing function for smooth movement
+            const ease = d3.easeCubicInOut(progress);
+
+            // Calculate intermediate position
+            d.x = originalX + (targetX - originalX) * ease;
+            d.y = originalY + (targetY - originalY) * ease;
+
+            // Temporarily fix position during animation
+            d.fx = d.x;
+            d.fy = d.y;
+
+            // Restart simulation to apply movement
+            simulation.alpha(0.1).restart();
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                // Release fixed position after animation completes
+                d.fx = null;
+                d.fy = null;
+                simulation.alpha(0.3).restart();
+            }
+        }
+
+        // Start animation
+        animate();
+
+        // Highlight this bubble
+        d3.select(this)
+            .transition()
+            .duration(duration)
+            .attr("opacity", 1);
+
+        // Dim other bubbles
+        bubbles.filter(b => b !== d)
+            .transition()
+            .duration(duration)
+            .attr("opacity", 0.3);
+    }
 
     // Drag functions
     function dragstarted(event, d) {
@@ -90,52 +282,6 @@ export function createBubbleChart(question, country) {
         d.fx = null;
         d.fy = null;
     }
-
-    // Add answer labels to bubbles
-    const labels = svg.append("g")
-        .selectAll("text")
-        .data(data.filter(d => d.value > 50))
-        .join("text")
-        .attr("dy", ".3em")
-        .style("font-size", "11px")
-        .style("text-anchor", "middle")
-        .style("pointer-events", "none")
-        .style("fill", "white")
-        .style("font-weight", "bold")
-        .text(d => {
-            // Shorten long labels with smarter truncation
-            const maxLength = sizeScale(d.value) / 3;
-            if (d.answer.length > maxLength) {
-                return d.answer.substring(0, maxLength - 3) + "...";
-            }
-            return d.answer;
-        });
-
-    // Update positions on simulation tick
-    simulation.on("tick", () => {
-        bubbles
-            .attr("cx", d => d.x)
-            .attr("cy", d => d.y);
-
-        labels
-            .attr("x", d => d.x)
-            .attr("y", d => d.y);
-    });
-
-    // Create tooltip
-    const tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("visibility", "hidden")
-        .style("background", "rgba(255, 255, 255, 0.95)")
-        .style("border", "1px solid #ddd")
-        .style("padding", "10px")
-        .style("border-radius", "6px")
-        .style("pointer-events", "none")
-        .style("font-family", "Arial, sans-serif")
-        .style("font-size", "13px")
-        .style("box-shadow", "3px 3px 10px rgba(0,0,0,0.2)")
-        .style("backdrop-filter", "blur(2px)");
 
     return svg;
 }

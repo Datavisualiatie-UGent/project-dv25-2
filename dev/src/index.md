@@ -99,7 +99,7 @@ const bubbleViewQuestions = [
 
 ```js
 import {renderBubbleView} from "./components/bubbleView/bubbleView.js";
-display(renderBubbleView(bubbleViewQuestions));
+display(renderBubbleView(bubbleViewQuestions, eu_countries));
 ```
 
 <style>

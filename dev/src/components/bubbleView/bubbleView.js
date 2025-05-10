@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import {createBubbleChart} from "./bubbleChart.js";
 import {initSelectBoxContainer} from "./selectBox.js";
 
-export function renderBubbleView(questions) {
+export function renderBubbleView(questions, eu_countries) {
     const dispatch = d3.dispatch("selectQuestion", "selectAnswer");
 
     let selectedQuestion = null;
@@ -11,7 +11,7 @@ export function renderBubbleView(questions) {
     // Create SVG container
     const container = d3.create("div")
 
-    const selectBoxContainer = initSelectBoxContainer(dispatch, questions);
+    const selectBoxContainer = initSelectBoxContainer(dispatch, questions, eu_countries);
     container.append(() => selectBoxContainer.node());
 
     const chartContainer = d3.create("div")
