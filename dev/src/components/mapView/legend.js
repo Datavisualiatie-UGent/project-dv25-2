@@ -2,6 +2,9 @@ import * as d3 from "d3";
 
 export function initLegend(dispatch, questions) {
     // Create legend container
+    const container = d3.create("div")
+        .style("position", "relative")
+
     const legendContainer = createLegendContainer();
 
     let currentColor = null;
@@ -157,7 +160,9 @@ export function initLegend(dispatch, questions) {
         handleNumericalQuestion(selectedQuestion);
     }
 
-    return legendContainer;
+    container.append(() => legendContainer.node());
+
+    return container;
 }
 
 function createGradientLegend(maxValue, isPercentage = false) {
@@ -222,10 +227,10 @@ function createLegendContainer() {
     const legendContainer = d3.create("div")
         .style("position", "absolute")
         .style("left", "20px")
-        .style("bottom", "700px")
+        .style("bottom", "40px")
         .style("padding", "10px")
         .style("z-index", "10")
-        .style("max-height", "200px")
+        .style("max-height", "100px")
         .style("overflow-y", "auto");
 
     return legendContainer;
