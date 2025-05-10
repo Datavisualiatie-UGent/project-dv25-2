@@ -24,10 +24,14 @@ export function createBarChart(question, flags) {
     }).sort((a, b) => b[categories[0]] - a[categories[0]]); // Sort by the first category
 
 
+    const container = document.querySelector(".chart-container");
+    const containerWidth = container.getBoundingClientRect().width;
+    const containerHeight = container.getBoundingClientRect().height;
+
     // Set up dimensions
-    const margin = {top: 50, right: 30, bottom: 100, left: 60};
-    const width = window.innerWidth * 0.85 - margin.left - margin.right;
-    const height = window.innerHeight * 0.7 - margin.top - margin.bottom;
+    const margin = {top: 100, right: 30, bottom: 60, left: 60};
+    const width = containerWidth * 0.85 - margin.left - margin.right;
+    const height = containerHeight - margin.top - margin.bottom;
 
     // Create SVG
     const svg = d3.create("svg")
@@ -59,21 +63,66 @@ export function createBarChart(question, flags) {
     // Color scale
     const color = d3.scaleOrdinal(d3.schemeTableau10);
 
-    // Draw the stacked bars
-    chart.append("g")
+    // Create a tooltip div
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background-color", "#3a3a3a")
+        .style("padding", "8px")
+        .style("border", "1px solid #ddd")
+        .style("border-radius", "4px")
+        .style("pointer-events", "none")
+        .style("opacity", 0)
+        .style("font-size", "12px")
+        .style("box-shadow", "0 2px 4px rgba(0,0,0,0.2)");
+
+    // Draw the stacked bars with interactivity
+    const bars = chart.append("g")
         .selectAll("g")
         .data(series)
         .join("g")
         .attr("fill", d => color(d.key))
         .selectAll("rect")
-        .data(d => d.map(v => ({ ...v, key: d.key }))) // Attach the key to each rect's data
+        .data(d => d.map(v => ({ ...v, key: d.key })))
         .join("rect")
         .attr("x", d => x(d.data.country))
         .attr("y", d => y(d[1]))
         .attr("height", d => y(d[0]) - y(d[1]))
         .attr("width", x.bandwidth())
-        .append("title")
-        .text(d => `${d.data.country}: ${d.key} ${(d[1] - d[0]).toFixed(1)}%`);
+        .on("mouseover", function(event, d) {
+            // Highlight the hovered segment
+            d3.select(this).attr("stroke", "white").attr("stroke-width", 2);
+
+            // Show tooltip
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9);
+            tooltip.html(`
+                <strong>${d.data.country}</strong><br/>
+                ${d.key}: ${((d[1] - d[0]) * 100).toFixed(1)}%<br/>
+            `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function() {
+            // Remove highlight
+            d3.select(this).attr("stroke", null);
+
+            // Hide tooltip
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        })
+        .on("click", function(event, d) {
+            // On click, highlight all segments of the same category across bars
+            const category = d.key;
+            bars.attr("opacity", 0.5);
+            bars.filter(d => d.key === category).attr("opacity", 1);
+
+            // Update legend to show which category is selected
+            legendItems.attr("opacity", 0.5);
+            legendItems.filter(d => d === category).attr("opacity", 1);
+        });
 
     // Add x-axis
     chart.append("g")

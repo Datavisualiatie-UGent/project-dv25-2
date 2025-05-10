@@ -6,9 +6,9 @@
     "old_values_A": false,
     "old_values_B": false,
     "answers": [
-        "Things are going in the right direction",
-        "Things are going in the wrong direction",
-        "Neither the one nor the other (SPONTANEOUS)",
+        "In the right direction",
+        "In the wrong direction",
+        "Neither one nor the other",
         "Don't know"
     ],
     "volume_A": {
