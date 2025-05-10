@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import { initSelectBoxContainer } from "./selectBox.js";
+import { initSelectBoxContainer } from "../selectBox.js";
 import { createBarChart } from "./barChart.js";
 import { initLegend } from "./legend.js";
 

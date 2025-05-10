@@ -86,11 +86,20 @@ const barViewQuestions = [
 import {renderBarView} from "./components/barView/barView.js";
 display(renderBarView(barViewQuestions, flags));
 ```
+```js
+// Load the questions for bubbleview
 
+const language_learning_advantages = await FileAttachment("data/questions/question_QB2.json").json(); // language learning advantages
+const language_situation = await FileAttachment("data/questions/question_QB3.json").json(); // language situation
+const bubbleViewQuestions = [
+  language_learning_advantages,
+  language_situation
+];
+```
 
 ```js
 import {renderBubbleView} from "./components/bubbleView/bubbleView.js";
-display(renderBubbleView());
+display(renderBubbleView(bubbleViewQuestions));
 ```
 
 <style>
