@@ -98,16 +98,6 @@ export function createBubbleChart(question, country) {
             .attr("transform", d => `translate(${d.x},${d.y})`);
     });
 
-    // Add zoom/pan behavior
-    const zoom = d3.zoom()
-        .scaleExtent([0.5, 3])
-        .on("zoom", (event) => {
-            bubblesGroup.attr("transform", event.transform);
-            labelsGroup.attr("transform", event.transform);
-        });
-
-    svg.call(zoom);
-
     // Helper functions
     function createTooltip() {
         return d3.select("body").append("div")
@@ -120,7 +110,7 @@ export function createBubbleChart(question, country) {
             .style("border-radius", "4px")
             .style("pointer-events", "none")
             .style("font-family", "sans-serif")
-            .style("font-size", "14px")
+            .style("font-size", "18px")
             .style("box-shadow", "0 2px 10px rgba(0,0,0,0.2)")
             .style("transition", "opacity 0.2s");
     }
@@ -138,7 +128,7 @@ export function createBubbleChart(question, country) {
     function createMultiLineLabel(container, d, radius) {
         const maxWidth = radius * 1.8;
         const maxLines = Math.max(1, Math.floor(radius / 15));
-        const lineHeight = 16;
+        const lineHeight = 18;
 
         const lines = wrapText(d.answer, maxWidth, maxLines);
 
@@ -147,7 +137,7 @@ export function createBubbleChart(question, country) {
             .join("text")
             .attr("dy", (_, i) => (i - (lines.length - 1) / 2) * lineHeight)
             .attr("text-anchor", "middle")
-            .style("font-size", `${Math.min(16, radius / 3)}px`)
+            .style("font-size", `${Math.min(18, radius / 3)}px`)
             .style("fill", "white")
             .style("font-weight", "bold")
             .style("text-shadow", "1px 1px 2px rgba(0,0,0,0.7)")
