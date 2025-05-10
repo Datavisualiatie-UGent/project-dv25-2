@@ -4,7 +4,8 @@ import { createAnswerSelectbox } from "../mapView/selectBox.js";
 
 const DEFAULT_TEXT = "";
 
-export function initSelectBoxContainer(dispatch, questions, defaultCountry) {
+export function initSelectBoxContainer(dispatch, questions, defaultCountry, eu_countries) {
+    const excluded = ["EU27", "D-E", "D-W"];
     const container = d3.create("div")
         .style("display", "flex")
         .style("position", "relative")
@@ -24,7 +25,7 @@ export function initSelectBoxContainer(dispatch, questions, defaultCountry) {
     container.append(() => answerSelectBox.node());
 
     function populateAnswerSelectBox(question) {
-        const data = Object.keys(question.volume_A);
+        const data = Object.keys(question.volume_A).filter(d => !excluded.includes(d));
 
         answerSelectBox.selectAll("option").remove(); // Clear previous options
 
@@ -36,7 +37,7 @@ export function initSelectBoxContainer(dispatch, questions, defaultCountry) {
             .attr("class", "answer-option")
             .attr("value", d => d)
             .attr("selected", d => d === defaultCountry ? true : null) // Set default country
-            .text(d => d);
+            .text(d => eu_countries[d].name);
         answerSelectBox.style("display", "block");
     }
 

@@ -7,13 +7,13 @@ import { initLegend } from "./legend.js";
 
 const DEFAULT_COUNTRY = "BE";
 
-export function renderTimelineView(questions, flags) {
+export function renderTimelineView(questions, flags, eu_countries) {
 
     const dispatch = d3.dispatch("selectQuestion", "selectBar", "resetBarView", "selectAnswer");
 
     const container = d3.create("div");
 
-    const selectBoxContainer = initSelectBoxContainer(dispatch, questions, DEFAULT_COUNTRY);
+    const selectBoxContainer = initSelectBoxContainer(dispatch, questions, DEFAULT_COUNTRY, eu_countries);
     container.append(() => selectBoxContainer.node());
 
     const chartContainer = d3.create("div")
