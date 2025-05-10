@@ -51,6 +51,17 @@ export function createBubbleChart(question, country) {
     // Simulation setup
     const simulation = createSimulation(data, config, sizeScale);
 
+    // Add zoom/pan behavior (modified to only allow wheel zoom)
+    const zoom = d3.zoom()
+        .scaleExtent([0.5, 3]) // Limit zoom range
+        .on("zoom", (event) => {
+            bubblesGroup.attr("transform", event.transform);
+            labelsGroup.attr("transform", event.transform);
+        });
+
+    // Apply zoom but disable drag events
+    svg.call(zoom);
+
     // Create bubbles group
     const bubblesGroup = svg.append("g")
         .attr("class", "bubbles");
@@ -78,7 +89,7 @@ export function createBubbleChart(question, country) {
         .attr("class", "labels");
 
     const labels = labelsGroup.selectAll(".label-group")
-        .data(data.filter(d => d.value > config.minValueForLabel))
+        .data(data.filter(d => d.value >= config.minValueForLabel))
         .join("g")
         .attr("class", "label-group")
         .attr("transform", d => `translate(${d.x},${d.y})`)
@@ -126,9 +137,9 @@ export function createBubbleChart(question, country) {
     }
 
     function createMultiLineLabel(container, d, radius) {
-        const maxWidth = radius * 1.8;
+        const maxWidth = radius - 50;
         const maxLines = Math.max(1, Math.floor(radius / 15));
-        const lineHeight = 18;
+        const lineHeight = radius / 5;
 
         const lines = wrapText(d.answer, maxWidth, maxLines);
 
@@ -137,7 +148,7 @@ export function createBubbleChart(question, country) {
             .join("text")
             .attr("dy", (_, i) => (i - (lines.length - 1) / 2) * lineHeight)
             .attr("text-anchor", "middle")
-            .style("font-size", `${Math.min(18, radius / 3)}px`)
+            .style("font-size", `${lineHeight}px`)
             .style("fill", "white")
             .style("font-weight", "bold")
             .style("text-shadow", "1px 1px 2px rgba(0,0,0,0.7)")
