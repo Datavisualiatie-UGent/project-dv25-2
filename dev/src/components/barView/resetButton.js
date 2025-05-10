@@ -26,7 +26,7 @@ function createResetButton() {
         .attr("class", "reset-button")
         .style("position", "absolute")
         .style("top", "-66vh")
-        .style("right", "20px")
+        .style("right", "18px")
         .style("z-index", "10")
         .style("cursor", "pointer");
 
