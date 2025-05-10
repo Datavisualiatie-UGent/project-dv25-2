@@ -2,7 +2,8 @@ import * as d3 from "d3";
 
 export function createTimelineChart(dispatch, question, country, flags) {
     dispatch.on("resetBarView", () => {
-        dots.attr("opacity", 1);
+        dots.selectAll(".dot").attr("opacity", 1);
+        chart.selectAll(".category-line").attr("opacity", 1);
     });
     
     const categories = question.answers;
@@ -31,7 +32,7 @@ export function createTimelineChart(dispatch, question, country, flags) {
     const containerHeight = container.getBoundingClientRect().height;
 
     // Set up dimensions (adjusted for vertical orientation)
-    const margin = {top: 40, right: 100, bottom: 60, left: 120};
+    const margin = {top: 120, right: 100, bottom: 10, left: 300};
     const width = containerWidth - margin.left - margin.right;
     const height = containerHeight - margin.top - margin.bottom;
 
@@ -44,6 +45,9 @@ export function createTimelineChart(dispatch, question, country, flags) {
     const chart = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // Calculate the maximum value from the dataset
+    const maxValue = d3.max(plotData, d => d3.max(d.values, v => v.value));
+
     // Scales (flipped from original)
     const y = d3.scaleBand()
         .domain(categories)
@@ -51,11 +55,11 @@ export function createTimelineChart(dispatch, question, country, flags) {
         .padding(0.2);
 
     const x = d3.scaleLinear()
-        .domain([0, 1])
+        .domain([0, maxValue]) // Set the domain from 0 to the largest value
         .range([0, width]);
 
     // Color scale
-    const color = d3.scaleOrdinal(d3.schemeTableau10)
+    const color = d3.scaleOrdinal(["#e6194b", "#3cb44b"]) //d3.scaleOrdinal(d3.schemeTableau10)
         .domain(times);
 
     // Add this right after your color scale definition and before the tooltip creation
@@ -74,11 +78,12 @@ export function createTimelineChart(dispatch, question, country, flags) {
         })
         .attr("stroke", d => {
             // Determine which value is lower
-            const lowerValueTime = d.values[0].value < d.values[1].value ? d.values[0].time : d.values[1].time;
-            return color(lowerValueTime);
+            const lowerValueTime = d.values[0].value < d.values[1].value ? "#3cb44b" : "#e6194b";// d.values[0].time : d.values[1].time;
+            //return color(lowerValueTime);
+            return lowerValueTime;
         })
-        .attr("stroke-width", 1.5)
-        .attr("stroke-opacity", 0.7)
+        .attr("stroke-width", 2.5)
+        .attr("stroke-opacity", 1.)
         .attr("fill", "none")
         .attr("transform", d => `translate(0,${y(d.category) + y.bandwidth() / 2})`);
 
@@ -131,18 +136,46 @@ export function createTimelineChart(dispatch, question, country, flags) {
                 .style("opacity", 0);
         })
         .on("click", function(event, d) {
-            dots.selectAll(".dot").attr("opacity", 0.2);
+            chart.selectAll(".category-line").attr("opacity", 0.1);
+            dots.selectAll(".dot").attr("opacity", 0.1);
             dots.selectAll(".dot")
                 .filter(dot => dot.time === d.time)
                 .attr("opacity", 1);
             dispatch.call("selectBar");
         });
 
-    // Add y-axis (countries on the left)
-    chart.append("g")
+    // Replace your truncateText function with this enhanced version
+    function truncateTextWithTooltip(text, maxLength) {
+        text.each(function() {
+            const textEl = d3.select(this);
+            const fullText = textEl.text();
+            
+            if (fullText.length > maxLength) {
+                // Truncate the visible text
+                textEl.text(fullText.substring(0, maxLength) + "...");
+            }
+            textEl.on("mouseover", function(event) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html(fullText)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+        });
+    }
+
+    // Then modify your y-axis code to use the new function:
+    const yAxis = chart.append("g")
         .call(d3.axisLeft(y))
         .selectAll("text")
-        .style("font-size", "12px");
+        .style("font-size", "12px")
+        .call(truncateTextWithTooltip, 40); // 40 characters max before adding ellipsis
 
     // Add x-axis (percentages on top)
     chart.append("g")
@@ -160,25 +193,6 @@ export function createTimelineChart(dispatch, question, country, flags) {
         .selectAll("line")
         .attr("stroke", "#ddd")
         .attr("stroke-dasharray", "2,2");
-
-    // Add legend on the right
-    const legend = svg.append("g")
-        .attr("transform", `translate(${width + margin.left + 20},${margin.top})`);
-
-    times.forEach((time, i) => {
-        const legendItem = legend.append("g")
-            .attr("transform", `translate(0,${i * 20})`);
-
-        legendItem.append("circle")
-            .attr("r", 5)
-            .attr("fill", color(time));
-
-        legendItem.append("text")
-            .attr("x", 15)
-            .attr("y", 5)
-            .text(time)
-            .style("font-size", "12px");
-    });
 
     return svg;
 }

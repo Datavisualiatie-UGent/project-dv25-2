@@ -2,6 +2,8 @@ import * as d3 from "d3";
 
 import { initSelectBoxContainer } from "./selectBox.js";
 import { createTimelineChart } from "./timelineChart.js";
+import { initResetButton } from "./resetButton.js";
+import { initLegend } from "./legend.js";
 
 export function renderTimelineView(questions, flags) {
 
@@ -65,5 +67,11 @@ function initTimelinechartContainer(container, dispatch, question, answer, flags
     const chartContainer = container.select(".chart-container");
     const timelineChart = createTimelineChart(dispatch, question, answer, flags);
     chartContainer.append(() => timelineChart.node());
+    
+    const legendContainer = initLegend(question);
+    container.append(() => legendContainer.node());
+    
+    const resetButton = initResetButton(dispatch);
+    container.append(() => resetButton.node());
 }
 
