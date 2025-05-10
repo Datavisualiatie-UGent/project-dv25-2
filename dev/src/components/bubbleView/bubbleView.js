@@ -10,16 +10,30 @@ export function renderBubbleView(questions) {
 
     // Create SVG container
     const container = d3.create("div")
-        .style("height", "100%")
-        .style("width", "100%")
 
     const selectBoxContainer = initSelectBoxContainer(dispatch, questions);
     container.append(() => selectBoxContainer.node());
 
+    const chartContainer = d3.create("div")
+        .attr("class", "chart-container")
+        .style("display", "flex")
+        .style("justify-content", "center")
+        .style("position", "relative")
+        .style("align-items", "center")
+        .style("flex-direction", "column")
+        .style("border", "3px white solid")
+        .style("border-radius", "10px")
+        .style("top", "20px")
+        .style("width", "99%")
+        .style("height", "80vh")
+        .style("background", "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)")
+        .style("transition", "all 0.5s ease")
+    container.append(() => chartContainer.node());
+
     // Add event listener for select box change
     dispatch.on("selectQuestion", (questionId) => {
         // reset the container
-        container.selectAll("svg").remove();
+        chartContainer.selectAll("svg").remove();
         container.selectAll(".legend").remove();
 
         selectedQuestion = questions.find(q => q.id === questionId);
@@ -33,10 +47,15 @@ export function renderBubbleView(questions) {
 
         selectedAnswer = answer;
         if (selectedQuestion) {
-            const bubbleChart = createBubbleChart(selectedQuestion, selectedAnswer);
-            container.append(() => bubbleChart.node());
+            initBubbleChartContainer(container, selectedQuestion, selectedAnswer);
         }
     })
 
     return container.node();
+}
+
+function initBubbleChartContainer(container, question, answer) {
+    const chartContainer = container.select(".chart-container");
+    const bubbleChart = createBubbleChart(question, answer);
+    chartContainer.append(() => bubbleChart.node());
 }

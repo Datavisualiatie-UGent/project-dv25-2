@@ -84,7 +84,7 @@ const barViewQuestions = [
 
 ```js
 import {renderBarView} from "./components/barView/barView.js";
-display(renderBarView(barViewQuestions, flags));
+display(renderBarView(barViewQuestions, eu_countries, flags));
 ```
 ```js
 // Load the questions for bubbleview
