@@ -9,32 +9,44 @@ export function renderBarView(questions, flags) {
     const dispatch = d3.dispatch("selectQuestion");
 
     const container = d3.create("div")
-        .style("min-height", "100vh");
+        .style("min-height", "100vh")
+
 
     const selectBoxContainer = initSelectBoxContainer(dispatch, questions);
     container.append(() => selectBoxContainer.node());
 
+
+    const chartContainer = d3.create("div")
+        .attr("class", "chart-container")
+        .style("display", "flex")
+        .style("justify-content", "center")
+        .style("position", "relative")
+        .style("align-items", "center")
+        .style("flex-direction", "column")
+        .style("border", "3px white solid")
+        .style("border-radius", "10px")
+        .style("top", "20px")
+        .style("width", "99%")
+        .style("height", "80vh")
+        .style("background", "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)")
+        .style("transition", "all 0.5s ease")
+    container.append(() => chartContainer.node());
+
     // Add event listener for select box change
     dispatch.on("selectQuestion", (questionId) => {
         // reset the container
-        container.selectAll("svg").remove();
+        chartContainer.selectAll("svg").remove();
         container.selectAll(".legend").remove();
 
 
         const question = questions.find(q => q.id === questionId);
         if (question) {
             const barChart = createBarChart(question, flags);
-            container.append(() => barChart.node());
+            chartContainer.append(() => barChart.node());
             const legendContainer = initLegend(question);
             container.append(() => legendContainer.node());
         }
     });
-
-    //const barChart = createBarChart(dispatch, questions, flags);
-    //container.append(() => barChart.node());
-
-    //const legendContainer = initLegend(dispatch, question);
-    //container.append(() => legendContainer.node());
 
     return container.node();
 }

@@ -27,7 +27,7 @@ export function createBarChart(question, flags) {
     // Set up dimensions
     const margin = {top: 50, right: 30, bottom: 100, left: 60};
     const width = window.innerWidth * 0.85 - margin.left - margin.right;
-    const height = window.innerHeight * 0.8 - margin.top - margin.bottom;
+    const height = window.innerHeight * 0.7 - margin.top - margin.bottom;
 
     // Create SVG
     const svg = d3.create("svg")
@@ -58,8 +58,6 @@ export function createBarChart(question, flags) {
 
     // Color scale
     const color = d3.scaleOrdinal(d3.schemeTableau10);
-
-    console.log(series);
 
     // Draw the stacked bars
     chart.append("g")
@@ -103,5 +101,5 @@ export function createBarChart(question, flags) {
         .call(d3.axisLeft(y).ticks(5, "%"))
         .call(g => g.select(".domain").remove());
 
-    return svg
+    return svg;
 }

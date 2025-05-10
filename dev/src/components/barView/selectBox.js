@@ -1,7 +1,5 @@
 import * as d3 from "d3";
 
-import { createSelectbox } from "../mapView/selectBox.js";
-
 const DEFAULT_TEXT = "";
 
 export function initSelectBoxContainer(dispatch, questions) {
@@ -39,5 +37,32 @@ export function initSelectBoxContainer(dispatch, questions) {
     });
 
     return container;
+}
+
+function createSelectbox(questions) {
+    const selectBox = d3.create("select")
+        .style("position", "absolute")
+        .style("top", "100px")
+        .style("left", "20px")
+        .style("padding", "10px")
+        .style("width", "300px")
+        .style("z-index", "10");
+
+    // Add a default option
+    const defaultOption = selectBox.append("option")
+        .attr("value", "")
+        .attr("selected", true)
+        .text("Select a question");
+
+    // Add options to the selection box
+    selectBox.selectAll("option.question-option")
+        .data(questions)
+        .enter()
+        .append("option")
+        .attr("class", "question-option")
+        .attr("value", d => d.id)
+        .text(d => d.title || `Question ${d.id}`);
+
+    return selectBox;
 }
 
