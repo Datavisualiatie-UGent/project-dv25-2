@@ -13,8 +13,18 @@ export function renderBubbleView(questions) {
     const selectBoxContainer = initSelectBoxContainer(dispatch, questions);
     container.append(() => selectBoxContainer.node());
 
-    const bubbleChart = createBubbleChart();
-    container.append(() => bubbleChart.node());
+    // Add event listener for select box change
+    dispatch.on("selectQuestion", (questionId) => {
+        // reset the container
+        container.selectAll("svg").remove();
+        container.selectAll(".legend").remove();
+
+        const question = questions.find(q => q.id === questionId);
+        if (question) {
+            const bubbleChart = createBubbleChart(question, "BE");
+            container.append(() => bubbleChart.node());
+        }
+    });
 
     return container.node();
 }
