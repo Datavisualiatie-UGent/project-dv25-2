@@ -1,0 +1,191 @@
+{
+  "AT": {
+    "name": "Austria",
+    "capital": "Vienna",
+    "population": "8.9 million",
+    "area": "83,879 km²",
+    "gdp": "$477 billion"
+  },
+  "BE": {
+    "name": "Belgium",
+    "capital": "Brussels",
+    "population": "11.5 million",
+    "area": "30,528 km²",
+    "gdp": "$578 billion"
+  },
+  "BG": {
+    "name": "Bulgaria",
+    "capital": "Sofia",
+    "population": "6.9 million",
+    "area": "110,994 km²",
+    "gdp": "$89 billion"
+  },
+  "HR": {
+    "name": "Croatia",
+    "capital": "Zagreb",
+    "population": "4.1 million",
+    "area": "56,594 km²",
+    "gdp": "$68 billion"
+  },
+  "CY": {
+    "name": "Cyprus",
+    "capital": "Nicosia",
+    "population": "1.2 million",
+    "area": "9,251 km²",
+    "gdp": "$28 billion"
+  },
+  "CZ": {
+    "name": "Czech Republic",
+    "capital": "Prague",
+    "population": "10.7 million",
+    "area": "78,871 km²",
+    "gdp": "$282 billion"
+  },
+  "DK": {
+    "name": "Denmark",
+    "capital": "Copenhagen",
+    "population": "5.8 million",
+    "area": "42,933 km²",
+    "gdp": "$398 billion"
+  },
+  "EE": {
+    "name": "Estonia",
+    "capital": "Tallinn",
+    "population": "1.3 million",
+    "area": "45,228 km²",
+    "gdp": "$38 billion"
+  },
+  "FI": {
+    "name": "Finland",
+    "capital": "Helsinki",
+    "population": "5.5 million",
+    "area": "338,455 km²",
+    "gdp": "$297 billion"
+  },
+  "FR": {
+    "name": "France",
+    "capital": "Paris",
+    "population": "67.4 million",
+    "area": "643,801 km²",
+    "gdp": "$2.9 trillion"
+  },
+  "DE": {
+    "name": "Germany",
+    "capital": "Berlin",
+    "population": "83.2 million",
+    "area": "357,022 km²",
+    "gdp": "$4.2 trillion"
+  },
+  "EL": {
+    "name": "Greece",
+    "capital": "Athens",
+    "population": "10.7 million",
+    "area": "131,957 km²",
+    "gdp": "$214 billion"
+  },
+  "HU": {
+    "name": "Hungary",
+    "capital": "Budapest",
+    "population": "9.7 million",
+    "area": "93,028 km²",
+    "gdp": "$170 billion"
+  },
+  "IE": {
+    "name": "Ireland",
+    "capital": "Dublin",
+    "population": "5.0 million",
+    "area": "70,273 km²",
+    "gdp": "$519 billion"
+  },
+  "IT": {
+    "name": "Italy",
+    "capital": "Rome",
+    "population": "60.4 million",
+    "area": "301,340 km²",
+    "gdp": "$2.1 trillion"
+  },
+  "LV": {
+    "name": "Latvia",
+    "capital": "Riga",
+    "population": "1.9 million",
+    "area": "64,589 km²",
+    "gdp": "$39 billion"
+  },
+  "LT": {
+    "name": "Lithuania",
+    "capital": "Vilnius",
+    "population": "2.8 million",
+    "area": "65,300 km²",
+    "gdp": "$67 billion"
+  },
+  "LU": {
+    "name": "Luxembourg",
+    "capital": "Luxembourg City",
+    "population": "0.6 million",
+    "area": "2,586 km²",
+    "gdp": "$86 billion"
+  },
+  "MT": {
+    "name": "Malta",
+    "capital": "Valletta",
+    "population": "0.5 million",
+    "area": "316 km²",
+    "gdp": "$17 billion"
+  },
+  "NL": {
+    "name": "Netherlands",
+    "capital": "Amsterdam",
+    "population": "17.4 million",
+    "area": "41,543 km²",
+    "gdp": "$1.0 trillion"
+  },
+  "PL": {
+    "name": "Poland",
+    "capital": "Warsaw",
+    "population": "38.0 million",
+    "area": "312,696 km²",
+    "gdp": "$699 billion"
+  },
+  "PT": {
+    "name": "Portugal",
+    "capital": "Lisbon",
+    "population": "10.3 million",
+    "area": "92,090 km²",
+    "gdp": "$251 billion"
+  },
+  "RO": {
+    "name": "Romania",
+    "capital": "Bucharest",
+    "population": "19.3 million",
+    "area": "238,397 km²",
+    "gdp": "$301 billion"
+  },
+  "SK": {
+    "name": "Slovakia",
+    "capital": "Bratislava",
+    "population": "5.5 million",
+    "area": "49,035 km²",
+    "gdp": "$117 billion"
+  },
+  "SI": {
+    "name": "Slovenia",
+    "capital": "Ljubljana",
+    "population": "2.1 million",
+    "area": "20,273 km²",
+    "gdp": "$61 billion"
+  },
+  "ES": {
+    "name": "Spain",
+    "capital": "Madrid",
+    "population": "47.4 million",
+    "area": "505,990 km²",
+    "gdp": "$1.4 trillion"
+  },
+  "SE": {
+    "name": "Sweden",
+    "capital": "Stockholm",
+    "population": "10.3 million",
+    "area": "450,295 km²",
+    "gdp": "$591 billion"
+  }
+}
