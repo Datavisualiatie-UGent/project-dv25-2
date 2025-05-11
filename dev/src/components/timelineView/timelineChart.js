@@ -40,9 +40,10 @@ export function createTimelineChart(container, dispatch, question, country, flag
 
     // Create SVG
     const svg = d3.create("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom]);
+        .attr("width", containerWidth)
+        .attr("height", containerHeight)
+        .attr("viewBox", [0, 0, containerWidth, containerHeight])
+        .attr("style", "max-width: 100%; height: 100%;");
 
     const chart = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -66,8 +67,7 @@ export function createTimelineChart(container, dispatch, question, country, flag
 
     // Add this right after your color scale definition and before the tooltip creation
 
-    // Create connecting lines for each category
-    // Add this after your color scale definition
+    // Create connecting lines with percentage difference tooltip
     chart.selectAll(".category-line")
         .data(plotData)
         .join("path")
@@ -79,15 +79,41 @@ export function createTimelineChart(container, dispatch, question, country, flag
             return lineGenerator(d.values);
         })
         .attr("stroke", d => {
-            // Determine which value is lower
-            const lowerValueTime = d.values[0].value < d.values[1].value ? "#3cb44b" : "#e6194b";// d.values[0].time : d.values[1].time;
-            //return color(lowerValueTime);
+            const lowerValueTime = d.values[0].value < d.values[1].value ? "#3cb44b" : "#e6194b";
             return lowerValueTime;
         })
         .attr("stroke-width", 2.5)
-        .attr("stroke-opacity", 1.)
+        .attr("stroke-opacity", 0.7) // Make slightly transparent by default
         .attr("fill", "none")
-        .attr("transform", d => `translate(0,${y(d.category) + y.bandwidth() / 2})`);
+        .attr("transform", d => `translate(0,${y(d.category) + y.bandwidth() / 2})`)
+        .on("mouseover", function(event, d) {
+            d3.select(this).attr("stroke-opacity", 1).attr("stroke-width", 4);
+
+            // Calculate percentage difference
+            const diff = d.values[1].value - d.values[0].value;
+            const percentageDiff = (diff / d.values[0].value) * 100;
+            const direction = diff > 0 ? "increase" : "decrease";
+            const absPercentage = Math.abs(percentageDiff).toFixed(1);
+
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", 0.9);
+            tooltip.html(`
+            <div style="margin-bottom: 4px; font-weight: bold;">${d.category}</div>
+            <div>${direction === "increase" ? "↑" : "↓"} ${absPercentage}% ${direction}</div>
+            <div style="font-size: 0.8em; color: #ccc;">
+                (${(d.values[0].value*100).toFixed(1)}% → ${(d.values[1].value*100).toFixed(1)}%)
+            </div>
+        `)
+                .style("left", (event.pageX + 15) + "px")
+                .style("top", (event.pageY - 15) + "px");
+        })
+        .on("mouseout", function() {
+            d3.select(this).attr("stroke-opacity", 0.7).attr("stroke-width", 2.5);
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
 
     // Create tooltip
     const tooltip = d3.select("body").append("div")
@@ -144,6 +170,11 @@ export function createTimelineChart(container, dispatch, question, country, flag
                 .filter(dot => dot.time === d.time)
                 .attr("opacity", 1);
             dispatch.call("selectBar");
+        })
+        .on("dblclick", function (event, d) {
+            chart.selectAll(".category-line").attr("opacity", 1);
+            dots.selectAll(".dot").attr("opacity", 1);
+            dispatch.call("resetBarView");
         });
 
     // Replace your truncateText function with this enhanced version

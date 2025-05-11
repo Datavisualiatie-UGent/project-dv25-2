@@ -47,17 +47,5 @@ export function renderMapView(svgContent, questions, eu_countries) {
     const legendContainer = initLegend(dispatch, questions);
     container.append(() => legendContainer.node());
 
-    /*
-    const parentContainer = d3.create("div")
-        .style("display", "flex")
-        .style("justify-content", "center")
-        .style("align-items", "center")
-        .style("width", "100%")
-        .style("height", "100%")
-        .style("position", "relative");
-
-    parentContainer.append(() => container.node());
-    */
-
     return container.node();
 }

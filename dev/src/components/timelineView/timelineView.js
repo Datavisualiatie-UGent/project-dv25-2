@@ -2,7 +2,6 @@ import * as d3 from "d3";
 
 import { initSelectBoxContainer } from "./selectBox.js";
 import { createTimelineChart } from "./timelineChart.js";
-import { initResetButton } from "./resetButton.js";
 import { initLegend } from "./legend.js";
 
 const DEFAULT_COUNTRY = "BE";
@@ -42,9 +41,6 @@ export function renderTimelineView(questions, flags, eu_countries) {
 
         const legendContainer = initLegend(question);
         container.append(() => legendContainer.node());
-
-        const resetButton = initResetButton(dispatch);
-        container.append(() => resetButton.node());
     }
 
     // Add event listener for select box change
@@ -52,7 +48,6 @@ export function renderTimelineView(questions, flags, eu_countries) {
         // reset the container
         chartContainer.selectAll("svg").remove();
         container.selectAll(".legend").remove();
-        container.selectAll(".reset-button").remove();
 
 
         selectedQuestion = questions.find(q => q.id === questionId);
@@ -66,7 +61,6 @@ export function renderTimelineView(questions, flags, eu_countries) {
         // reset thr contairer
         chartContainer.selectAll("svg").remove();
         container.selectAll(".legend").remove();
-        container.selectAll(".reset-button").remove();
 
         selectedAnswer = answer;
         if (selectedQuestion) {
